@@ -1,4 +1,4 @@
-package com.sajjadio.quickshop
+package com.sajjadio.quickshop.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,9 +10,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.sajjadio.quickshop.ui.theme.QuickShopTheme
+import com.sajjadio.quickshop.presentation.ui.theme.QuickShopTheme
 
-class MainActivity : ComponentActivity() {
+class QuickShopActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

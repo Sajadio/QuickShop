@@ -1,4 +1,4 @@
-package com.sajjadio.quickshop.ui.theme
+package com.sajjadio.quickshop.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build
