@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">QuickShop</string>
+    <string name="label">Search</string>
+    <string name="shopping_by_category">Shop By Category</string>
+    <string name="see_all">See All</string>
+    <string name="new_products">New Products</string>
+    <string name="home">Home</string>
+    <string name="wishlist">Wishlist</string>
+    <string name="cart">Cart</string>
+    <string name="profile">Profile</string>
+    <string name="processing">Processing</string>
+    <string name="shipped">Shipped</string>
+    <string name="my_orders">My Orders</string>
+    <string name="shipping_address">Shipping Address</string>
+    <string name="add">ADD</string>
+    <string name="my_reviews">My Reviews</string>
+    <string name="hi">Hi, </string>
+    <string name="check_out">Check out\n</string>
+    <string name="shipping_fee">Shipping fee</string>
+    <string name="total">Total\n</string>
+    <string name="order">Order</string>
 </resources>
