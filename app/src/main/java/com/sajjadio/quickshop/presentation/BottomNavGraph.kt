@@ -4,11 +4,13 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.sajjadio.quickshop.presentation.screen.cart.CartScreen
 import com.sajjadio.quickshop.presentation.screen.home.HomeScreen
 import com.sajjadio.quickshop.presentation.screen.profile.ProfileScreen
 import com.sajjadio.quickshop.presentation.screen.wishlist.WishListScreen
 
+@ExperimentalPagerApi
 @Composable
 fun BottomNavGraph(
     navController: NavHostController,

@@ -3,14 +3,11 @@ package com.sajjadio.quickshop.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.graphics.Color
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.sajjadio.quickshop.presentation.ui.theme.BaseColor
 import com.sajjadio.quickshop.presentation.ui.theme.QuickShopTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class QuickShopActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
