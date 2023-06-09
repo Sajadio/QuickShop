@@ -1,5 +1,6 @@
 package com.sajjadio.quickshop.presentation.screen.home
 
+import androidx.annotation.DrawableRes
 import kotlin.random.Random
 
 
@@ -9,6 +10,6 @@ data class CategoryUiState(
 
 data class Category(
     val id: Int = Random.nextInt(),
-    val poster: String = "",
+    @DrawableRes val poster: Int = 0,
     val title: String = ""
 )

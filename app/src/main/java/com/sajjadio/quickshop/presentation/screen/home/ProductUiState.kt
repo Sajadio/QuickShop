@@ -4,10 +4,10 @@ import kotlin.random.Random
 
 
 data class ProductUiState(
-    val products: List<Products> = listOf()
+    val products: List<Product> = listOf()
 )
 
-data class Products(
+data class Product(
     val id: Int = Random.nextInt(),
     val poster: String = "",
     val title: String = "",

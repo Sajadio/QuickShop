@@ -26,10 +26,12 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
 import com.sajjadio.quickshop.presentation.ui.theme.Poppins
 import com.sajjadio.quickshop.presentation.ui.theme.SecondaryTextColor
 
+@ExperimentalPagerApi
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -128,6 +130,7 @@ fun BottomBarIcon(
         )
 }
 
+@ExperimentalPagerApi
 @Preview(showSystemUi = true)
 @Composable
 fun MainScreenPreview() {

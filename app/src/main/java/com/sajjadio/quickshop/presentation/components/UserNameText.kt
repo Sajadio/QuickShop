@@ -1,4 +1,4 @@
-package com.sajjadio.quickshop.presentation.composable
+package com.sajjadio.quickshop.presentation.components
 
 import android.annotation.SuppressLint
 import androidx.compose.material3.Text

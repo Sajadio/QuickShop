@@ -1,4 +1,4 @@
-package com.sajjadio.quickshop.presentation.composable
+package com.sajjadio.quickshop.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
