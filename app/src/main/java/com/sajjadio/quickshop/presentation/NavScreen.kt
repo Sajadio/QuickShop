@@ -75,9 +75,7 @@ fun RowScope.BottomItem(
     navController: NavHostController,
     currentNavDestination: NavDestination?
 ) {
-
     var selectedScreen by remember { mutableStateOf(Screen.Home.route) }
-
 
     NavigationBarItem(
         colors = NavigationBarItemDefaults.colors(
