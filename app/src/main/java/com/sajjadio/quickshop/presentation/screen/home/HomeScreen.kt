@@ -1,6 +1,6 @@
 @file:OptIn(
-    ExperimentalFoundationApi::class, ExperimentalFoundationApi::class,
-    ExperimentalFoundationApi::class, ExperimentalPagerApi::class, ExperimentalPagerApi::class
+    ExperimentalPagerApi::class, ExperimentalPagerApi::class,
+    ExperimentalMaterial3Api::class
 )
 
 package com.sajjadio.quickshop.presentation.screen.home
@@ -16,29 +16,26 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -54,13 +51,15 @@ import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import com.sajjadio.quickshop.R
+import com.sajjadio.quickshop.presentation.components.CategoryItem
 import com.sajjadio.quickshop.presentation.components.ClickableIcon
-import com.sajjadio.quickshop.presentation.components.ImageProfile
+import com.sajjadio.quickshop.presentation.components.ProductItem
+import com.sajjadio.quickshop.presentation.components.ProfileImage
 import com.sajjadio.quickshop.presentation.components.SearchBox
 import com.sajjadio.quickshop.presentation.components.SpacerHorizontal
 import com.sajjadio.quickshop.presentation.components.SpacerVertical
 import com.sajjadio.quickshop.presentation.components.StaticIcon
-import com.sajjadio.quickshop.presentation.components.UserNameText
+import com.sajjadio.quickshop.presentation.components.UserName
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
 import com.sajjadio.quickshop.presentation.ui.theme.BaseColor
 import com.sajjadio.quickshop.presentation.ui.theme.Poppins
@@ -90,21 +89,35 @@ fun HomeContent(
     categoryUiState: CategoryUiState,
     productUiState: ProductUiState
 ) {
-    Column() {
-        AppBar()
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .wrapContentSize()
-        ) {
-            item { ContainerSearchBox() }
-            item { SliderImage(adsUIState) }
-            item { CategoryHeader() }
-            item { Categories(categoryUiState = categoryUiState) }
-            item { ProductHeader() }
-            item { Products(productUiState.products) }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {},
+                actions = {
+                    AppBar()
+                },
+                colors = TopAppBarDefaults.largeTopAppBarColors(
+                    containerColor = BaseColor,
+                ),
+            )
+        }
+    ) {
+        Column() {
+            SpacerVertical(height = 72)
+            LazyColumn(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                item { ContainerSearchBox() }
+                item { SliderImage(adsUIState) }
+                item { CategoryHeader() }
+                item { Categories(categoryUiState = categoryUiState) }
+                item { ProductHeader() }
+                item { Products(productUiState.products) }
+            }
         }
     }
+
 }
 
 
@@ -114,25 +127,23 @@ private fun AppBar() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 16.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        ImageProfile(
-            painter = painterResource(id = R.drawable.details_image)
-        )
-        SpacerHorizontal(width = 8)
-        UserNameText(
-            text = "Hi, John"
-        )
-        Box(
-            contentAlignment = Alignment.TopEnd,
-            modifier = Modifier
-                .weight(1f)
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            ClickableIcon(
-                painter = painterResource(id = R.drawable.ic_notification),
-                contentDescription = "Notification"
-            )
+            ProfileImage(painter = painterResource(id = R.drawable.details_image))
+            SpacerHorizontal(width = 8)
+            UserName(text = "Hi, John")
         }
+        ClickableIcon(
+            painter = painterResource(id = R.drawable.ic_notification),
+            contentDescription = "Notification",
+            modifier = Modifier
+                .clip(CircleShape)
+                .clickable { }
+        )
     }
 }
 
@@ -209,28 +220,45 @@ private fun SliderImageHorizontal(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        HorizontalPager(
-            count = ads.size,
-            state = state,
-            itemSpacing = 16.dp,
-            contentPadding = PaddingValues(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp),
-            key = { ads[it].poster }
-        ) { index ->
-            Image(
-                painter = rememberAsyncImagePainter(model = ads[index].poster),
-                contentDescription = "",
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clip(RoundedCornerShape(8.dp)),
-                contentScale = ContentScale.FillWidth
-            )
-        }
+        HorizontalSlider(ads, state)
         IndicatorOfSliderImage(state = state)
     }
+}
+
+@ExperimentalPagerApi
+@Composable
+private fun HorizontalSlider(
+    ads: List<Ads>,
+    state: PagerState
+) {
+    HorizontalPager(
+        count = ads.size,
+        state = state,
+        itemSpacing = 16.dp,
+        contentPadding = PaddingValues(horizontal = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(200.dp),
+        key = { ads[it].poster }
+    ) { index ->
+        SliderImage(ads, index)
+    }
+}
+
+@Composable
+private fun SliderImage(
+    ads: List<Ads>,
+    index: Int
+) {
+    Image(
+        painter = rememberAsyncImagePainter(model = ads[index].poster),
+        contentDescription = "",
+        modifier = Modifier
+            .fillMaxSize()
+            .clip(RoundedCornerShape(8.dp)),
+        contentScale = ContentScale.FillWidth
+    )
 }
 
 @ExperimentalPagerApi
@@ -241,8 +269,7 @@ private fun IndicatorOfSliderImage(
     HorizontalPagerIndicator(
         pagerState = state,
         pageCount = state.pageCount,
-        modifier = Modifier
-            .padding(16.dp),
+        modifier = Modifier.padding(16.dp),
         activeColor = AccentColor,
         inactiveColor = SecondaryTextColor,
     )
@@ -258,8 +285,8 @@ private fun CategoryHeader() {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        TitleText(text = stringResource(id = R.string.shopping_by_category))
-        ClickableText(text = stringResource(id = R.string.see_all)) {}
+        Header(text = stringResource(id = R.string.shopping_by_category))
+        ClickableHeader(text = stringResource(id = R.string.see_all)) {}
     }
 }
 
@@ -288,8 +315,8 @@ fun ProductHeader() {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        TitleText(text = stringResource(id = R.string.new_products))
-        ClickableText(text = stringResource(id = R.string.see_all)) {}
+        Header(text = stringResource(id = R.string.new_products))
+        ClickableHeader(text = stringResource(id = R.string.see_all)) {}
     }
 }
 
@@ -302,117 +329,21 @@ fun Products(productUiState: List<Product>) {
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(8.dp)
     ) {
-        items(productUiState) {
-            ProductItem(state = it, onClick = {}, onClickAddToCart = {})
+        items(productUiState) { state ->
+            ProductItem(
+                state = state,
+                onClick = {},
+                onClickAddToCart = {}
+            )
         }
     }
 }
 
 @Composable
-fun ProductItem(
-    state: Product,
-    modifier: Modifier = Modifier,
-    onClick: (Int) -> Unit,
-    onClickAddToCart: (Int) -> Unit
-) {
-    Card(
-        modifier = modifier
-            .width(200.dp)
-            .height(500.dp)
-            .wrapContentHeight(),
-        colors = CardDefaults.cardColors(BaseColor)
-    ) {
-        Image(
-            painter = rememberAsyncImagePainter(model = state.poster),
-            contentDescription = state.title,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(200.dp)
-                .wrapContentHeight()
-                .clickable { onClick(state.id) },
-            contentScale = ContentScale.FillHeight
-        )
-        Column(
-            modifier = Modifier
-                .padding(horizontal = 8.dp)
-                .wrapContentHeight(),
-            horizontalAlignment = Alignment.Start
-        ) {
-            SpacerVertical(height = 8)
-            Text(
-                text = state.title,
-                fontSize = 16.sp,
-                fontFamily = Poppins,
-                fontWeight = FontWeight.SemiBold,
-                maxLines = 1,
-                color = PrimaryTextAndIconColor
-            )
-            SpacerVertical(height = 4)
-            Text(
-                text = state.category,
-                fontSize = 14.sp,
-                fontFamily = Poppins,
-                fontWeight = FontWeight.Normal,
-                maxLines = 1,
-                color = PrimaryTextAndIconColor
-            )
-            SpacerVertical(height = 4)
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                RatingBar(state.rate)
-                Text(
-                    text = state.rate.toString(),
-                    fontSize = 12.sp,
-                    fontFamily = Poppins,
-                    fontWeight = FontWeight.Normal,
-                    maxLines = 1,
-                    color = SecondaryTextColor
-                )
-            }
-            SpacerVertical(height = 8)
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "$${state.price}",
-                    fontSize = 18.sp,
-                    fontFamily = Poppins,
-                    fontWeight = FontWeight.SemiBold,
-                    maxLines = 1,
-                    color = PrimaryTextAndIconColor
-                )
-                Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(8.dp))
-                        .clickable { onClickAddToCart(state.id) }
-                        .size(48.dp)
-                        .background(AccentColor)
-                        .padding(12.dp)
-                ) {
-                    StaticIcon(
-                        painter = painterResource(id = R.drawable.ic_cart),
-                        contentDescription = "Add item to cart",
-                        tint = BaseColor
-                    )
-                }
-            }
-        }
-    }
-}
-
-
-@Composable
-private fun TitleText(text: String) {
+private fun Header(text: String) {
     Text(
         text = text,
-        fontSize = 14.sp,
+        fontSize = 16.sp,
         fontFamily = Poppins,
         fontWeight = FontWeight.SemiBold,
         color = PrimaryTextAndIconColor
@@ -420,14 +351,14 @@ private fun TitleText(text: String) {
 }
 
 @Composable
-private fun ClickableText(
+private fun ClickableHeader(
     modifier: Modifier = Modifier,
     text: String,
     onClick: () -> Unit,
 ) {
     Text(
         text = text,
-        fontSize = 12.sp,
+        fontSize = 14.sp,
         fontFamily = Poppins,
         fontWeight = FontWeight.SemiBold,
         color = SecondaryColor,
@@ -435,70 +366,6 @@ private fun ClickableText(
             .clip(RoundedCornerShape(8.dp))
             .clickable { onClick() }
     )
-}
-
-@Composable
-fun CategoryItem(
-    state: Category,
-    onClick: (Int) -> Unit
-) {
-    Column(
-        modifier = Modifier.background(BaseColor),
-        verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Box(
-            modifier = Modifier
-                .clip(RoundedCornerShape(8.dp))
-                .background(TextInputFiledColor)
-                .height(100.dp)
-                .width(100.dp)
-                .clickable {
-                    onClick(state.id)
-                },
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                painter = painterResource(id = state.poster),
-                contentDescription = state.title,
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .width(50.dp)
-                    .height(50.dp)
-            )
-        }
-        SpacerVertical(height = 8)
-        Text(
-            text = state.title,
-            fontSize = 12.sp,
-            fontWeight = FontWeight.SemiBold,
-            fontFamily = Poppins,
-            color = PrimaryTextAndIconColor
-        )
-    }
-}
-
-@SuppressLint("UnrememberedMutableState")
-@Composable
-fun RatingBar(rating: Double) {
-    val maxRating = 5
-    Row(modifier = Modifier.padding(end = 8.dp)) {
-        val outlineRating = maxRating - rating.toInt()
-        repeat(rating.toInt()) {
-            StaticIcon(
-                painter = painterResource(id = R.drawable.ic_fill_star),
-                contentDescription = "Filled Star",
-                tint = SecondaryColor
-            )
-        }
-        repeat(outlineRating) {
-            StaticIcon(
-                painter = painterResource(id = R.drawable.ic_outline_star),
-                contentDescription = "Outlined Star",
-                tint = SecondaryTextColor
-            )
-        }
-    }
 }
 
 @ExperimentalPagerApi

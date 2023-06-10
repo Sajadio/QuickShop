@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.sajjadio.quickshop.R
 
 @Composable
-fun ImageProfile(
+fun ProfileImage(
     modifier: Modifier = Modifier,
     painter: Painter
 ) {

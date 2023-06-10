@@ -1,18 +1,18 @@
 package com.sajjadio.quickshop.presentation.components
 
-import android.annotation.SuppressLint
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.sajjadio.quickshop.presentation.ui.theme.Poppins
 
 @Composable
-fun UserNameText(
+fun UserName(
     text: String,
     fontSize: Int = 14,
-    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
+    modifier: Modifier = Modifier
 ) {
     Text(
         modifier = modifier,
