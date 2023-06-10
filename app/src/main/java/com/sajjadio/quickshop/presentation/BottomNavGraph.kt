@@ -15,7 +15,7 @@ import com.sajjadio.quickshop.presentation.screen.wishlist.WishListScreen
 fun BottomNavGraph(
     navController: NavHostController,
 ) {
-    NavHost(navController = navController, startDestination = Screen.Home.route) {
+    NavHost(navController = navController, startDestination = Screen.Cart.route) {
         composable(route = Screen.Home.route) {
             HomeScreen()
         }

@@ -1,4 +1,4 @@
-package com.sajjadio.quickshop.presentation.screen.wishlist
+package com.sajjadio.quickshop.presentation.screen.cart
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -23,18 +23,20 @@ class CartViewModel @Inject constructor() : ViewModel() {
                     productImage = "https://th.bing.com/th/id/OIP.oei55yyhppyd6XOvBBIm2wHaHa?pid=ImgDet&rs=1",
                     order = 6235,
                     count = 2,
-                    productCategory = "Women cloths",
+                    productCategory = "women cloths",
                     productPrice = 109.95,
                     date = "3/5/2023",
+                    productState = "Processing"
                 ),
                 Cart(
                     productImage = "https://th.bing.com/th/id/OIP.vL1YYVdKnKnGvwz2WWYIcQHaF5?pid=ImgDet&w=199&h=158&c=7&dpr=1.3",
                     order = 4235,
                     count = 1,
-                    productCategory = "Electronic",
+                    productCategory = "electronic",
                     productPrice = 999.9,
                     date = "3/5/2023",
                     isShipping = true,
+                    productState = "Shipped"
                 ),
             )
         )

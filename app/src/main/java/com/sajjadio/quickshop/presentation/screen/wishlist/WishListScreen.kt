@@ -7,19 +7,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun WishListScreen(
-    viewModel: CartViewModel = hiltViewModel()
 ) {
     WishListContent(
-        state = viewModel.state.value
+
     )
 }
 
 @Composable
-fun WishListContent(state: CartUiState) {
+fun WishListContent() {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally

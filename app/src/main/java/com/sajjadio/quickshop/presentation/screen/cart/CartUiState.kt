@@ -1,4 +1,4 @@
-package com.sajjadio.quickshop.presentation.screen.wishlist
+package com.sajjadio.quickshop.presentation.screen.cart
 
 import kotlin.random.Random
 
@@ -14,5 +14,6 @@ data class Cart(
     val productCategory: String = "",
     val productPrice: Double = 0.0,
     val date: String = "",
-    val isShipping: Boolean = false
+    val isShipping: Boolean = false,
+    val productState: String = ""
 )
