@@ -1,6 +1,7 @@
 package com.sajjadio.quickshop.presentation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.Dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -14,6 +15,7 @@ import com.sajjadio.quickshop.presentation.screen.wishlist.WishListScreen
 @Composable
 fun BottomNavGraph(
     navController: NavHostController,
+    calculateBottomPadding: Dp,
 ) {
     NavHost(navController = navController, startDestination = Screen.Cart.route) {
         composable(route = Screen.Home.route) {
@@ -23,7 +25,7 @@ fun BottomNavGraph(
             WishListScreen()
         }
         composable(route = Screen.Cart.route) {
-            CartScreen()
+            CartScreen(calculateBottomPadding)
         }
         composable(route = Screen.Profile.route) {
             ProfileScreen()

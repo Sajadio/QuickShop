@@ -3,7 +3,10 @@ package com.sajjadio.quickshop.presentation.screen.cart
 import kotlin.random.Random
 
 data class CartUiState(
-    val carts: List<Cart> = listOf()
+    val count: Int = 0,
+    val shippingFee: Double = 0.0,
+    val total: Double = 0.0,
+    val carts: List<Cart> = listOf(),
 )
 
 data class Cart(

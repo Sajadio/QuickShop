@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.safeContent
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -40,9 +42,10 @@ fun NavScreen() {
     Scaffold(
         bottomBar = {
             BottomBar(navController = navController)
-        }
+        },
+        contentWindowInsets = WindowInsets.safeContent
     ) {
-        BottomNavGraph(navController = navController)
+        BottomNavGraph(navController = navController,it.calculateBottomPadding())
     }
 }
 
@@ -59,7 +62,7 @@ fun BottomBar(navController: NavHostController) {
 
     NavigationBar(
         containerColor = Color.White,
-        contentColor = Color.Blue
+        contentColor = Color.Blue,
     ) {
         screens.forEach {
             BottomItem(
