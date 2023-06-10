@@ -7,7 +7,6 @@ package com.sajjadio.quickshop.presentation.screen.home
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -36,11 +35,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -57,7 +58,6 @@ import com.sajjadio.quickshop.presentation.components.ProductItem
 import com.sajjadio.quickshop.presentation.components.ProfileImage
 import com.sajjadio.quickshop.presentation.components.SearchBox
 import com.sajjadio.quickshop.presentation.components.SpacerHorizontal
-import com.sajjadio.quickshop.presentation.components.SpacerVertical
 import com.sajjadio.quickshop.presentation.components.StaticIcon
 import com.sajjadio.quickshop.presentation.components.UserName
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
@@ -73,12 +73,18 @@ import kotlinx.coroutines.yield
 @ExperimentalPagerApi
 @Composable
 fun HomeScreen(
+    calculateBottomPadding: Dp,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val adsUIState = viewModel.adsUiState.value
     val categoryUiState = viewModel.categoryUiState.value
     val productUiState = viewModel.productUiState.value
-    HomeContent(adsUIState, categoryUiState, productUiState)
+    HomeContent(
+        adsUIState,
+        categoryUiState,
+        productUiState,
+        calculateBottomPadding
+    )
 }
 
 @ExperimentalPagerApi
@@ -87,7 +93,8 @@ fun HomeScreen(
 fun HomeContent(
     adsUIState: AdsUIState,
     categoryUiState: CategoryUiState,
-    productUiState: ProductUiState
+    productUiState: ProductUiState,
+    calculateBottomPadding: Dp
 ) {
 
     Scaffold(
@@ -103,18 +110,18 @@ fun HomeContent(
             )
         }
     ) {
-        Column() {
-            SpacerVertical(height = 72)
-            LazyColumn(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                item { ContainerSearchBox() }
-                item { SliderImage(adsUIState) }
-                item { CategoryHeader() }
-                item { Categories(categoryUiState = categoryUiState) }
-                item { ProductHeader() }
-                item { Products(productUiState.products) }
-            }
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(
+                bottom = calculateBottomPadding,
+                top = it.calculateTopPadding(),
+            ),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            item { ContainerSearchBox() }
+            item { SliderImage(adsUIState) }
+            item { Categories(categoryUiState = categoryUiState) }
+            item { Products(productUiState.products) }
         }
     }
 
@@ -126,7 +133,7 @@ private fun AppBar() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 16.dp),
+            .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -152,7 +159,7 @@ private fun ContainerSearchBox() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+            .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         SearchBox(modifier = Modifier.weight(0.8f))
@@ -185,7 +192,6 @@ fun FilterButton(
 fun SliderImage(
     adsUIState: AdsUIState
 ) {
-    SpacerVertical(height = 16)
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -218,7 +224,7 @@ private fun SliderImageHorizontal(
     ads: List<Ads>
 ) {
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         HorizontalSlider(ads, state)
         IndicatorOfSliderImage(state = state)
@@ -238,8 +244,7 @@ private fun HorizontalSlider(
         contentPadding = PaddingValues(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .fillMaxWidth()
-            .height(200.dp),
+            .fillMaxSize(),
         key = { ads[it].poster }
     ) { index ->
         SliderImage(ads, index)
@@ -255,7 +260,8 @@ private fun SliderImage(
         painter = rememberAsyncImagePainter(model = ads[index].poster),
         contentDescription = "",
         modifier = Modifier
-            .fillMaxSize()
+            .height(200.dp)
+            .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp)),
         contentScale = ContentScale.FillWidth
     )
@@ -277,7 +283,6 @@ private fun IndicatorOfSliderImage(
 
 @Composable
 private fun CategoryHeader() {
-    SpacerVertical(height = 8)
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -292,9 +297,10 @@ private fun CategoryHeader() {
 
 @Composable
 fun Categories(categoryUiState: CategoryUiState) {
-    SpacerVertical(height = 8)
+    CategoryHeader()
     LazyRow(
-        contentPadding = PaddingValues(8.dp),
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(
@@ -307,7 +313,6 @@ fun Categories(categoryUiState: CategoryUiState) {
 
 @Composable
 fun ProductHeader() {
-    SpacerVertical(height = 16)
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -322,12 +327,13 @@ fun ProductHeader() {
 
 @Composable
 fun Products(productUiState: List<Product>) {
+    ProductHeader()
     LazyRow(
         modifier = Modifier
             .fillMaxSize()
             .wrapContentSize(),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(8.dp)
+        contentPadding = PaddingValues(16.dp)
     ) {
         items(productUiState) { state ->
             ProductItem(
@@ -372,5 +378,5 @@ private fun ClickableHeader(
 @Preview(showSystemUi = true)
 @Composable
 fun PreviewHomeScreen() {
-    HomeScreen()
+    HomeScreen(0.dp)
 }

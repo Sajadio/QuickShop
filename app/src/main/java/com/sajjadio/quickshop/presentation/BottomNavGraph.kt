@@ -17,9 +17,9 @@ fun BottomNavGraph(
     navController: NavHostController,
     calculateBottomPadding: Dp,
 ) {
-    NavHost(navController = navController, startDestination = Screen.Cart.route) {
+    NavHost(navController = navController, startDestination = Screen.Home.route) {
         composable(route = Screen.Home.route) {
-            HomeScreen()
+            HomeScreen(calculateBottomPadding)
         }
         composable(route = Screen.Wishlist.route) {
             WishListScreen()

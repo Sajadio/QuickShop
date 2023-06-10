@@ -48,8 +48,6 @@ fun ProductItem(
     Card(
         modifier = modifier
             .width(200.dp)
-            .height(500.dp)
-            .wrapContentHeight()
             .clickable { onClick(state.id) },
         colors = CardDefaults.cardColors(BaseColor),
         elevation = CardDefaults.cardElevation(
@@ -97,8 +95,7 @@ private fun ProductImage(
         contentDescription = state.title,
         modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp)
-            .wrapContentHeight(),
+            .height(200.dp),
         contentScale = ContentScale.FillHeight
     )
 }

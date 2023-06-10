@@ -31,7 +31,7 @@ fun SearchBox(
             .clip(RoundedCornerShape(8.dp))
             .background(TextInputFiledColor)
             .height(56.dp)
-            .padding(horizontal = 8.dp, vertical = 16.dp)
+            .padding(16.dp)
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
