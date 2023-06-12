@@ -41,16 +41,28 @@ fun NavScreen() {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = {
-            BottomBar(navController = navController)
+            val visibility = currentRoute(navController = navController) in listOf(
+                Screen.Home.route,
+                Screen.Wishlist.route,
+                Screen.Cart.route,
+                Screen.Profile.route
+            )
+            BottomBar(navController = navController, visibility = visibility)
         },
         contentWindowInsets = WindowInsets.safeContent
     ) {
-        BottomNavGraph(navController = navController,it.calculateBottomPadding())
+        BottomNavGraph(navController = navController, it.calculateBottomPadding())
     }
 }
 
 @Composable
-fun BottomBar(navController: NavHostController) {
+fun currentRoute(navController: NavHostController): String? {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    return navBackStackEntry?.destination?.route
+}
+
+@Composable
+fun BottomBar(navController: NavHostController, visibility: Boolean) {
     val screens = listOf(
         Screen.Home,
         Screen.Wishlist,
@@ -60,16 +72,18 @@ fun BottomBar(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    NavigationBar(
-        containerColor = Color.White,
-        contentColor = Color.Blue,
-    ) {
-        screens.forEach {
-            BottomItem(
-                screen = it,
-                navController = navController,
-                currentNavDestination = currentDestination
-            )
+    if (visibility) {
+        NavigationBar(
+            containerColor = Color.White,
+            contentColor = Color.Blue,
+        ) {
+            screens.forEach {
+                BottomItem(
+                    screen = it,
+                    navController = navController,
+                    currentNavDestination = currentDestination
+                )
+            }
         }
     }
 }
