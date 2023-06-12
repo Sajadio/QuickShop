@@ -7,22 +7,34 @@ import com.sajjadio.quickshop.R
 sealed class Screen(
     val route: String,
     @StringRes val title: Int,
-    @DrawableRes val icon: Int,
+    @DrawableRes val unSelectedIcon: Int,
     @DrawableRes val selectedIcon: Int,
 ) {
-    object Home :
-        Screen("homeScreen", R.string.home, R.drawable.ic_home_selected, R.drawable.ic_selected_home)
+    object Home : Screen(
+            route = "homeScreen",
+            title = R.string.home,
+            unSelectedIcon = R.drawable.ic_unselected_home,
+            selectedIcon = R.drawable.ic_selected_home
+        )
 
-    object Wishlist :
-        Screen("wishListScreen", R.string.wishlist, R.drawable.ic_fav, R.drawable.ic_selected_fav)
+    object Wishlist : Screen(
+            route = "wishListScreen",
+            title = R.string.wishlist,
+            unSelectedIcon = R.drawable.ic_unselected_fav,
+            selectedIcon = R.drawable.ic_selected_fav
+        )
 
-    object Cart :
-        Screen("cartScreen", R.string.cart, R.drawable.ic_cart, R.drawable.ic_selected_cart)
+    object Cart : Screen(
+            route = "cartScreen",
+            title = R.string.cart,
+            unSelectedIcon = R.drawable.ic_unselected_cart,
+            selectedIcon = R.drawable.ic_selected_cart
+        )
 
     object Profile : Screen(
-        "profileScreen",
-        R.string.profile,
-        R.drawable.ic_profile,
-        R.drawable.ic_selected_profile
+        route = "profileScreen",
+        title = R.string.profile,
+        unSelectedIcon = R.drawable.ic_unselected_profile,
+        selectedIcon = R.drawable.ic_selected_profile
     )
 }

@@ -106,7 +106,7 @@ fun RowScope.BottomItem(
                 )
             } else {
                 BottomBarIcon(
-                    screen.icon,
+                    screen.unSelectedIcon,
                     screen.title
                 )
             }

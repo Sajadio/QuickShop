@@ -231,7 +231,7 @@ private fun ButtonCart(
             .padding(12.dp)
     ) {
         StaticIcon(
-            painter = painterResource(id = R.drawable.ic_cart),
+            painter = painterResource(id = R.drawable.ic_unselected_cart),
             contentDescription = "Add item to cart",
             tint = BaseColor
         )

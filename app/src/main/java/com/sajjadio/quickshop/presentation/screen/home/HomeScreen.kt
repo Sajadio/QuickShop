@@ -35,7 +35,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -45,6 +44,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -60,6 +60,7 @@ import com.sajjadio.quickshop.presentation.components.SearchBox
 import com.sajjadio.quickshop.presentation.components.SpacerHorizontal
 import com.sajjadio.quickshop.presentation.components.StaticIcon
 import com.sajjadio.quickshop.presentation.components.UserName
+import com.sajjadio.quickshop.presentation.screen.products.navigateToProducts
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
 import com.sajjadio.quickshop.presentation.ui.theme.BaseColor
 import com.sajjadio.quickshop.presentation.ui.theme.Poppins
@@ -74,7 +75,8 @@ import kotlinx.coroutines.yield
 @Composable
 fun HomeScreen(
     calculateBottomPadding: Dp,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    navController: NavHostController
 ) {
     val adsUIState = viewModel.adsUiState.value
     val categoryUiState = viewModel.categoryUiState.value
@@ -83,7 +85,8 @@ fun HomeScreen(
         adsUIState,
         categoryUiState,
         productUiState,
-        calculateBottomPadding
+        calculateBottomPadding,
+        onClickProducts = { navController.navigateToProducts() }
     )
 }
 
@@ -94,7 +97,8 @@ fun HomeContent(
     adsUIState: AdsUIState,
     categoryUiState: CategoryUiState,
     productUiState: ProductUiState,
-    calculateBottomPadding: Dp
+    calculateBottomPadding: Dp,
+    onClickProducts: () -> Unit
 ) {
 
     Scaffold(
@@ -121,7 +125,7 @@ fun HomeContent(
             item { ContainerSearchBox() }
             item { SliderImage(adsUIState) }
             item { Categories(categoryUiState = categoryUiState) }
-            item { Products(productUiState.products) }
+            item { Products(productUiState.products, onClickProducts) }
         }
     }
 
@@ -312,7 +316,9 @@ fun Categories(categoryUiState: CategoryUiState) {
 }
 
 @Composable
-fun ProductHeader() {
+fun ProductHeader(
+    onClick: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -321,13 +327,18 @@ fun ProductHeader() {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Header(text = stringResource(id = R.string.new_products))
-        ClickableHeader(text = stringResource(id = R.string.see_all)) {}
+        ClickableHeader(text = stringResource(id = R.string.see_all)) { onClick() }
     }
 }
 
 @Composable
-fun Products(productUiState: List<Product>) {
-    ProductHeader()
+fun Products(
+    productUiState: List<Product>,
+    onClickProducts: () -> Unit
+) {
+    ProductHeader {
+        onClickProducts()
+    }
     LazyRow(
         modifier = Modifier
             .fillMaxSize()
@@ -372,11 +383,4 @@ private fun ClickableHeader(
             .clip(RoundedCornerShape(8.dp))
             .clickable { onClick() }
     )
-}
-
-@ExperimentalPagerApi
-@Preview(showSystemUi = true)
-@Composable
-fun PreviewHomeScreen() {
-    HomeScreen(0.dp)
 }
