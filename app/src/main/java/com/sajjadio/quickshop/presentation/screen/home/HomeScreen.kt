@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -75,8 +76,8 @@ import kotlinx.coroutines.yield
 @Composable
 fun HomeScreen(
     calculateBottomPadding: Dp,
+    navController: NavController,
     viewModel: HomeViewModel = hiltViewModel(),
-    navController: NavHostController
 ) {
     val adsUIState = viewModel.adsUiState.value
     val categoryUiState = viewModel.categoryUiState.value

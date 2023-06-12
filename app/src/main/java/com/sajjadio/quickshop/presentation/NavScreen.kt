@@ -15,9 +15,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -33,7 +30,6 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
 import com.sajjadio.quickshop.presentation.ui.theme.Poppins
 import com.sajjadio.quickshop.presentation.ui.theme.SecondaryTextColor
-import kotlin.concurrent.timerTask
 
 @ExperimentalPagerApi
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,7 +49,7 @@ fun NavScreen() {
         },
         contentWindowInsets = WindowInsets.safeContent
     ) {
-        BottomNavGraph(navController = navController, it.calculateBottomPadding())
+        QuickShopNavGraph(navController = navController, it.calculateBottomPadding())
     }
 }
 

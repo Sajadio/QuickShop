@@ -15,7 +15,7 @@ class ProductsViewModel @Inject constructor() : ViewModel() {
     val state: State<ProductUiState> = _state
 
     init {
-
+        loadProductData()
     }
 
     private fun loadProductData() {
