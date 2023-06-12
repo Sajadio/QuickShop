@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,7 +23,7 @@ import com.sajjadio.quickshop.presentation.components.ProfileImage
 import com.sajjadio.quickshop.presentation.components.SpacerVertical
 import com.sajjadio.quickshop.presentation.components.UserName
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
-import com.sajjadio.quickshop.presentation.ui.theme.Poppins
+import com.sajjadio.quickshop.presentation.ui.theme.Tajawal
 import com.sajjadio.quickshop.presentation.ui.theme.PrimaryTextAndIconColor
 import com.sajjadio.quickshop.presentation.ui.theme.TextInputFiledColor
 
@@ -113,7 +112,7 @@ private fun Title(
         fontSize = fontSize.sp,
         color = PrimaryTextAndIconColor,
         fontWeight = fontWeight,
-        fontFamily = Poppins
+        fontFamily = Tajawal
     )
 }
 

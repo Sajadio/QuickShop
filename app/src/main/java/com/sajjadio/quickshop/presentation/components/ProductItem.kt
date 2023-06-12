@@ -33,10 +33,11 @@ import com.sajjadio.quickshop.R
 import com.sajjadio.quickshop.presentation.screen.home.Product
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
 import com.sajjadio.quickshop.presentation.ui.theme.BaseColor
-import com.sajjadio.quickshop.presentation.ui.theme.Poppins
+import com.sajjadio.quickshop.presentation.ui.theme.Tajawal
 import com.sajjadio.quickshop.presentation.ui.theme.PrimaryTextAndIconColor
 import com.sajjadio.quickshop.presentation.ui.theme.SecondaryColor
 import com.sajjadio.quickshop.presentation.ui.theme.SecondaryTextColor
+import com.sajjadio.quickshop.presentation.ui.theme.TextInputFiledColor
 
 @Composable
 fun ProductItem(
@@ -49,7 +50,7 @@ fun ProductItem(
         modifier = modifier
             .width(200.dp)
             .clickable { onClick(state.id) },
-        colors = CardDefaults.cardColors(BaseColor),
+        colors = CardDefaults.cardColors(TextInputFiledColor),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 0.dp
         ),
@@ -105,7 +106,7 @@ private fun ProductTitle(state: Product) {
     Text(
         text = state.title,
         fontSize = 16.sp,
-        fontFamily = Poppins,
+        fontFamily = Tajawal,
         fontWeight = FontWeight.SemiBold,
         maxLines = 1,
         color = PrimaryTextAndIconColor
@@ -117,7 +118,7 @@ private fun CategoryTitle(state: Product) {
     Text(
         text = state.category,
         fontSize = 14.sp,
-        fontFamily = Poppins,
+        fontFamily = Tajawal,
         fontWeight = FontWeight.Normal,
         maxLines = 1,
         color = PrimaryTextAndIconColor
@@ -180,7 +181,7 @@ private fun TextRatingBar(state: Product) {
     Text(
         text = state.rate.toString(),
         fontSize = 12.sp,
-        fontFamily = Poppins,
+        fontFamily = Tajawal,
         fontWeight = FontWeight.Normal,
         maxLines = 1,
         color = SecondaryTextColor
@@ -209,7 +210,7 @@ private fun Price(state: Product) {
     Text(
         text = "$${state.price}",
         fontSize = 18.sp,
-        fontFamily = Poppins,
+        fontFamily = Tajawal,
         fontWeight = FontWeight.SemiBold,
         maxLines = 1,
         color = PrimaryTextAndIconColor

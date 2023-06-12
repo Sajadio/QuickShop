@@ -3,10 +3,11 @@ package com.sajjadio.quickshop.presentation.screen.products
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.IconButton
@@ -19,14 +20,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.sajjadio.quickshop.R
+import com.sajjadio.quickshop.presentation.components.AppBar
 import com.sajjadio.quickshop.presentation.components.ProductItem
+import com.sajjadio.quickshop.presentation.components.SpacerVertical
 import com.sajjadio.quickshop.presentation.screen.home.ProductUiState
 import com.sajjadio.quickshop.presentation.screen.home.navigateToHomeScreen
+import com.sajjadio.quickshop.presentation.ui.theme.BaseColor
+import com.sajjadio.quickshop.presentation.ui.theme.Tajawal
+import com.sajjadio.quickshop.presentation.ui.theme.Typography
 
 @Composable
 fun ProductsScreen(
@@ -49,22 +56,18 @@ private fun ProductsContent(
 ) {
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = "Products")
-                },
-                navigationIcon = {
-                    IconButton(onClick = { onClickBack() }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_left),
-                            contentDescription = "Previous screen",
-                        )
-                    }
-                },
+            AppBar(
+                title = "Products",
+                painter = painterResource(id = R.drawable.ic_left),
+                onClickBack = { onClickBack() }
             )
-        },
+        }
     ) {
         LazyVerticalGrid(
+            modifier = Modifier
+                .background(BaseColor)
+                .fillMaxSize()
+                .padding(top = 8.dp),
             columns = GridCells.Fixed(2),
             contentPadding = PaddingValues(
                 top = it.calculateTopPadding(),

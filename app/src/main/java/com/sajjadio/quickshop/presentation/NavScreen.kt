@@ -28,7 +28,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
-import com.sajjadio.quickshop.presentation.ui.theme.Poppins
+import com.sajjadio.quickshop.presentation.ui.theme.Tajawal
 import com.sajjadio.quickshop.presentation.ui.theme.SecondaryTextColor
 
 @ExperimentalPagerApi
@@ -107,7 +107,7 @@ fun RowScope.BottomItem(
             Text(
                 text = stringResource(id = screen.title),
                 fontWeight = FontWeight.Bold,
-                fontFamily = Poppins
+                fontFamily = Tajawal
             )
         },
         icon = {

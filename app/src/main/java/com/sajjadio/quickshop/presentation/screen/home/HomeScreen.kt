@@ -39,13 +39,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -64,7 +62,7 @@ import com.sajjadio.quickshop.presentation.components.UserName
 import com.sajjadio.quickshop.presentation.screen.products.navigateToProducts
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
 import com.sajjadio.quickshop.presentation.ui.theme.BaseColor
-import com.sajjadio.quickshop.presentation.ui.theme.Poppins
+import com.sajjadio.quickshop.presentation.ui.theme.Tajawal
 import com.sajjadio.quickshop.presentation.ui.theme.PrimaryTextAndIconColor
 import com.sajjadio.quickshop.presentation.ui.theme.SecondaryColor
 import com.sajjadio.quickshop.presentation.ui.theme.SecondaryTextColor
@@ -362,7 +360,7 @@ private fun Header(text: String) {
     Text(
         text = text,
         fontSize = 16.sp,
-        fontFamily = Poppins,
+        fontFamily = Tajawal,
         fontWeight = FontWeight.SemiBold,
         color = PrimaryTextAndIconColor
     )
@@ -377,7 +375,7 @@ private fun ClickableHeader(
     Text(
         text = text,
         fontSize = 14.sp,
-        fontFamily = Poppins,
+        fontFamily = Tajawal,
         fontWeight = FontWeight.SemiBold,
         color = SecondaryColor,
         modifier = modifier

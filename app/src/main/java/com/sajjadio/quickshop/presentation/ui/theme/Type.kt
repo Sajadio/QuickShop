@@ -2,19 +2,41 @@ package com.sajjadio.quickshop.presentation.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-// Set of Material typography styles to start with
 val Typography = Typography(
-    bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
+    labelSmall = TextStyle(
+        fontFamily = Tajawal,
         fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+    ),
+    labelLarge = TextStyle(
+        fontFamily = Tajawal,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp,
+    ),
+    bodySmall = TextStyle(
+        fontFamily = Tajawal,
+        fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
+    ),
+    bodyLarge = TextStyle(
+        fontFamily = Tajawal,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 18.sp,
+    ),
+    titleSmall = TextStyle(
+        fontFamily = Tajawal,
+        fontWeight = FontWeight.Medium,
+        fontSize = 20.sp,
+    ),
+    titleLarge = TextStyle(
+        fontFamily = Tajawal,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 22.sp,
     )
+
     /* Other default text styles to override
     titleLarge = TextStyle(
         fontFamily = FontFamily.Default,

@@ -18,7 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sajjadio.quickshop.R
-import com.sajjadio.quickshop.presentation.ui.theme.Poppins
+import com.sajjadio.quickshop.presentation.ui.theme.Tajawal
 import com.sajjadio.quickshop.presentation.ui.theme.SecondaryTextColor
 import com.sajjadio.quickshop.presentation.ui.theme.TextInputFiledColor
 
@@ -44,7 +44,7 @@ fun SearchBox(
             modifier = Modifier.padding(horizontal = 8.dp),
             text = stringResource(id = R.string.search),
             fontSize = 12.sp,
-            fontFamily = Poppins,
+            fontFamily = Tajawal,
             fontWeight = FontWeight.Medium,
             color = SecondaryTextColor,
             textAlign = TextAlign.Center
