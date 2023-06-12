@@ -7,10 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.navigation.NavController
 
 @Composable
-fun WishListScreen(
-) {
+fun WishListScreen(calculateBottomPadding: Dp, navController: NavController) {
     WishListContent(
 
     )
@@ -24,10 +25,4 @@ fun WishListContent() {
     ) {
         Text(text = "WishList Screen")
     }
-}
-
-@Preview(showSystemUi = true)
-@Composable
-fun PreviewWishListScreen() {
-    WishListScreen()
 }

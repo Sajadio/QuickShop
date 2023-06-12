@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.sajjadio.quickshop.R
 import com.sajjadio.quickshop.presentation.components.SpacerVertical
@@ -46,7 +47,8 @@ import com.sajjadio.quickshop.presentation.ui.theme.TextInputFiledColor
 @Composable
 fun CartScreen(
     calculateBottomPadding: Dp,
-    viewModel: CartViewModel = hiltViewModel()
+    viewModel: CartViewModel = hiltViewModel(),
+    navController: NavController
 ) {
     CartContent(
         state = viewModel.state.value,
@@ -274,10 +276,4 @@ private fun CartText(
         color = color,
         modifier = modifier
     )
-}
-
-@Preview(showSystemUi = true)
-@Composable
-fun PreviewCartScreen() {
-    CartScreen(0.dp)
 }

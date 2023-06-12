@@ -59,6 +59,7 @@ import com.sajjadio.quickshop.presentation.components.SearchBox
 import com.sajjadio.quickshop.presentation.components.SpacerHorizontal
 import com.sajjadio.quickshop.presentation.components.StaticIcon
 import com.sajjadio.quickshop.presentation.components.UserName
+import com.sajjadio.quickshop.presentation.screen.product_details.navigateToProductDetails
 import com.sajjadio.quickshop.presentation.screen.products.navigateToProducts
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
 import com.sajjadio.quickshop.presentation.ui.theme.BaseColor
@@ -85,7 +86,8 @@ fun HomeScreen(
         categoryUiState,
         productUiState,
         calculateBottomPadding,
-        onClickProducts = { navController.navigateToProducts() }
+        onClickProducts = { navController.navigateToProducts() },
+        onClickItem = { navController.navigateToProductDetails(it) }
     )
 }
 
@@ -97,7 +99,8 @@ fun HomeContent(
     categoryUiState: CategoryUiState,
     productUiState: ProductUiState,
     calculateBottomPadding: Dp,
-    onClickProducts: () -> Unit
+    onClickProducts: () -> Unit,
+    onClickItem: (Int) -> Unit
 ) {
 
     Scaffold(
@@ -124,7 +127,7 @@ fun HomeContent(
             item { ContainerSearchBox() }
             item { SliderImage(adsUIState) }
             item { Categories(categoryUiState = categoryUiState) }
-            item { Products(productUiState.products, onClickProducts) }
+            item { Products(productUiState.products, onClickProducts, onClickItem = onClickItem) }
         }
     }
 
@@ -333,7 +336,8 @@ fun ProductHeader(
 @Composable
 fun Products(
     productUiState: List<Product>,
-    onClickProducts: () -> Unit
+    onClickProducts: () -> Unit,
+    onClickItem: (Int) -> Unit
 ) {
     ProductHeader {
         onClickProducts()
@@ -348,7 +352,7 @@ fun Products(
         items(productUiState) { state ->
             ProductItem(
                 state = state,
-                onClick = {},
+                onClickItem = { onClickItem(it) },
                 onClickAddToCart = {}
             )
         }

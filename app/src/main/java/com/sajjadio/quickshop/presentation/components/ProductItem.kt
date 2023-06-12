@@ -43,13 +43,13 @@ import com.sajjadio.quickshop.presentation.ui.theme.TextInputFiledColor
 fun ProductItem(
     state: Product,
     modifier: Modifier = Modifier,
-    onClick: (Int) -> Unit,
+    onClickItem: (Int) -> Unit,
     onClickAddToCart: (Int) -> Unit
 ) {
     Card(
         modifier = modifier
             .width(200.dp)
-            .clickable { onClick(state.id) },
+            .clickable { onClickItem(state.id) },
         colors = CardDefaults.cardColors(TextInputFiledColor),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 0.dp
