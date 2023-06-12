@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -32,6 +33,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
 import com.sajjadio.quickshop.presentation.ui.theme.Poppins
 import com.sajjadio.quickshop.presentation.ui.theme.SecondaryTextColor
+import kotlin.concurrent.timerTask
 
 @ExperimentalPagerApi
 @OptIn(ExperimentalMaterial3Api::class)
@@ -94,7 +96,7 @@ fun RowScope.BottomItem(
     navController: NavHostController,
     currentNavDestination: NavDestination?
 ) {
-    var selectedScreen by remember { mutableStateOf(Screen.Home.route) }
+    val selected = currentNavDestination?.hierarchy?.any { it.route == screen.route } == true
 
     NavigationBarItem(
         colors = NavigationBarItemDefaults.colors(
@@ -104,7 +106,7 @@ fun RowScope.BottomItem(
             unselectedIconColor = SecondaryTextColor,
             selectedIconColor = AccentColor
         ),
-        alwaysShowLabel = false,
+        alwaysShowLabel = true,
         label = {
             Text(
                 text = stringResource(id = screen.title),
@@ -113,7 +115,7 @@ fun RowScope.BottomItem(
             )
         },
         icon = {
-            if (selectedScreen == screen.route) {
+            if (selected) {
                 BottomBarIcon(
                     screen.selectedIcon,
                     screen.title
@@ -125,12 +127,17 @@ fun RowScope.BottomItem(
                 )
             }
         },
-        selected = currentNavDestination?.hierarchy?.any {
-            selectedScreen = it.route.toString()
-            it.route == screen.route
-        } == true,
+        selected = selected,
         onClick = {
-            navController.navigate(screen.route)
+            navController.navigate(screen.route) {
+                navController.graph.startDestinationRoute?.let {
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+                }
+                launchSingleTop = true
+                restoreState = true
+            }
         }
     )
 }
@@ -142,9 +149,8 @@ fun BottomBarIcon(
 ) {
     Icon(
         painter = painterResource(id = icon),
-        contentDescription = stringResource(id = contentDescription),
-
-        )
+        contentDescription = stringResource(id = contentDescription)
+    )
 }
 
 @ExperimentalPagerApi
