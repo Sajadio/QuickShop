@@ -40,7 +40,7 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun QuickShopTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = false,
+    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {

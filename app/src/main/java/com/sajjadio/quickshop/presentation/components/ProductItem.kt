@@ -38,6 +38,7 @@ import com.sajjadio.quickshop.presentation.ui.theme.PrimaryTextAndIconColor
 import com.sajjadio.quickshop.presentation.ui.theme.SecondaryColor
 import com.sajjadio.quickshop.presentation.ui.theme.SecondaryTextColor
 import com.sajjadio.quickshop.presentation.ui.theme.TextInputFiledColor
+import com.sajjadio.quickshop.presentation.ui.theme.Typography
 
 @Composable
 fun ProductItem(
@@ -76,11 +77,10 @@ private fun CardContent(
         horizontalAlignment = Alignment.Start
     ) {
         SpacerVertical(height = 8)
-        ProductTitle(state)
+        Title(title = state.title, style = Typography.titleLarge)
+        Body(title = state.category, style = Typography.bodyMedium)
         SpacerVertical(height = 4)
-        CategoryTitle(state)
-        SpacerVertical(height = 4)
-        ContainerRating(state)
+        ContainerRating(state.rate)
         SpacerVertical(height = 8)
         ContainerPriceAndButtonCart(state, onClickAddToCart)
     }
@@ -101,92 +101,6 @@ private fun ProductImage(
     )
 }
 
-@Composable
-private fun ProductTitle(state: Product) {
-    Text(
-        text = state.title,
-        fontSize = 16.sp,
-        fontFamily = Tajawal,
-        fontWeight = FontWeight.SemiBold,
-        maxLines = 1,
-        color = PrimaryTextAndIconColor
-    )
-}
-
-@Composable
-private fun CategoryTitle(state: Product) {
-    Text(
-        text = state.category,
-        fontSize = 14.sp,
-        fontFamily = Tajawal,
-        fontWeight = FontWeight.Normal,
-        maxLines = 1,
-        color = PrimaryTextAndIconColor
-    )
-}
-
-@Composable
-private fun ContainerRating(state: Product) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Start,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        RatingBar(state.rate.toInt())
-        TextRatingBar(state)
-    }
-}
-
-
-@Composable
-private fun RatingBar(
-    rating: Int,
-    maxRating: Int = 5
-) {
-    val outlineRating = maxRating - rating
-    Row(modifier = Modifier.padding(end = 8.dp)) {
-        AddRatingBar(
-            rating = rating,
-            painter = painterResource(id = R.drawable.ic_fill_star),
-            description = "Filled star",
-            tint = SecondaryColor
-        )
-        AddRatingBar(
-            rating = outlineRating,
-            painter = painterResource(id = R.drawable.ic_outline_star),
-            description = "Outlined star ",
-            tint = SecondaryTextColor
-        )
-    }
-}
-
-@Composable
-private fun AddRatingBar(
-    rating: Int,
-    painter: Painter,
-    description: String,
-    tint: Color
-) {
-    repeat(rating) {
-        StaticIcon(
-            painter = painter,
-            contentDescription = description,
-            tint = tint
-        )
-    }
-}
-
-@Composable
-private fun TextRatingBar(state: Product) {
-    Text(
-        text = state.rate.toString(),
-        fontSize = 12.sp,
-        fontFamily = Tajawal,
-        fontWeight = FontWeight.Normal,
-        maxLines = 1,
-        color = SecondaryTextColor
-    )
-}
 
 @Composable
 private fun ContainerPriceAndButtonCart(
@@ -200,23 +114,10 @@ private fun ContainerPriceAndButtonCart(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Price(state)
+        Title(title = "$${state.price}", style = Typography.titleLarge)
         ButtonCart(onClickAddToCart, state)
     }
 }
-
-@Composable
-private fun Price(state: Product) {
-    Text(
-        text = "$${state.price}",
-        fontSize = 18.sp,
-        fontFamily = Tajawal,
-        fontWeight = FontWeight.SemiBold,
-        maxLines = 1,
-        color = PrimaryTextAndIconColor
-    )
-}
-
 
 @Composable
 private fun ButtonCart(

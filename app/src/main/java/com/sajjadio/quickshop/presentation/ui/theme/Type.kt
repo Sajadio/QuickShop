@@ -11,12 +11,22 @@ val Typography = Typography(
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
     ),
+    labelMedium = TextStyle(
+        fontFamily = Tajawal,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp,
+    ),
     labelLarge = TextStyle(
         fontFamily = Tajawal,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.SemiBold,
         fontSize = 14.sp,
     ),
     bodySmall = TextStyle(
+        fontFamily = Tajawal,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
+    ),
+    bodyMedium = TextStyle(
         fontFamily = Tajawal,
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
@@ -24,17 +34,25 @@ val Typography = Typography(
     bodyLarge = TextStyle(
         fontFamily = Tajawal,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 18.sp,
+        fontSize = 16.sp,
     ),
     titleSmall = TextStyle(
         fontFamily = Tajawal,
         fontWeight = FontWeight.Medium,
-        fontSize = 20.sp,
+        fontSize = 18.sp,
+        lineHeight = 26.sp
+    ),
+    titleMedium = TextStyle(
+        fontFamily = Tajawal,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 18.sp,
+        lineHeight = 26.sp
     ),
     titleLarge = TextStyle(
         fontFamily = Tajawal,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 22.sp,
+        fontSize = 20.sp,
+        lineHeight = 26.sp
     )
 
     /* Other default text styles to override

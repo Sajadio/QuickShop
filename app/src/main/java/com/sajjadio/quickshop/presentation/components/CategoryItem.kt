@@ -27,6 +27,7 @@ import com.sajjadio.quickshop.presentation.screen.home.Category
 import com.sajjadio.quickshop.presentation.ui.theme.Tajawal
 import com.sajjadio.quickshop.presentation.ui.theme.PrimaryTextAndIconColor
 import com.sajjadio.quickshop.presentation.ui.theme.TextInputFiledColor
+import com.sajjadio.quickshop.presentation.ui.theme.Typography
 
 @Composable
 fun CategoryItem(
@@ -43,7 +44,7 @@ fun CategoryItem(
     ) {
         CategoryCard(modifier, onClick, state)
         SpacerVertical(height = 8)
-        CategoryTitle(state)
+        Title(title = state.title, style = Typography.bodyLarge, textAlign = TextAlign.Center)
     }
 }
 
@@ -79,19 +80,5 @@ private fun CategoryImage(state: Category) {
         contentDescription = state.title,
         contentScale = ContentScale.Fit,
         modifier = Modifier.size(40.dp)
-    )
-}
-
-@Composable
-private fun CategoryTitle(state: Category) {
-    Text(
-        text = state.title,
-        fontSize = 14.sp,
-        fontWeight = FontWeight.SemiBold,
-        fontFamily = Tajawal,
-        color = PrimaryTextAndIconColor,
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis,
-        textAlign = TextAlign.Center
     )
 }

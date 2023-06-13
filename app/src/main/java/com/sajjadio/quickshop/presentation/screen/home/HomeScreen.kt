@@ -35,6 +35,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -62,7 +63,6 @@ import com.sajjadio.quickshop.presentation.components.UserName
 import com.sajjadio.quickshop.presentation.screen.product_details.navigateToProductDetails
 import com.sajjadio.quickshop.presentation.screen.products.navigateToProducts
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
-import com.sajjadio.quickshop.presentation.ui.theme.BaseColor
 import com.sajjadio.quickshop.presentation.ui.theme.Tajawal
 import com.sajjadio.quickshop.presentation.ui.theme.PrimaryTextAndIconColor
 import com.sajjadio.quickshop.presentation.ui.theme.SecondaryColor
@@ -91,6 +91,7 @@ fun HomeScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalPagerApi
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -102,25 +103,24 @@ fun HomeContent(
     onClickProducts: () -> Unit,
     onClickItem: (Int) -> Unit
 ) {
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {},
-                actions = {
-                    AppBar()
-                },
-                colors = TopAppBarDefaults.largeTopAppBarColors(
-                    containerColor = BaseColor,
-                ),
+                actions = { AppBar()},
+                scrollBehavior = scrollBehavior,
             )
-        }
-    ) {
+        }) { paddingValues ->
+
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .nestedScroll(scrollBehavior.nestedScrollConnection),
             contentPadding = PaddingValues(
                 bottom = calculateBottomPadding,
-                top = it.calculateTopPadding(),
+                top = paddingValues.calculateTopPadding(),
             ),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {

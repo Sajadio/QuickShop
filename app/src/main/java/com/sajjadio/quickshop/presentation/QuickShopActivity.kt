@@ -1,11 +1,16 @@
 package com.sajjadio.quickshop.presentation
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
+import androidx.core.view.WindowCompat
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.sajjadio.quickshop.presentation.ui.theme.BaseColor
@@ -18,8 +23,8 @@ class QuickShopActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            ChangeStatusBarColor()
             QuickShopTheme {
-                ChangeStatusBarColor()
                 NavScreen()
             }
         }
@@ -27,9 +32,15 @@ class QuickShopActivity : ComponentActivity() {
 }
 
 @Composable
+@Stable
 private fun ChangeStatusBarColor() {
     val systemUiController = rememberSystemUiController()
-    val useDarkIcons = !isSystemInDarkTheme()
-    systemUiController.setStatusBarColor(BaseColor, useDarkIcons)
-    systemUiController.setNavigationBarColor(Color.Black)
+    val isDark = isSystemInDarkTheme()
+    LaunchedEffect(key1 = true) {
+        if (isDark) {
+            systemUiController.setStatusBarColor(color = Color.Gray, darkIcons = false)
+        } else {
+            systemUiController.setStatusBarColor(color = BaseColor, darkIcons = true)
+        }
+    }
 }
