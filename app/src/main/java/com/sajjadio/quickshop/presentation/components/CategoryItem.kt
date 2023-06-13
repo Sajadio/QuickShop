@@ -27,7 +27,7 @@ import com.sajjadio.quickshop.presentation.ui.theme.Typography
 fun CategoryItem(
     state: Category,
     modifier: Modifier = Modifier,
-    onClick: (Int) -> Unit
+    onClickCategoryItem: (String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -36,7 +36,7 @@ fun CategoryItem(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CategoryCard(modifier, onClick, state)
+        CategoryCard(modifier, onClickCategoryItem, state)
         SpacerVertical(height = 8)
         Title(title = state.title, style = Typography.bodyLarge, textAlign = TextAlign.Center)
     }
@@ -45,13 +45,13 @@ fun CategoryItem(
 @Composable
 private fun CategoryCard(
     modifier: Modifier = Modifier,
-    onClick: (Int) -> Unit,
+    onClickCategoryItem: (String) -> Unit,
     state: Category
 ) {
     Card(
         modifier = modifier
             .size(100.dp)
-            .clickable { onClick(state.id) },
+            .clickable { onClickCategoryItem(state.title) },
         colors = CardDefaults.cardColors(TextInputFiledColor),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 0.dp

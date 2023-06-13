@@ -19,7 +19,8 @@ fun NavGraphBuilder.productDetailsRoute(navController: NavController) {
         arguments = listOf(
             navArgument(ProductDetailsArgs.NAME_ARG) {
                 NavType.IntType
-            })
+            }
+        )
     ) {
         ProductDetailsScreen(navController = navController)
     }

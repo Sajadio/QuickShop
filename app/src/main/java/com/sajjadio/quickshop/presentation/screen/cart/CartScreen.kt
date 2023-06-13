@@ -1,6 +1,7 @@
 package com.sajjadio.quickshop.presentation.screen.cart
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,6 +38,7 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.sajjadio.quickshop.R
 import com.sajjadio.quickshop.presentation.components.SpacerVertical
+import com.sajjadio.quickshop.presentation.screen.product_details.navigateToProductDetails
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
 import com.sajjadio.quickshop.presentation.ui.theme.BaseColor
 import com.sajjadio.quickshop.presentation.ui.theme.Tajawal
@@ -52,12 +54,17 @@ fun CartScreen(
 ) {
     CartContent(
         state = viewModel.state.value,
-        calculateBottomPadding = calculateBottomPadding
+        calculateBottomPadding = calculateBottomPadding,
+        onClickItem = { navController.navigateToProductDetails(it) }
     )
 }
 
 @Composable
-fun CartContent(state: CartUiState, calculateBottomPadding: Dp) {
+fun CartContent(
+    state: CartUiState,
+    calculateBottomPadding: Dp,
+    onClickItem: (Int) -> Unit
+) {
     SpacerVertical(height = 16)
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -69,7 +76,7 @@ fun CartContent(state: CartUiState, calculateBottomPadding: Dp) {
             contentPadding = PaddingValues(8.dp)
         ) {
             items(state.carts) { cart ->
-                CartItem(cart)
+                CartItem(cart, onClickItem = onClickItem)
             }
         }
         CheckOutCart(
@@ -86,12 +93,16 @@ fun CartContent(state: CartUiState, calculateBottomPadding: Dp) {
 }
 
 @Composable
-private fun CartItem(cart: Cart) {
+private fun CartItem(
+    cart: Cart,
+    onClickItem: (Int) -> Unit
+) {
     Card(
         colors = CardDefaults.cardColors(containerColor = TextInputFiledColor),
         shape = RoundedCornerShape(18.dp),
         modifier = Modifier
             .fillMaxSize()
+            .clickable { onClickItem(cart.id) }
 
     ) {
         Row(
@@ -173,7 +184,7 @@ private fun StateOfProduct(cart: Cart, color: Color, fontWeight: FontWeight) {
 @Composable
 fun CheckOutCart(
     cart: CartUiState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Card(
         colors = CardDefaults.cardColors(containerColor = TextInputFiledColor),

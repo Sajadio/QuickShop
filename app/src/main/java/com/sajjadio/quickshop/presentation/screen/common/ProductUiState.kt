@@ -1,8 +1,8 @@
-package com.sajjadio.quickshop.presentation.screen.products
+package com.sajjadio.quickshop.presentation.screen.common
 
 import kotlin.random.Random
 
-data class ProductsUiState(
+data class ProductUiState(
     val products: List<Product> = listOf()
 )
 

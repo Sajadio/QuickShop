@@ -12,6 +12,7 @@ import com.sajjadio.quickshop.presentation.screen.categories.categoriesRoute
 import com.sajjadio.quickshop.presentation.screen.home.homeRoute
 import com.sajjadio.quickshop.presentation.screen.product_details.productDetailsRoute
 import com.sajjadio.quickshop.presentation.screen.products.productsRoute
+import com.sajjadio.quickshop.presentation.screen.productsByCategory.productsByCategoryRoute
 import com.sajjadio.quickshop.presentation.screen.profile.profileRoute
 import com.sajjadio.quickshop.presentation.screen.wishlist.WishListScreen
 
@@ -41,5 +42,6 @@ fun QuickShopNavGraph(
         productsRoute(navController = navController)
         productDetailsRoute(navController = navController)
         categoriesRoute(navController = navController)
+        productsByCategoryRoute(navController = navController)
     }
 }

@@ -75,7 +75,7 @@ private fun CategoriesContent(
             ) {
                 CategoryItem(
                     state = state.categories[it],
-                    onClick = {},
+                    onClickCategoryItem = {},
                 )
             }
         }

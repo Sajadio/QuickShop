@@ -62,8 +62,11 @@ import com.sajjadio.quickshop.presentation.components.StaticIcon
 import com.sajjadio.quickshop.presentation.components.UserName
 import com.sajjadio.quickshop.presentation.screen.categories.navigateToCategories
 import com.sajjadio.quickshop.presentation.screen.common.CategoryUiState
+import com.sajjadio.quickshop.presentation.screen.common.Product
+import com.sajjadio.quickshop.presentation.screen.common.ProductUiState
 import com.sajjadio.quickshop.presentation.screen.product_details.navigateToProductDetails
 import com.sajjadio.quickshop.presentation.screen.products.navigateToProducts
+import com.sajjadio.quickshop.presentation.screen.productsByCategory.navigateToProductsByCategory
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
 import com.sajjadio.quickshop.presentation.ui.theme.Tajawal
 import com.sajjadio.quickshop.presentation.ui.theme.PrimaryTextAndIconColor
@@ -90,7 +93,8 @@ fun HomeScreen(
         calculateBottomPadding,
         onClickProducts = { navController.navigateToProducts() },
         onClickItem = { navController.navigateToProductDetails(it) },
-        onClickCategories = { navController.navigateToCategories() }
+        onClickCategories = { navController.navigateToCategories() },
+        onClickCategoryItem = { navController.navigateToProductsByCategory(it) }
     )
 }
 
@@ -105,7 +109,8 @@ fun HomeContent(
     calculateBottomPadding: Dp,
     onClickProducts: () -> Unit,
     onClickItem: (Int) -> Unit,
-    onClickCategories: () -> Unit
+    onClickCategories: () -> Unit,
+    onClickCategoryItem: (String) -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
@@ -133,7 +138,8 @@ fun HomeContent(
             item {
                 Categories(
                     categoryUiState = categoryUiState,
-                    onClickCategories = onClickCategories
+                    onClickCategories = onClickCategories,
+                    onClickCategoryItem = onClickCategoryItem
                 )
             }
             item { Products(productUiState.products, onClickProducts, onClickItem = onClickItem) }
@@ -299,7 +305,8 @@ private fun IndicatorOfSliderImage(
 @Composable
 fun Categories(
     categoryUiState: CategoryUiState,
-    onClickCategories: () -> Unit
+    onClickCategories: () -> Unit,
+    onClickCategoryItem: (String) -> Unit
 ) {
     CategoryHeader(onClickCategories = onClickCategories)
     LazyRow(
@@ -310,7 +317,7 @@ fun Categories(
         items(
             categoryUiState.categories
         ) {
-            CategoryItem(it) {}
+            CategoryItem(it) { onClickCategoryItem(it) }
         }
     }
 }

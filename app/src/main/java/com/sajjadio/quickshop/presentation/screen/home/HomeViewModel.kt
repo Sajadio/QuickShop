@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import com.sajjadio.quickshop.R
 import com.sajjadio.quickshop.presentation.screen.common.Category
 import com.sajjadio.quickshop.presentation.screen.common.CategoryUiState
+import com.sajjadio.quickshop.presentation.screen.common.Product
+import com.sajjadio.quickshop.presentation.screen.common.ProductUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

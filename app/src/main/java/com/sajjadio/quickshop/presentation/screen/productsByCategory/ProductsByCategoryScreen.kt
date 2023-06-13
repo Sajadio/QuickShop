@@ -1,4 +1,4 @@
-package com.sajjadio.quickshop.presentation.screen.products
+package com.sajjadio.quickshop.presentation.screen.productsByCategory
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -20,28 +20,28 @@ import androidx.navigation.NavController
 import com.sajjadio.quickshop.R
 import com.sajjadio.quickshop.presentation.components.AppBar
 import com.sajjadio.quickshop.presentation.components.ProductItem
-import com.sajjadio.quickshop.presentation.screen.common.ProductUiState
-import com.sajjadio.quickshop.presentation.screen.home.navigateToHomeScreen
+import com.sajjadio.quickshop.presentation.screen.product_details.navigateToProductDetails
 import com.sajjadio.quickshop.presentation.ui.theme.BaseColor
 
 @Composable
 fun ProductsScreen(
-    viewModel: ProductsViewModel = hiltViewModel(),
+    viewModel: ProductsByCategoryViewModel = hiltViewModel(),
     navController: NavController
 ) {
     ProductsContent(
-        viewModel.state.value,
-        onClickBack = {
-            navController.navigateToHomeScreen()
-        })
+        viewModel,
+        onClickBack = { navController.popBackStack() },
+        onClickItem = { navController.navigateToProductDetails(it) }
+    )
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ProductsContent(
-    state: ProductUiState,
-    onClickBack: () -> Unit
+    viewModel: ProductsByCategoryViewModel,
+    onClickBack: () -> Unit,
+    onClickItem: (Int) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -49,7 +49,7 @@ private fun ProductsContent(
                 elevation = 1.dp,
             ) {
                 AppBar(
-                    title = "Products",
+                    title = viewModel.args.categoryName.toString(),
                     painter = painterResource(id = R.drawable.ic_left),
                     onClickBack = { onClickBack() }
                 )
@@ -72,11 +72,11 @@ private fun ProductsContent(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             items(
-                count = state.products.size,
+                count = viewModel.state.value.products.size,
             ) {
                 ProductItem(
-                    state = state.products[it],
-                    onClickItem = {},
+                    state = viewModel.state.value.products[it],
+                    onClickItem = { onClickItem(it) },
                     onClickAddToCart = {}
                 )
             }
