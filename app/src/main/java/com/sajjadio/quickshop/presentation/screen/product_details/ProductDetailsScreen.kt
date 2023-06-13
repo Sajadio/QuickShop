@@ -89,7 +89,7 @@ private fun ProductDetailsContent(
                     modifier = Modifier.fillMaxHeight(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    AddItemToCart()
+                    AddItemToCart(itemCount)
                     ContainerClickableButtons(itemCount)
                 }
             }
@@ -153,13 +153,13 @@ private fun ProductDetails() {
 }
 
 @Composable
-private fun AddItemToCart() {
+private fun AddItemToCart(itemCount: MutableState<Int>) {
     Box(
         modifier = Modifier
             .padding(16.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(AccentColor)
-            .clickable { }
+            .clickable { itemCount.value = 1 }
             .fillMaxHeight()
             .width(120.dp),
         contentAlignment = Alignment.Center

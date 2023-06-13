@@ -6,6 +6,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.safeContent
+import androidx.compose.material.Surface
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -20,6 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -71,16 +73,20 @@ fun BottomBar(navController: NavHostController, visibility: Boolean) {
     val currentDestination = navBackStackEntry?.destination
 
     if (visibility) {
-        NavigationBar(
-            containerColor = Color.White,
-            contentColor = Color.Blue,
+        Surface(
+            elevation = 8.dp,
         ) {
-            screens.forEach {
-                BottomItem(
-                    screen = it,
-                    navController = navController,
-                    currentNavDestination = currentDestination
-                )
+            NavigationBar(
+                containerColor = Color.White,
+                contentColor = Color.Blue,
+            ) {
+                screens.forEach {
+                    BottomItem(
+                        screen = it,
+                        navController = navController,
+                        currentNavDestination = currentDestination
+                    )
+                }
             }
         }
     }
