@@ -1,4 +1,4 @@
-package com.sajjadio.quickshop.presentation.screen.home
+package com.sajjadio.quickshop.presentation.screen.common
 
 import androidx.annotation.DrawableRes
 import kotlin.random.Random

@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.sajjadio.quickshop.presentation.screen.cart.cartRoute
 import com.sajjadio.quickshop.presentation.screen.cart.wishListRoute
+import com.sajjadio.quickshop.presentation.screen.categories.categoriesRoute
 import com.sajjadio.quickshop.presentation.screen.home.homeRoute
 import com.sajjadio.quickshop.presentation.screen.product_details.productDetailsRoute
 import com.sajjadio.quickshop.presentation.screen.products.productsRoute
@@ -39,5 +40,6 @@ fun QuickShopNavGraph(
         profileRoute(navController = navController)
         productsRoute(navController = navController)
         productDetailsRoute(navController = navController)
+        categoriesRoute(navController = navController)
     }
 }

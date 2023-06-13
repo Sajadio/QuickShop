@@ -4,6 +4,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.sajjadio.quickshop.R
+import com.sajjadio.quickshop.presentation.screen.common.Category
+import com.sajjadio.quickshop.presentation.screen.common.CategoryUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

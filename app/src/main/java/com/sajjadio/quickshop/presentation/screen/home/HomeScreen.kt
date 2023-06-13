@@ -60,6 +60,8 @@ import com.sajjadio.quickshop.presentation.components.SearchBox
 import com.sajjadio.quickshop.presentation.components.SpacerHorizontal
 import com.sajjadio.quickshop.presentation.components.StaticIcon
 import com.sajjadio.quickshop.presentation.components.UserName
+import com.sajjadio.quickshop.presentation.screen.categories.navigateToCategories
+import com.sajjadio.quickshop.presentation.screen.common.CategoryUiState
 import com.sajjadio.quickshop.presentation.screen.product_details.navigateToProductDetails
 import com.sajjadio.quickshop.presentation.screen.products.navigateToProducts
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
@@ -87,7 +89,8 @@ fun HomeScreen(
         productUiState,
         calculateBottomPadding,
         onClickProducts = { navController.navigateToProducts() },
-        onClickItem = { navController.navigateToProductDetails(it) }
+        onClickItem = { navController.navigateToProductDetails(it) },
+        onClickCategories = { navController.navigateToCategories() }
     )
 }
 
@@ -101,7 +104,8 @@ fun HomeContent(
     productUiState: ProductUiState,
     calculateBottomPadding: Dp,
     onClickProducts: () -> Unit,
-    onClickItem: (Int) -> Unit
+    onClickItem: (Int) -> Unit,
+    onClickCategories: () -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
@@ -109,7 +113,7 @@ fun HomeContent(
         topBar = {
             TopAppBar(
                 title = {},
-                actions = { AppBar()},
+                actions = { AppBar() },
                 scrollBehavior = scrollBehavior,
             )
         }) { paddingValues ->
@@ -126,7 +130,12 @@ fun HomeContent(
         ) {
             item { ContainerSearchBox() }
             item { SliderImage(adsUIState) }
-            item { Categories(categoryUiState = categoryUiState) }
+            item {
+                Categories(
+                    categoryUiState = categoryUiState,
+                    onClickCategories = onClickCategories
+                )
+            }
             item { Products(productUiState.products, onClickProducts, onClickItem = onClickItem) }
         }
     }
@@ -288,22 +297,11 @@ private fun IndicatorOfSliderImage(
 }
 
 @Composable
-private fun CategoryHeader() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Header(text = stringResource(id = R.string.shopping_by_category))
-        ClickableHeader(text = stringResource(id = R.string.see_all)) {}
-    }
-}
-
-@Composable
-fun Categories(categoryUiState: CategoryUiState) {
-    CategoryHeader()
+fun Categories(
+    categoryUiState: CategoryUiState,
+    onClickCategories: () -> Unit
+) {
+    CategoryHeader(onClickCategories = onClickCategories)
     LazyRow(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
@@ -314,6 +312,22 @@ fun Categories(categoryUiState: CategoryUiState) {
         ) {
             CategoryItem(it) {}
         }
+    }
+}
+
+@Composable
+private fun CategoryHeader(
+    onClickCategories: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Header(text = stringResource(id = R.string.shopping_by_category))
+        ClickableHeader(text = stringResource(id = R.string.see_all)) { onClickCategories() }
     }
 }
 
