@@ -23,6 +23,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,12 +49,15 @@ fun ProductDetailsScreen(
     viewModel: ProductDetailsViewModel = hiltViewModel(),
     navController: NavController,
 ) {
-    ProductDetailsContent(onClickBack = { navController.popBackStack() })
+    ProductDetailsContent(
+        itemCount = viewModel.itemCount
+    ) { navController.popBackStack() }
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnusedMaterialScaffoldPaddingParameter")
 @Composable
 private fun ProductDetailsContent(
+    itemCount: MutableState<Int>,
     onClickBack: () -> Unit
 ) {
     val scrollState = rememberScrollState()
@@ -86,14 +90,7 @@ private fun ProductDetailsContent(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     AddItemToCart()
-                    Row(
-                        modifier = Modifier.fillMaxHeight(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        ClickableButton("-")
-                        Title(title = "1", style = Typography.titleLarge)
-                        ClickableButton("+")
-                    }
+                    ContainerClickableButtons(itemCount)
                 }
             }
         }
@@ -164,7 +161,7 @@ private fun AddItemToCart() {
             .background(AccentColor)
             .clickable { }
             .fillMaxHeight()
-            .width(105.dp),
+            .width(120.dp),
         contentAlignment = Alignment.Center
     ) {
         Row(
@@ -187,14 +184,35 @@ private fun AddItemToCart() {
     }
 }
 
+@Composable
+private fun ContainerClickableButtons(itemCount: MutableState<Int>) {
+    Row(
+        modifier = Modifier
+            .fillMaxHeight()
+            .width(180.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        ClickableButton("-", itemCount = itemCount.value) {
+            if (it > 0)
+                itemCount.value--
+        }
+        Title(title = itemCount.value.toString(), style = Typography.titleLarge)
+        ClickableButton("+", itemCount = itemCount.value) {
+            itemCount.value++
+        }
+    }
+}
 
 @Composable
 private fun ClickableButton(
     text: String,
+    itemCount: Int,
+    onClick: (Int) -> Unit,
 ) {
     Box(modifier = Modifier
         .padding(16.dp)
-        .clickable { }
+        .clickable { onClick(itemCount) }
         .clip(RoundedCornerShape(8.dp))
         .background(PrimaryTextAndIconColor)
         .size(32.dp),

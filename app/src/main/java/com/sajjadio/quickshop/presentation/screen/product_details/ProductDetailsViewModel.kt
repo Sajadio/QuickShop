@@ -15,6 +15,8 @@ class ProductDetailsViewModel @Inject constructor(
     private val _state = mutableStateOf(ProductDetailsUiState())
     val state: State<ProductDetailsUiState> = _state
 
+    val itemCount = mutableStateOf(0)
+
     private val args: ProductDetailsArgs = ProductDetailsArgs(savedStateHandle = savedStateHandle)
 
     init {
