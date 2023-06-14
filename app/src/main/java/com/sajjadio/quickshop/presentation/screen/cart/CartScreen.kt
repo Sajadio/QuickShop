@@ -65,6 +65,7 @@ fun CartContent(
     calculateBottomPadding: Dp,
     onClickItem: (Int) -> Unit
 ) {
+
     SpacerVertical(height = 16)
     Column(
         modifier = Modifier.fillMaxSize(),

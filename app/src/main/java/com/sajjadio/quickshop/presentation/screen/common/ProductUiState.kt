@@ -3,7 +3,7 @@ package com.sajjadio.quickshop.presentation.screen.common
 import kotlin.random.Random
 
 data class ProductUiState(
-    val products: List<Product> = listOf()
+    var products: List<Product> = listOf()
 )
 
 data class Product(

@@ -67,6 +67,7 @@ import com.sajjadio.quickshop.presentation.screen.common.ProductUiState
 import com.sajjadio.quickshop.presentation.screen.product_details.navigateToProductDetails
 import com.sajjadio.quickshop.presentation.screen.products.navigateToProducts
 import com.sajjadio.quickshop.presentation.screen.productsByCategory.navigateToProductsByCategory
+import com.sajjadio.quickshop.presentation.screen.search.navigateToSearchScreen
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
 import com.sajjadio.quickshop.presentation.ui.theme.Tajawal
 import com.sajjadio.quickshop.presentation.ui.theme.PrimaryTextAndIconColor
@@ -92,10 +93,10 @@ fun HomeScreen(
         productUiState,
         calculateBottomPadding,
         onClickProducts = { navController.navigateToProducts() },
-        onClickItem = { navController.navigateToProductDetails(it) },
+        onClickProductItem = { navController.navigateToProductDetails(it) },
         onClickCategories = { navController.navigateToCategories() },
         onClickCategoryItem = { navController.navigateToProductsByCategory(it) }
-    )
+    ) { navController.navigateToSearchScreen() }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -108,9 +109,10 @@ fun HomeContent(
     productUiState: ProductUiState,
     calculateBottomPadding: Dp,
     onClickProducts: () -> Unit,
-    onClickItem: (Int) -> Unit,
+    onClickProductItem: (Int) -> Unit,
     onClickCategories: () -> Unit,
     onClickCategoryItem: (String) -> Unit,
+    onClickSearchBox: () -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
@@ -133,7 +135,7 @@ fun HomeContent(
             ),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            item { ContainerSearchBox() }
+            item { ContainerSearchBox(onClickSearchBox = onClickSearchBox) }
             item { SliderImage(adsUIState) }
             item {
                 Categories(
@@ -142,7 +144,7 @@ fun HomeContent(
                     onClickCategoryItem = onClickCategoryItem
                 )
             }
-            item { Products(productUiState.products, onClickProducts, onClickItem = onClickItem) }
+            item { Products(productUiState.products, onClickProducts, onClickItem = onClickProductItem) }
         }
     }
 
@@ -176,14 +178,17 @@ private fun AppBar() {
 }
 
 @Composable
-private fun ContainerSearchBox() {
+private fun ContainerSearchBox(onClickSearchBox: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        SearchBox(modifier = Modifier.weight(0.8f))
+        SearchBox(
+            modifier = Modifier.weight(0.8f),
+            onClickSearchBox = onClickSearchBox
+        )
         SpacerHorizontal(width = 16)
         FilterButton(modifier = Modifier.weight(0.2f))
     }
