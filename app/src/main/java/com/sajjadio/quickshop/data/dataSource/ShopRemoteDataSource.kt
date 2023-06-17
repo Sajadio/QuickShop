@@ -2,7 +2,6 @@ package com.sajjadio.quickshop.data.dataSource
 
 import com.sajjadio.quickshop.data.remote.model.cart.Cart
 import com.sajjadio.quickshop.data.remote.model.cart.Carts
-import com.sajjadio.quickshop.data.remote.model.categories.Categories
 import com.sajjadio.quickshop.data.remote.model.products.ProductDto
 import retrofit2.Response
 
@@ -13,7 +12,7 @@ interface ShopRemoteDataSource {
 
     fun sortProducts(sort: String): Response<List<ProductDto>>
 
-    fun getCategories(): Response<Categories>
+    suspend fun getCategories(): Response<List<String>>
 
     fun getProductByCategory(category: String): Response<List<ProductDto>>
 

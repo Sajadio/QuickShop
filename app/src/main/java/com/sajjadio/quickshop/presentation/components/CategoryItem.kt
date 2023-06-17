@@ -19,13 +19,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.sajjadio.quickshop.presentation.screen.common.Category
-import com.sajjadio.quickshop.presentation.ui.theme.TextInputFiledColor
 import com.sajjadio.quickshop.presentation.ui.theme.Typography
 
 @Composable
 fun CategoryItem(
-    state: Category,
+    category: String = "",
     modifier: Modifier = Modifier,
     onClickCategoryItem: (String) -> Unit
 ) {
@@ -36,43 +34,6 @@ fun CategoryItem(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CategoryCard(modifier, onClickCategoryItem, state)
-        SpacerVertical(height = 8)
-        Title(title = state.title, style = Typography.bodyLarge, textAlign = TextAlign.Center)
+        Title(title = category, style = Typography.bodyLarge, textAlign = TextAlign.Center)
     }
-}
-
-@Composable
-private fun CategoryCard(
-    modifier: Modifier = Modifier,
-    onClickCategoryItem: (String) -> Unit,
-    state: Category
-) {
-    Card(
-        modifier = modifier
-            .size(100.dp)
-            .clickable { onClickCategoryItem(state.title) },
-        colors = CardDefaults.cardColors(TextInputFiledColor),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 0.dp
-        ),
-        shape = RoundedCornerShape(8.dp)
-    ) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            CategoryImage(state)
-        }
-    }
-}
-
-@Composable
-private fun CategoryImage(state: Category) {
-    Image(
-        painter = painterResource(id = state.poster),
-        contentDescription = state.title,
-        contentScale = ContentScale.Fit,
-        modifier = Modifier.size(40.dp)
-    )
 }

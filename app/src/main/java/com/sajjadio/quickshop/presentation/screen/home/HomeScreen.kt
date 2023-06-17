@@ -32,6 +32,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -54,6 +56,7 @@ import com.google.accompanist.pager.rememberPagerState
 import com.sajjadio.quickshop.R
 import com.sajjadio.quickshop.domain.model.products.Product
 import com.sajjadio.quickshop.presentation.components.CategoryItem
+import com.sajjadio.quickshop.presentation.components.CheckUiState
 import com.sajjadio.quickshop.presentation.components.ClickableIcon
 import com.sajjadio.quickshop.presentation.components.ProductItem
 import com.sajjadio.quickshop.presentation.components.ProfileImage
@@ -84,13 +87,13 @@ fun HomeScreen(
     navController: NavController,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
-    val adsUIState = viewModel.adsUiState.value
-    val categoryUiState = viewModel.categoryUiState.value
-    val productUiState = viewModel.productUiState.value
+    val adsUiState by viewModel.adUiState.collectAsState()
+    val categoriesUiState by viewModel.categoryUiState.collectAsState()
+    val productsUiState by viewModel.productUiState.collectAsState()
     HomeContent(
-        adsUIState,
-        categoryUiState,
-        productUiState,
+        adsUiState,
+        categoriesUiState,
+        productsUiState,
         calculateBottomPadding,
         onClickProducts = { navController.navigateToProducts() },
         onClickProductItem = { navController.navigateToProductDetails(it) },
@@ -104,9 +107,9 @@ fun HomeScreen(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeContent(
-    adsUIState: AdsUIState,
-    categoryUiState: CategoryUiState,
-    productUiState: ProductUiState,
+    adsUiState: AdUIState,
+    categoriesUiState: CategoryUiState,
+    productsUiState: ProductUiState,
     calculateBottomPadding: Dp,
     onClickProducts: () -> Unit,
     onClickProductItem: (Int) -> Unit,
@@ -115,7 +118,6 @@ fun HomeContent(
     onClickSearchBox: () -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -136,15 +138,28 @@ fun HomeContent(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item { ContainerSearchBox(onClickSearchBox = onClickSearchBox) }
-            item { SliderImage(adsUIState) }
+            item { SliderImage(adsUiState.ads) }
             item {
-                Categories(
-                    categoryUiState = categoryUiState,
-                    onClickCategories = onClickCategories,
-                    onClickCategoryItem = onClickCategoryItem
-                )
+                CheckUiState(
+                    isLoading = categoriesUiState.isLoading,
+                    error = categoriesUiState.error
+                ) {
+                    if (it) {
+                        Categories(
+                            categoryUiState = categoriesUiState.categories,
+                            onClickCategories = onClickCategories,
+                            onClickCategoryItem = onClickCategoryItem
+                        )
+                    }
+                }
             }
-            item { Products(null, onClickProducts, onClickItem = onClickProductItem) }
+            item {
+                CheckUiState(isLoading = productsUiState.isLoading, error = productsUiState.error) {
+                    if (it) {
+                        Products(productsUiState.products, onClickProducts, onClickItem = onClickProductItem)
+                    }
+                }
+            }
         }
     }
 
@@ -216,14 +231,14 @@ fun FilterButton(
 
 @Composable
 fun SliderImage(
-    adsUIState: AdsUIState
+    ads: List<Ad>
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
         val pagerState = rememberPagerState()
         AutoSliderImage(pagerState)
-        SliderImageHorizontal(pagerState, adsUIState.ads)
+        SliderImageHorizontal(pagerState, ads)
     }
 }
 
@@ -247,7 +262,7 @@ fun AutoSliderImage(pagerState: PagerState) {
 @Composable
 private fun SliderImageHorizontal(
     state: PagerState,
-    ads: List<Ads>
+    ads: List<Ad>
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -260,7 +275,7 @@ private fun SliderImageHorizontal(
 @ExperimentalPagerApi
 @Composable
 private fun HorizontalSlider(
-    ads: List<Ads>,
+    ads: List<Ad>,
     state: PagerState
 ) {
     HorizontalPager(
@@ -271,7 +286,7 @@ private fun HorizontalSlider(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxSize(),
-        key = { ads[it].poster }
+        key = { ads[it].image }
     ) { index ->
         SliderImage(ads, index)
     }
@@ -279,11 +294,11 @@ private fun HorizontalSlider(
 
 @Composable
 private fun SliderImage(
-    ads: List<Ads>,
+    ads: List<Ad>,
     index: Int
 ) {
     Image(
-        painter = rememberAsyncImagePainter(model = ads[index].poster),
+        painter = rememberAsyncImagePainter(model = ads[index].image),
         contentDescription = "",
         modifier = Modifier
             .height(200.dp)
@@ -309,7 +324,7 @@ private fun IndicatorOfSliderImage(
 
 @Composable
 fun Categories(
-    categoryUiState: CategoryUiState,
+    categoryUiState: List<String>?,
     onClickCategories: () -> Unit,
     onClickCategoryItem: (String) -> Unit
 ) {
@@ -319,10 +334,10 @@ fun Categories(
         contentPadding = PaddingValues(16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(
-            categoryUiState.categories
-        ) {
-            CategoryItem(it) { onClickCategoryItem(it) }
+        categoryUiState?.let { categories ->
+            items(categories) { category ->
+                CategoryItem(category) { onClickCategoryItem(it) }
+            }
         }
     }
 }

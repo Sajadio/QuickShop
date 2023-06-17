@@ -21,8 +21,8 @@ class SearchVewModel @Inject constructor(
     private val repository: ShopRepository
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(ProductUiState())
-    val state = _state.asStateFlow()
+    private val _uiState = MutableStateFlow(ProductUiState())
+    val uiState = _uiState.asStateFlow()
     val searchQuery = mutableStateOf("")
 
     fun setSearchQuery(query: String) {
@@ -32,19 +32,19 @@ class SearchVewModel @Inject constructor(
 
     @OptIn(FlowPreview::class)
     private fun getProductsByName(query: String) {
-        _state.update { it.copy(isLoading = true) }
+        _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             repository
                 .getProducts()
                 .debounce(500L)
                 .collect { resource ->
                     when (resource) {
-                        Resource.Loading -> _state.update { it.copy(isLoading = true) }
+                        Resource.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is Resource.Success -> {
                             checkIfQueryEquuleusProductTitle(query, resource.data)
                         }
 
-                        is Resource.Error -> _state.update {
+                        is Resource.Error -> _uiState.update {
                             it.copy(
                                 isLoading = false,
                                 error = resource.errorMessage.toString()
@@ -60,7 +60,7 @@ class SearchVewModel @Inject constructor(
         data?.filter { product ->
             product.title.contains(query, ignoreCase = true)
         }?.let { products ->
-            _state.update { state ->
+            _uiState.update { state ->
                 state.copy(
                     products = products,
                     isLoading = false

@@ -2,7 +2,6 @@ package com.sajjadio.quickshop.data.dataSource
 
 import com.sajjadio.quickshop.data.remote.model.cart.Cart
 import com.sajjadio.quickshop.data.remote.model.cart.Carts
-import com.sajjadio.quickshop.data.remote.model.categories.Categories
 import com.sajjadio.quickshop.data.remote.model.products.ProductDto
 import com.sajjadio.quickshop.data.remote.ShopApiService
 import retrofit2.Response
@@ -23,7 +22,7 @@ class ShopDataSourceImpl @Inject constructor(
         return api.sortProducts(sort)
     }
 
-    override fun getCategories(): Response<Categories> {
+    override suspend fun getCategories(): Response<List<String>>{
         return api.getCategories()
     }
 

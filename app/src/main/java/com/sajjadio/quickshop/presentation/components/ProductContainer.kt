@@ -10,8 +10,8 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.sajjadio.quickshop.presentation.screen.common.ProductUiState
 import com.sajjadio.quickshop.presentation.ui.theme.BaseColor
@@ -20,7 +20,7 @@ import com.sajjadio.quickshop.presentation.ui.theme.BaseColor
 @Composable
 fun ProductContainer(
     state: ProductUiState,
-    paddingValues: PaddingValues = PaddingValues.Absolute(),
+    paddingValues: Dp,
     onClickAddToCart: (Int) -> Unit,
     onClickProductItem: (Int) -> Unit,
 ) {
@@ -31,7 +31,7 @@ fun ProductContainer(
             .padding(top = 8.dp),
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(
-            top = paddingValues.calculateTopPadding(),
+            top = paddingValues,
             start = 8.dp,
             end = 8.dp,
             bottom = 8.dp

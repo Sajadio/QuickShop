@@ -1,10 +1,9 @@
 package com.sajjadio.quickshop.data.repository
 
 import com.sajjadio.quickshop.data.dataSource.ShopRemoteDataSource
-import com.sajjadio.quickshop.data.remote.mapper.toRatingDomain
+import com.sajjadio.quickshop.data.remote.mapper.toProductDomain
 import com.sajjadio.quickshop.data.remote.model.cart.Cart
 import com.sajjadio.quickshop.data.remote.model.cart.Carts
-import com.sajjadio.quickshop.data.remote.model.categories.Categories
 import com.sajjadio.quickshop.data.remote.model.products.ProductDto
 import com.sajjadio.quickshop.domain.model.products.Product
 import com.sajjadio.quickshop.domain.repository.ShopRepository
@@ -19,7 +18,7 @@ class ShopShopRepositoryImpl @Inject constructor(
 ) : ShopRepository {
     override fun getProducts(): Flow<Resource<List<Product>>> {
         return wrapper({ shopRemoteDataSource.getProducts() }) { products ->
-            products.map { it.toRatingDomain() }
+            products.map { it.toProductDomain() }
         }
     }
 
@@ -31,8 +30,8 @@ class ShopShopRepositoryImpl @Inject constructor(
         return wrapWithFlow { shopRemoteDataSource.sortProducts(sort) }
     }
 
-    override fun getCategories(): Flow<Resource<Categories>> {
-        return wrapWithFlow { shopRemoteDataSource.getCategories() }
+    override fun getCategories(): Flow<Resource<List<String>>> {
+        return wrapWithFlow{shopRemoteDataSource.getCategories()}
     }
 
     override fun getProductByCategory(category: String): Flow<Resource<List<ProductDto>>> {

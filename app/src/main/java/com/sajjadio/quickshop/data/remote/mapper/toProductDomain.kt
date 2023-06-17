@@ -5,7 +5,7 @@ import com.sajjadio.quickshop.data.remote.model.products.RatingDto
 import com.sajjadio.quickshop.domain.model.products.Product
 import com.sajjadio.quickshop.domain.model.products.Rating
 
-internal fun ProductDto.toRatingDomain(): Product {
+internal fun ProductDto.toProductDomain(): Product {
     return Product(
         category = category,
         description = description,
@@ -17,7 +17,7 @@ internal fun ProductDto.toRatingDomain(): Product {
     )
 }
 
-internal fun RatingDto.toRatingDomain(): Rating {
+private fun RatingDto.toRatingDomain(): Rating {
     return Rating(
         count = count,
         rate = rate

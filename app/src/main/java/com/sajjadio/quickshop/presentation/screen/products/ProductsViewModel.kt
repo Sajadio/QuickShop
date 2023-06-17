@@ -18,8 +18,8 @@ class ProductsViewModel @Inject constructor(
     private val repository: ShopRepository
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(ProductUiState())
-    val state = _state.asStateFlow()
+    private val _uiState = MutableStateFlow(ProductUiState())
+    val uiState = _uiState.asStateFlow()
 
     init {
         loadProductData()
@@ -29,9 +29,9 @@ class ProductsViewModel @Inject constructor(
         viewModelScope.launch {
             repository.getProducts().collect { resource ->
                 when (resource) {
-                    Resource.Loading -> _state.update { it.copy(isLoading = true) }
+                    Resource.Loading -> _uiState.update { it.copy(isLoading = true) }
                     is Resource.Success -> {
-                        _state.update { state ->
+                        _uiState.update { state ->
                             state.copy(
                                 products = resource.data,
                                 isLoading = false
@@ -39,7 +39,7 @@ class ProductsViewModel @Inject constructor(
                         }
                     }
 
-                    is Resource.Error -> _state.update { state ->
+                    is Resource.Error -> _uiState.update { state ->
                         state.copy(
                             isLoading = false,
                             error = resource.errorMessage.toString()

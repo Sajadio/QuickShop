@@ -70,13 +70,12 @@ private fun CategoriesContent(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            items(
-                count = state.categories.size,
-            ) {
-                CategoryItem(
-                    state = state.categories[it],
-                    onClickCategoryItem = {},
-                )
+            state.categories?.size?.let {
+                items(
+                    count = it,
+                ) {
+
+                }
             }
         }
     }

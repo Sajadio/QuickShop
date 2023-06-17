@@ -16,8 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.sajjadio.quickshop.R
 import com.sajjadio.quickshop.presentation.components.AppBar
-import com.sajjadio.quickshop.presentation.components.CircularProgressBar
-import com.sajjadio.quickshop.presentation.components.ErrorBox
+import com.sajjadio.quickshop.presentation.components.CheckUiState
 import com.sajjadio.quickshop.presentation.components.ProductContainer
 import com.sajjadio.quickshop.presentation.screen.common.ProductUiState
 import com.sajjadio.quickshop.presentation.screen.home.navigateToHomeScreen
@@ -28,7 +27,7 @@ fun ProductsScreen(
     viewModel: ProductsViewModel = hiltViewModel(),
     navController: NavController
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.uiState.collectAsState()
     ProductsContent(
         state,
         onClickBack = {
@@ -60,20 +59,17 @@ private fun ProductsContent(
                 )
             }
         }
-    ) {
+    ) {paddingValues ->
         Column(modifier = Modifier.fillMaxSize()) {
-            if (state.error.isNotEmpty()) {
-                ErrorBox(text = state.error)
-            }
-            if (state.isLoading) {
-                CircularProgressBar()
-            }
-            if (state.products != null) {
-                ProductContainer(
-                    state,
-                    onClickAddToCart = onClickAddToCart,
-                    onClickProductItem = onClickProductItem
-                )
+            CheckUiState(isLoading = state.isLoading, error = state.error) {
+                if (it){
+                    ProductContainer(
+                        state,
+                        onClickAddToCart = onClickAddToCart,
+                        onClickProductItem = onClickProductItem,
+                        paddingValues = paddingValues.calculateTopPadding()
+                    )
+                }
             }
         }
     }
