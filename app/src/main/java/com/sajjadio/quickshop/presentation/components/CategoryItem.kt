@@ -1,39 +1,35 @@
 package com.sajjadio.quickshop.presentation.components
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.sajjadio.quickshop.presentation.ui.theme.Typography
+import com.sajjadio.quickshop.presentation.ui.theme.AppTypography
+import com.sajjadio.quickshop.presentation.ui.theme.TextInputFiledColor
+import java.util.Locale
 
 @Composable
 fun CategoryItem(
-    category: String = "",
-    modifier: Modifier = Modifier,
+    title: String = "",
     onClickCategoryItem: (String) -> Unit
 ) {
-    Column(
+    Box(
         modifier = Modifier
-            .width(100.dp)
-            .height(130.dp),
-        verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .background(TextInputFiledColor)
+            .clip(RoundedCornerShape(8.dp))
+            .clickable { onClickCategoryItem(title) }
+            .padding(8.dp)
     ) {
-        Title(title = category, style = Typography.bodyLarge, textAlign = TextAlign.Center)
+        Title(
+            title = title.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() },
+            style = AppTypography.bodyLarge,
+            textAlign = TextAlign.Center
+        )
     }
 }

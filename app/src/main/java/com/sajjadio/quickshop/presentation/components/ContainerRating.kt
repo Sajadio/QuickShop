@@ -4,17 +4,24 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.sajjadio.quickshop.R
 import com.sajjadio.quickshop.presentation.ui.theme.SecondaryColor
 import com.sajjadio.quickshop.presentation.ui.theme.SecondaryTextColor
-import com.sajjadio.quickshop.presentation.ui.theme.Typography
+import com.sajjadio.quickshop.presentation.ui.theme.AppTypography
+import com.sajjadio.quickshop.presentation.ui.theme.Tajawal
 
 @Composable
 fun ContainerRating(
@@ -26,10 +33,14 @@ fun ContainerRating(
         verticalAlignment = Alignment.CenterVertically
     ) {
         RatingBar(rate.toInt())
-        Body(
-            title = rate.toString(),
-            style = Typography.labelMedium,
+        SpacerHorizontal(width = 4)
+        Text(
+            text = rate.toString(),
             color = SecondaryTextColor,
+            textAlign = TextAlign.Center,
+            fontFamily = Tajawal,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.SemiBold
         )
     }
 }
@@ -40,7 +51,9 @@ private fun RatingBar(
     maxRating: Int = 5
 ) {
     val outlineRating = maxRating - rating
-    Row(modifier = Modifier.padding(end = 8.dp)) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         AddRatingBar(
             rating = rating,
             painter = painterResource(id = R.drawable.ic_fill_star),

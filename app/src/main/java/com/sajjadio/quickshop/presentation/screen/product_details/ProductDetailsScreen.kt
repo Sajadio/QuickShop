@@ -42,7 +42,7 @@ import com.sajjadio.quickshop.presentation.components.Title
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
 import com.sajjadio.quickshop.presentation.ui.theme.LightWhiteColor
 import com.sajjadio.quickshop.presentation.ui.theme.PrimaryTextAndIconColor
-import com.sajjadio.quickshop.presentation.ui.theme.Typography
+import com.sajjadio.quickshop.presentation.ui.theme.AppTypography
 
 @Composable
 fun ProductDetailsScreen(
@@ -133,22 +133,22 @@ private fun ProductDetails() {
     Column(modifier = Modifier.padding(16.dp)) {
         Title(
             title = "Fjallraven  Foldsack No. 1 Backpack, Fits 15 Laptops",
-            style = Typography.titleLarge,
+            style = AppTypography.titleLarge,
             maxLine = 2
         )
         Body(
             title = "women's clothing",
-            style = Typography.bodySmall,
+            style = AppTypography.bodySmall,
             maxLine = 2
         )
         ContainerRating(4.7)
         Body(
             title = "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
-            style = Typography.bodySmall,
+            style = AppTypography.bodySmall,
             maxLine = 20
         )
         SpacerVertical(height = 16)
-        Title(title = "$109.95", style = Typography.titleLarge)
+        Title(title = "$109.95", style = AppTypography.titleLarge)
     }
 }
 
@@ -178,7 +178,7 @@ private fun AddItemToCart(itemCount: MutableState<Int>) {
             Title(
                 title = stringResource(id = R.string.add),
                 color = Color.White,
-                style = Typography.titleLarge
+                style = AppTypography.titleLarge
             )
         }
     }
@@ -197,7 +197,7 @@ private fun ContainerClickableButtons(itemCount: MutableState<Int>) {
             if (it > 0)
                 itemCount.value--
         }
-        Title(title = itemCount.value.toString(), style = Typography.titleLarge)
+        Title(title = itemCount.value.toString(), style = AppTypography.titleLarge)
         ClickableButton("+", itemCount = itemCount.value) {
             itemCount.value++
         }
@@ -217,6 +217,6 @@ private fun ClickableButton(
         .background(PrimaryTextAndIconColor)
         .size(32.dp),
         contentAlignment = Alignment.Center) {
-        Title(title = text, color = Color.White, style = Typography.titleLarge)
+        Title(title = text, color = Color.White, style = AppTypography.titleLarge)
     }
 }

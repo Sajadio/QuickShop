@@ -5,55 +5,63 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-val Typography = Typography(
-    labelSmall = TextStyle(
+val TitleAppBar = Typography(
+    titleMedium = TextStyle(
         fontFamily = Tajawal,
+        fontWeight = FontWeight.Medium,
+        fontSize = 18.sp
+    ),
+)
+
+val AppTypography = Typography(
+    labelSmall = TextStyle(
+        fontFamily = Poppins,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
     ),
     labelMedium = TextStyle(
-        fontFamily = Tajawal,
+        fontFamily = Poppins,
         fontWeight = FontWeight.Medium,
-        fontSize = 14.sp,
+        fontSize = 12.sp,
     ),
     labelLarge = TextStyle(
-        fontFamily = Tajawal,
+        fontFamily = Poppins,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 12.sp,
+    ),
+    bodySmall = TextStyle(
+        fontFamily = Poppins,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp,
+    ),
+    bodyMedium = TextStyle(
+        fontFamily = Poppins,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp,
+    ),
+    bodyLarge = TextStyle(
+        fontFamily = Poppins,
         fontWeight = FontWeight.SemiBold,
         fontSize = 14.sp,
     ),
-    bodySmall = TextStyle(
-        fontFamily = Tajawal,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-    ),
-    bodyMedium = TextStyle(
-        fontFamily = Tajawal,
-        fontWeight = FontWeight.Medium,
-        fontSize = 16.sp,
-    ),
-    bodyLarge = TextStyle(
-        fontFamily = Tajawal,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 16.sp,
-    ),
     titleSmall = TextStyle(
-        fontFamily = Tajawal,
-        fontWeight = FontWeight.Medium,
+        fontFamily = Poppins,
+        fontWeight = FontWeight.Normal,
         fontSize = 18.sp,
         lineHeight = 26.sp
     ),
     titleMedium = TextStyle(
-        fontFamily = Tajawal,
-        fontWeight = FontWeight.SemiBold,
+        fontFamily = Poppins,
+        fontWeight = FontWeight.Medium,
         fontSize = 18.sp,
         lineHeight = 26.sp
     ),
     titleLarge = TextStyle(
-        fontFamily = Tajawal,
+        fontFamily = Poppins,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 20.sp,
+        fontSize = 18.sp,
         lineHeight = 26.sp
-    )
+    ),
 
     /* Other default text styles to override
     titleLarge = TextStyle(

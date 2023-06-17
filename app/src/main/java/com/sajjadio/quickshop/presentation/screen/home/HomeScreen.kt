@@ -37,6 +37,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -55,14 +56,17 @@ import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import com.sajjadio.quickshop.R
 import com.sajjadio.quickshop.domain.model.products.Product
+import com.sajjadio.quickshop.presentation.components.Body
 import com.sajjadio.quickshop.presentation.components.CategoryItem
 import com.sajjadio.quickshop.presentation.components.CheckUiState
 import com.sajjadio.quickshop.presentation.components.ClickableIcon
 import com.sajjadio.quickshop.presentation.components.ProductItem
 import com.sajjadio.quickshop.presentation.components.ProfileImage
-import com.sajjadio.quickshop.presentation.components.SearchBox
+import com.sajjadio.quickshop.presentation.screen.home.components.SearchBox
 import com.sajjadio.quickshop.presentation.components.SpacerHorizontal
+import com.sajjadio.quickshop.presentation.components.SpacerVertical
 import com.sajjadio.quickshop.presentation.components.StaticIcon
+import com.sajjadio.quickshop.presentation.components.Title
 import com.sajjadio.quickshop.presentation.components.UserName
 import com.sajjadio.quickshop.presentation.screen.categories.navigateToCategories
 import com.sajjadio.quickshop.presentation.screen.common.CategoryUiState
@@ -76,6 +80,8 @@ import com.sajjadio.quickshop.presentation.ui.theme.Tajawal
 import com.sajjadio.quickshop.presentation.ui.theme.PrimaryTextAndIconColor
 import com.sajjadio.quickshop.presentation.ui.theme.SecondaryColor
 import com.sajjadio.quickshop.presentation.ui.theme.SecondaryTextColor
+import com.sajjadio.quickshop.presentation.ui.theme.AppTypography
+import com.sajjadio.quickshop.presentation.ui.theme.BaseColor
 import com.sajjadio.quickshop.presentation.ui.theme.TextInputFiledColor
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.yield
@@ -98,7 +104,8 @@ fun HomeScreen(
         onClickProducts = { navController.navigateToProducts() },
         onClickProductItem = { navController.navigateToProductDetails(it) },
         onClickCategories = { navController.navigateToCategories() },
-        onClickCategoryItem = { navController.navigateToProductsByCategory(it) }
+        onClickCategoryItem = { navController.navigateToProductsByCategory(it) },
+        onClickAddToCart = {}
     ) { navController.navigateToSearchScreen() }
 }
 
@@ -113,6 +120,7 @@ fun HomeContent(
     calculateBottomPadding: Dp,
     onClickProducts: () -> Unit,
     onClickProductItem: (Int) -> Unit,
+    onClickAddToCart: (Int) -> Unit,
     onClickCategories: () -> Unit,
     onClickCategoryItem: (String) -> Unit,
     onClickSearchBox: () -> Unit,
@@ -125,7 +133,9 @@ fun HomeContent(
                 actions = { AppBar() },
                 scrollBehavior = scrollBehavior,
             )
-        }) { paddingValues ->
+        },
+        containerColor = BaseColor
+    ) { paddingValues ->
 
         LazyColumn(
             modifier = Modifier
@@ -156,7 +166,12 @@ fun HomeContent(
             item {
                 CheckUiState(isLoading = productsUiState.isLoading, error = productsUiState.error) {
                     if (it) {
-                        Products(productsUiState.products, onClickProducts, onClickItem = onClickProductItem)
+                        Products(
+                            productsUiState.products,
+                            onClickProducts,
+                            onClickItem = onClickProductItem,
+                            onClickAddToCart = onClickAddToCart
+                        )
                     }
                 }
             }
@@ -180,7 +195,7 @@ private fun AppBar() {
         ) {
             ProfileImage(painter = painterResource(id = R.drawable.details_image))
             SpacerHorizontal(width = 8)
-            UserName(text = "Hi, John")
+            UserName(text = "Hi, John", style = AppTypography.titleLarge)
         }
         ClickableIcon(
             painter = painterResource(id = R.drawable.ic_notification),
@@ -329,9 +344,10 @@ fun Categories(
     onClickCategoryItem: (String) -> Unit
 ) {
     CategoryHeader(onClickCategories = onClickCategories)
+    SpacerVertical(height = 8)
     LazyRow(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         categoryUiState?.let { categories ->
@@ -378,24 +394,27 @@ fun ProductHeader(
 fun Products(
     productUiState: List<Product>?,
     onClickProducts: () -> Unit,
-    onClickItem: (Int) -> Unit
+    onClickItem: (Int) -> Unit,
+    onClickAddToCart: (Int) -> Unit,
 ) {
+    SpacerVertical(height = 16)
     ProductHeader {
         onClickProducts()
     }
+    SpacerVertical(height = 8)
     LazyRow(
         modifier = Modifier
             .fillMaxSize()
             .wrapContentSize(),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(16.dp)
+        contentPadding = PaddingValues(horizontal = 16.dp)
     ) {
         productUiState?.let {
             items(productUiState) { state ->
                 ProductItem(
                     state = state,
-                    onClickItem = { onClickItem(it) },
-                    onClickAddToCart = {}
+                    onClickItem = onClickItem,
+                    onClickAddToCart = onClickAddToCart
                 )
             }
         }
@@ -404,13 +423,7 @@ fun Products(
 
 @Composable
 private fun Header(text: String) {
-    Text(
-        text = text,
-        fontSize = 16.sp,
-        fontFamily = Tajawal,
-        fontWeight = FontWeight.SemiBold,
-        color = PrimaryTextAndIconColor
-    )
+    Title(title = text, style = AppTypography.titleLarge)
 }
 
 @Composable
@@ -419,14 +432,12 @@ private fun ClickableHeader(
     text: String,
     onClick: () -> Unit,
 ) {
-    Text(
-        text = text,
-        fontSize = 14.sp,
-        fontFamily = Tajawal,
-        fontWeight = FontWeight.SemiBold,
-        color = SecondaryColor,
+    Body(
+        title = text,
+        style = AppTypography.bodyLarge,
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
-            .clickable { onClick() }
+            .clickable { onClick() },
+        color = SecondaryColor
     )
 }

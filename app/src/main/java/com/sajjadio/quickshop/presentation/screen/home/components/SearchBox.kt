@@ -1,4 +1,4 @@
-package com.sajjadio.quickshop.presentation.components
+package com.sajjadio.quickshop.presentation.screen.home.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,8 +19,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sajjadio.quickshop.R
+import com.sajjadio.quickshop.presentation.components.Body
+import com.sajjadio.quickshop.presentation.components.SpacerHorizontal
+import com.sajjadio.quickshop.presentation.components.StaticIcon
 import com.sajjadio.quickshop.presentation.ui.theme.Tajawal
 import com.sajjadio.quickshop.presentation.ui.theme.SecondaryTextColor
+import com.sajjadio.quickshop.presentation.ui.theme.AppTypography
 import com.sajjadio.quickshop.presentation.ui.theme.TextInputFiledColor
 
 @Composable
@@ -43,12 +47,10 @@ fun SearchBox(
             contentDescription = stringResource(id = R.string.search),
             tint = SecondaryTextColor
         )
-        Text(
-            modifier = Modifier.padding(horizontal = 8.dp),
-            text = stringResource(id = R.string.search),
-            fontSize = 12.sp,
-            fontFamily = Tajawal,
-            fontWeight = FontWeight.Medium,
+        SpacerHorizontal(width = 8)
+        Body(
+            title = stringResource(id = R.string.search),
+            style = AppTypography.bodySmall,
             color = SecondaryTextColor,
             textAlign = TextAlign.Center
         )

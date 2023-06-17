@@ -36,7 +36,7 @@ import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
 import com.sajjadio.quickshop.presentation.ui.theme.PrimaryTextAndIconColor
 import com.sajjadio.quickshop.presentation.ui.theme.SecondaryTextColor
 import com.sajjadio.quickshop.presentation.ui.theme.TextInputFiledColor
-import com.sajjadio.quickshop.presentation.ui.theme.Typography
+import com.sajjadio.quickshop.presentation.ui.theme.AppTypography
 
 @Composable
 fun SearchScreen(
@@ -108,7 +108,7 @@ private fun SearchBox(
                         tint = SecondaryTextColor
                     )
                 },
-                textStyle = Typography.bodyMedium,
+                textStyle = AppTypography.bodyMedium,
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = PrimaryTextAndIconColor,
                     containerColor = TextInputFiledColor,

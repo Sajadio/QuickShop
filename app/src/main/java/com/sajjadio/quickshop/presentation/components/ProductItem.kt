@@ -29,7 +29,7 @@ import com.sajjadio.quickshop.domain.model.products.Product
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
 import com.sajjadio.quickshop.presentation.ui.theme.BaseColor
 import com.sajjadio.quickshop.presentation.ui.theme.TextInputFiledColor
-import com.sajjadio.quickshop.presentation.ui.theme.Typography
+import com.sajjadio.quickshop.presentation.ui.theme.AppTypography
 
 @Composable
 fun ProductItem(
@@ -68,8 +68,8 @@ private fun CardContent(
         horizontalAlignment = Alignment.Start
     ) {
         SpacerVertical(height = 8)
-        Title(title = state.title, style = Typography.titleLarge)
-        Body(title = state.category, style = Typography.bodyMedium)
+        Title(title = state.title, style = AppTypography.titleLarge)
+        Body(title = state.category, style = AppTypography.bodyMedium)
         SpacerVertical(height = 4)
         state.rating?.rate?.let { ContainerRating(it) }
         SpacerVertical(height = 8)
@@ -105,7 +105,7 @@ private fun ContainerPriceAndButtonCart(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Title(title = "$${state.price}", style = Typography.titleLarge)
+        Title(title = "$${state.price}", style = AppTypography.titleLarge)
         ButtonCart(onClickAddToCart, state)
     }
 }
