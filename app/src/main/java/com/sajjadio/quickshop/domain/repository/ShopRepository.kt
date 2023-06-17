@@ -1,28 +1,29 @@
 package com.sajjadio.quickshop.domain.repository
 
-import com.sajjadio.quickshop.data.model.cart.Cart
-import com.sajjadio.quickshop.data.model.cart.Carts
-import com.sajjadio.quickshop.data.model.categories.Categories
-import com.sajjadio.quickshop.data.model.products.Products
-import com.sajjadio.quickshop.data.model.products.Product
+import com.sajjadio.quickshop.data.remote.model.cart.Cart
+import com.sajjadio.quickshop.data.remote.model.cart.Carts
+import com.sajjadio.quickshop.data.remote.model.categories.Categories
+import com.sajjadio.quickshop.data.remote.model.products.ProductDto
+import com.sajjadio.quickshop.domain.model.products.Product
+import com.sajjadio.quickshop.domain.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface ShopRepository {
 
-    fun getProducts(): Flow<Products>
+    fun getProducts(): Flow<Resource<List<Product>>>
 
-    fun getProduct(productId: Int): Flow<Product>
+    fun getProduct(productId: Int): Flow<Resource<ProductDto>>
 
-    fun sortProducts(sort: String): Flow<Products>
+    fun sortProducts(sort: String): Flow<Resource<List<ProductDto>>>
 
-    fun getCategories(): Flow<Categories>
+    fun getCategories(): Flow<Resource<Categories>>
 
-    fun getProductByCategory(category: String): Flow<Products>
+    fun getProductByCategory(category: String): Flow<Resource<List<ProductDto>>>
 
-    fun getCarts(): Flow<Carts>
+    fun getCarts(): Flow<Resource<Carts>>
 
-    fun getCartById(cartId: Int): Flow<Cart>
+    fun getCartById(cartId: Int): Flow<Resource<Cart>>
 
-    fun sortCarts(sort: String): Flow<Carts>
+    fun sortCarts(sort: String): Flow<Resource<Carts>>
 
 }

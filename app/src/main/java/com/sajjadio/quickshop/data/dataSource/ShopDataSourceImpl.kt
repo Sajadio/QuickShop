@@ -1,46 +1,45 @@
 package com.sajjadio.quickshop.data.dataSource
 
-import com.sajjadio.quickshop.data.model.cart.Cart
-import com.sajjadio.quickshop.data.model.cart.Carts
-import com.sajjadio.quickshop.data.model.categories.Categories
-import com.sajjadio.quickshop.data.model.products.Product
-import com.sajjadio.quickshop.data.model.products.Products
+import com.sajjadio.quickshop.data.remote.model.cart.Cart
+import com.sajjadio.quickshop.data.remote.model.cart.Carts
+import com.sajjadio.quickshop.data.remote.model.categories.Categories
+import com.sajjadio.quickshop.data.remote.model.products.ProductDto
 import com.sajjadio.quickshop.data.remote.ShopApiService
-import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
 import javax.inject.Inject
 
 class ShopDataSourceImpl @Inject constructor(
     private val api: ShopApiService
 ) : ShopRemoteDataSource {
-    override fun getProducts(): Flow<Products> {
-       return api.getProducts()
+    override suspend fun getProducts(): Response<List<ProductDto>>{
+        return api.getProducts()
     }
 
-    override fun getProductById(productId: Int): Flow<Product> {
+    override fun getProductById(productId: Int): Response<ProductDto> {
         return api.getProductById(productId)
     }
 
-    override fun sortProducts(sort: String): Flow<Products> {
+    override fun sortProducts(sort: String): Response<List<ProductDto>> {
         return api.sortProducts(sort)
     }
 
-    override fun getCategories(): Flow<Categories> {
+    override fun getCategories(): Response<Categories> {
         return api.getCategories()
     }
 
-    override fun getProductByCategory(category: String): Flow<Products> {
+    override fun getProductByCategory(category: String): Response<List<ProductDto>> {
         return api.getProductByCategory(category)
     }
 
-    override fun getCarts(): Flow<Carts> {
+    override fun getCarts(): Response<Carts> {
         return api.getCarts()
     }
 
-    override fun getCartById(cartId: Int): Flow<Cart> {
+    override fun getCartById(cartId: Int): Response<Cart> {
         return api.getCartById(cartId)
     }
 
-    override fun sortCarts(sort: String): Flow<Carts> {
+    override fun sortCarts(sort: String): Response<Carts> {
         return api.sortCarts(sort)
     }
 }

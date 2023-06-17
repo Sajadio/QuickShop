@@ -52,6 +52,7 @@ import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import com.sajjadio.quickshop.R
+import com.sajjadio.quickshop.domain.model.products.Product
 import com.sajjadio.quickshop.presentation.components.CategoryItem
 import com.sajjadio.quickshop.presentation.components.ClickableIcon
 import com.sajjadio.quickshop.presentation.components.ProductItem
@@ -62,7 +63,6 @@ import com.sajjadio.quickshop.presentation.components.StaticIcon
 import com.sajjadio.quickshop.presentation.components.UserName
 import com.sajjadio.quickshop.presentation.screen.categories.navigateToCategories
 import com.sajjadio.quickshop.presentation.screen.common.CategoryUiState
-import com.sajjadio.quickshop.presentation.screen.common.Product
 import com.sajjadio.quickshop.presentation.screen.common.ProductUiState
 import com.sajjadio.quickshop.presentation.screen.product_details.navigateToProductDetails
 import com.sajjadio.quickshop.presentation.screen.products.navigateToProducts
@@ -144,7 +144,7 @@ fun HomeContent(
                     onClickCategoryItem = onClickCategoryItem
                 )
             }
-            item { Products(productUiState.products, onClickProducts, onClickItem = onClickProductItem) }
+            item { Products(null, onClickProducts, onClickItem = onClickProductItem) }
         }
     }
 
@@ -361,7 +361,7 @@ fun ProductHeader(
 
 @Composable
 fun Products(
-    productUiState: List<Product>,
+    productUiState: List<Product>?,
     onClickProducts: () -> Unit,
     onClickItem: (Int) -> Unit
 ) {
@@ -375,12 +375,14 @@ fun Products(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(16.dp)
     ) {
-        items(productUiState) { state ->
-            ProductItem(
-                state = state,
-                onClickItem = { onClickItem(it) },
-                onClickAddToCart = {}
-            )
+        productUiState?.let {
+            items(productUiState) { state ->
+                ProductItem(
+                    state = state,
+                    onClickItem = { onClickItem(it) },
+                    onClickAddToCart = {}
+                )
+            }
         }
     }
 }

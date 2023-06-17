@@ -1,16 +1,9 @@
 package com.sajjadio.quickshop.presentation.screen.common
 
-import kotlin.random.Random
+import com.sajjadio.quickshop.domain.model.products.Product
 
 data class ProductUiState(
-    var products: List<Product> = listOf()
-)
-
-data class Product(
-    val id: Int = Random.nextInt(),
-    val poster: String = "",
-    val title: String = "",
-    val category: String = "",
-    val rate: Double = 0.0,
-    val price: Double = 0.0
+    val products: List<Product>? = emptyList(),
+    val isLoading: Boolean = false,
+    val error: String = ""
 )

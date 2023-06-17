@@ -25,7 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.sajjadio.quickshop.R
-import com.sajjadio.quickshop.presentation.screen.common.Product
+import com.sajjadio.quickshop.domain.model.products.Product
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
 import com.sajjadio.quickshop.presentation.ui.theme.BaseColor
 import com.sajjadio.quickshop.presentation.ui.theme.TextInputFiledColor
@@ -33,7 +33,7 @@ import com.sajjadio.quickshop.presentation.ui.theme.Typography
 
 @Composable
 fun ProductItem(
-    state: Product,
+    state: Product = Product(),
     modifier: Modifier = Modifier,
     onClickItem: (Int) -> Unit,
     onClickAddToCart: (Int) -> Unit
@@ -71,7 +71,7 @@ private fun CardContent(
         Title(title = state.title, style = Typography.titleLarge)
         Body(title = state.category, style = Typography.bodyMedium)
         SpacerVertical(height = 4)
-        ContainerRating(state.rate)
+        state.rating?.rate?.let { ContainerRating(it) }
         SpacerVertical(height = 8)
         ContainerPriceAndButtonCart(state, onClickAddToCart)
     }
@@ -83,12 +83,12 @@ private fun ProductImage(
     state: Product
 ) {
     Image(
-        painter = rememberAsyncImagePainter(model = state.poster),
+        painter = rememberAsyncImagePainter(model = state.image),
         contentDescription = state.title,
         modifier = Modifier
             .fillMaxWidth()
             .height(200.dp),
-        contentScale = ContentScale.FillHeight
+        contentScale = ContentScale.FillBounds
     )
 }
 

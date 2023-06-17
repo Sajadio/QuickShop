@@ -29,10 +29,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.sajjadio.quickshop.R
+import com.sajjadio.quickshop.domain.model.products.Product
 import com.sajjadio.quickshop.presentation.components.Body
 import com.sajjadio.quickshop.presentation.components.ProductItem
 import com.sajjadio.quickshop.presentation.components.StaticIcon
-import com.sajjadio.quickshop.presentation.screen.common.Product
 import com.sajjadio.quickshop.presentation.screen.product_details.navigateToProductDetails
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
 import com.sajjadio.quickshop.presentation.ui.theme.BaseColor
@@ -49,7 +49,6 @@ fun SearchScreen(
     val state by viewModel.state
     val query by viewModel.searchQuery
     SearchContent(
-        state = state.products,
         query = query,
         onTextChange = { viewModel.setSearchQuery(it) }
     ) { navController.navigateToProductDetails(it) }
@@ -57,7 +56,7 @@ fun SearchScreen(
 
 @Composable
 private fun SearchContent(
-    state: List<Product>,
+    state: List<Product> = emptyList(),
     query: String,
     onTextChange: (String) -> Unit,
     onClickProductItem: (Int) -> Unit
@@ -77,7 +76,7 @@ private fun SearchContent(
 
             items(
                 items = state,
-              ) {
+            ) {
                 ProductItem(
                     state = it,
                     onClickItem = { onClickProductItem(it) },

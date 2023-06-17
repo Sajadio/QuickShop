@@ -26,7 +26,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofit(
-        @Named("Movie_Base_Url") baseUrl: String,
+        @Named("Shop_Base_Url") baseUrl: String,
         gsonConverterFactory: GsonConverterFactory,
         okHttpClient: OkHttpClient,
     ): Retrofit {
@@ -41,8 +41,8 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    @Named("Movie_Base_Url")
-    fun provideBaseUrlOfMovie(): String = "https://fakestoreapi.com/"
+    @Named("Shop_Base_Url")
+    fun provideBaseUrlOfShop(): String = "https://fakestoreapi.com/"
 
     @Singleton
     @Provides

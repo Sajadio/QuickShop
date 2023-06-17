@@ -1,26 +1,25 @@
 package com.sajjadio.quickshop.data.dataSource
 
-import com.sajjadio.quickshop.data.model.cart.Cart
-import com.sajjadio.quickshop.data.model.cart.Carts
-import com.sajjadio.quickshop.data.model.categories.Categories
-import com.sajjadio.quickshop.data.model.products.Product
-import com.sajjadio.quickshop.data.model.products.Products
-import kotlinx.coroutines.flow.Flow
+import com.sajjadio.quickshop.data.remote.model.cart.Cart
+import com.sajjadio.quickshop.data.remote.model.cart.Carts
+import com.sajjadio.quickshop.data.remote.model.categories.Categories
+import com.sajjadio.quickshop.data.remote.model.products.ProductDto
+import retrofit2.Response
 
 interface ShopRemoteDataSource {
-    fun getProducts(): Flow<Products>
+    suspend fun getProducts(): Response<List<ProductDto>>
 
-    fun getProductById(productId: Int): Flow<Product>
+    fun getProductById(productId: Int): Response<ProductDto>
 
-    fun sortProducts(sort: String): Flow<Products>
+    fun sortProducts(sort: String): Response<List<ProductDto>>
 
-    fun getCategories(): Flow<Categories>
+    fun getCategories(): Response<Categories>
 
-    fun getProductByCategory(category: String): Flow<Products>
+    fun getProductByCategory(category: String): Response<List<ProductDto>>
 
-    fun getCarts(): Flow<Carts>
+    fun getCarts(): Response<Carts>
 
-    fun getCartById(cartId: Int): Flow<Cart>
+    fun getCartById(cartId: Int): Response<Cart>
 
-    fun sortCarts(sort: String): Flow<Carts>
+    fun sortCarts(sort: String): Response<Carts>
 }

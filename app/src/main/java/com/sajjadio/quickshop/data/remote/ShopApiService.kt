@@ -1,11 +1,10 @@
 package com.sajjadio.quickshop.data.remote
 
-import com.sajjadio.quickshop.data.model.cart.Cart
-import com.sajjadio.quickshop.data.model.cart.Carts
-import com.sajjadio.quickshop.data.model.categories.Categories
-import com.sajjadio.quickshop.data.model.products.Product
-import com.sajjadio.quickshop.data.model.products.Products
-import kotlinx.coroutines.flow.Flow
+import com.sajjadio.quickshop.data.remote.model.cart.Cart
+import com.sajjadio.quickshop.data.remote.model.cart.Carts
+import com.sajjadio.quickshop.data.remote.model.categories.Categories
+import com.sajjadio.quickshop.data.remote.model.products.ProductDto
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -13,26 +12,26 @@ import retrofit2.http.Query
 interface ShopApiService {
 
     @GET("products")
-    fun getProducts(): Flow<Products>
+    suspend fun getProducts(): Response<List<ProductDto>>
 
     @GET("products/{id}")
-    fun getProductById(@Path("id") productId: Int): Flow<Product>
+    fun getProductById(@Path("id") productId: Int): Response<ProductDto>
 
     @GET("products")
-    fun sortProducts(@Query("sort") sort: String): Flow<Products>
+    fun sortProducts(@Query("sort") sort: String): Response<List<ProductDto>>
 
     @GET("products/categories")
-    fun getCategories(): Flow<Categories>
+    fun getCategories(): Response<Categories>
 
     @GET("products/category/{category}")
-    fun getProductByCategory(@Path("category") category: String): Flow<Products>
+    fun getProductByCategory(@Path("category") category: String): Response<List<ProductDto>>
 
     @GET("carts")
-    fun getCarts(): Flow<Carts>
+    fun getCarts(): Response<Carts>
 
     @GET("carts/{id}")
-    fun getCartById(@Path("id") cartId: Int): Flow<Cart>
+    fun getCartById(@Path("id") cartId: Int): Response<Cart>
 
     @GET("carts")
-    fun sortCarts(@Query("sort") sort: String): Flow<Carts>
+    fun sortCarts(@Query("sort") sort: String): Response<Carts>
 }

@@ -1,4 +1,4 @@
-package com.sajjadio.quickshop.data.model.cart
+package com.sajjadio.quickshop.data.remote.model.cart
 
 
 import com.google.gson.annotations.SerializedName

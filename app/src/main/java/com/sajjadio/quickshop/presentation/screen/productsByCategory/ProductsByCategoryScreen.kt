@@ -71,14 +71,15 @@ private fun ProductsContent(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            items(
-                count = viewModel.state.value.products.size,
-            ) {
-                ProductItem(
-                    state = viewModel.state.value.products[it],
-                    onClickItem = { onClickItem(it) },
-                    onClickAddToCart = {}
-                )
+            viewModel.state.value.products?.size?.let { it1 ->
+                items(
+                    count = it1,
+                ) {
+                    ProductItem(
+                        onClickItem = { onClickItem(it) },
+                        onClickAddToCart = {}
+                    )
+                }
             }
         }
     }
