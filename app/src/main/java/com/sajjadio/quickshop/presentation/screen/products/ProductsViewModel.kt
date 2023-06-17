@@ -1,8 +1,6 @@
 package com.sajjadio.quickshop.presentation.screen.products
 
-import android.util.Log
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sajjadio.quickshop.domain.repository.ShopRepository
@@ -33,16 +31,16 @@ class ProductsViewModel @Inject constructor(
                 when (resource) {
                     Resource.Loading -> _state.update { it.copy(isLoading = true) }
                     is Resource.Success -> {
-                        _state.update {
-                            it.copy(
+                        _state.update { state ->
+                            state.copy(
                                 products = resource.data,
                                 isLoading = false
                             )
                         }
                     }
 
-                    is Resource.Error -> _state.update {
-                        it.copy(
+                    is Resource.Error -> _state.update { state ->
+                        state.copy(
                             isLoading = false,
                             error = resource.errorMessage.toString()
                         )
