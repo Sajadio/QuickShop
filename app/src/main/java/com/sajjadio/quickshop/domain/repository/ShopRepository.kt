@@ -7,7 +7,7 @@ import com.sajjadio.quickshop.data.model.products.Products
 import com.sajjadio.quickshop.data.model.products.Product
 import kotlinx.coroutines.flow.Flow
 
-interface Repository {
+interface ShopRepository {
 
     fun getProducts(): Flow<Products>
 

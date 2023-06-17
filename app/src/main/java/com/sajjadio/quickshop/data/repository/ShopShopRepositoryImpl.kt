@@ -1,47 +1,47 @@
 package com.sajjadio.quickshop.data.repository
 
+import com.sajjadio.quickshop.data.dataSource.ShopRemoteDataSource
 import com.sajjadio.quickshop.data.model.cart.Cart
 import com.sajjadio.quickshop.data.model.cart.Carts
 import com.sajjadio.quickshop.data.model.categories.Categories
 import com.sajjadio.quickshop.data.model.products.Product
 import com.sajjadio.quickshop.data.model.products.Products
-import com.sajjadio.quickshop.data.remote.ShopApiService
-import com.sajjadio.quickshop.domain.repository.Repository
+import com.sajjadio.quickshop.domain.repository.ShopRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class RepositoryImpl @Inject constructor(
-    private val shopApi: ShopApiService
-) : Repository {
+class ShopShopRepositoryImpl @Inject constructor(
+    private val shopRemoteDataSource: ShopRemoteDataSource
+) : ShopRepository {
     override fun getProducts(): Flow<Products> {
-        TODO("Not yet implemented")
+        return shopRemoteDataSource.getProducts()
     }
 
     override fun getProduct(productId: Int): Flow<Product> {
-        TODO("Not yet implemented")
+        return shopRemoteDataSource.getProductById(productId)
     }
 
     override fun sortProducts(sort: String): Flow<Products> {
-        TODO("Not yet implemented")
+        return shopRemoteDataSource.sortProducts(sort)
     }
 
     override fun getCategories(): Flow<Categories> {
-        TODO("Not yet implemented")
+        return shopRemoteDataSource.getCategories()
     }
 
     override fun getProductByCategory(category: String): Flow<Products> {
-        TODO("Not yet implemented")
+        return shopRemoteDataSource.getProductByCategory(category)
     }
 
     override fun getCarts(): Flow<Carts> {
-        TODO("Not yet implemented")
+        return shopRemoteDataSource.getCarts()
     }
 
     override fun getCartById(cartId: Int): Flow<Cart> {
-        TODO("Not yet implemented")
+        return shopRemoteDataSource.getCartById(cartId)
     }
 
     override fun sortCarts(sort: String): Flow<Carts> {
-        TODO("Not yet implemented")
+        return shopRemoteDataSource.sortCarts(sort)
     }
 }
