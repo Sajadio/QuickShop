@@ -9,20 +9,20 @@ import kotlinx.coroutines.flow.Flow
 
 interface ShopRepository {
 
-    fun getProducts(): Flow<Resource<List<Product>>>
+    fun getAllProducts(): Flow<Resource<List<Product>>>
 
     fun getProduct(productId: Int): Flow<Resource<ProductDto>>
 
-    fun sortProducts(sort: String): Flow<Resource<List<ProductDto>>>
+    fun sortAllProducts(sort: String): Flow<Resource<List<ProductDto>>>
 
-    fun getCategories(): Flow<Resource<List<String>>>
+    fun getAllCategories(): Flow<Resource<List<String>>>
 
     fun getProductByCategory(category: String): Flow<Resource<List<ProductDto>>>
 
-    fun getCarts(): Flow<Resource<Carts>>
+    fun getAllCarts(): Flow<Resource<Carts>>
 
     fun getCartById(cartId: Int): Flow<Resource<Cart>>
 
-    fun sortCarts(sort: String): Flow<Resource<Carts>>
+    fun sortAllCarts(sort: String): Flow<Resource<Carts>>
 
 }

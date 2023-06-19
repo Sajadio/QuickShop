@@ -4,6 +4,7 @@ package com.sajjadio.quickshop.presentation.screen.products
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sajjadio.quickshop.domain.repository.ShopRepository
+import com.sajjadio.quickshop.domain.useCase.GetAllProductsUseCase
 import com.sajjadio.quickshop.domain.utils.Resource
 import com.sajjadio.quickshop.presentation.screen.common.ProductUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductsViewModel @Inject constructor(
-    private val repository: ShopRepository
+    private val getAllProductsUseCase: GetAllProductsUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ProductUiState())
@@ -27,7 +28,7 @@ class ProductsViewModel @Inject constructor(
 
     private fun loadProductData() {
         viewModelScope.launch {
-            repository.getProducts().collect { resource ->
+            getAllProductsUseCase().collect { resource ->
                 when (resource) {
                     Resource.Loading -> _uiState.update { it.copy(isLoading = true) }
                     is Resource.Success -> {

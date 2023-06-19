@@ -3,22 +3,19 @@ package com.sajjadio.quickshop.presentation.screen.search
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sajjadio.quickshop.domain.model.products.Product
-import com.sajjadio.quickshop.domain.repository.ShopRepository
+import com.sajjadio.quickshop.domain.useCase.GetProductByQuery
 import com.sajjadio.quickshop.domain.utils.Resource
 import com.sajjadio.quickshop.presentation.screen.common.ProductUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchVewModel @Inject constructor(
-    private val repository: ShopRepository
+    private val getProductByQuery: GetProductByQuery
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ProductUiState())
@@ -30,42 +27,31 @@ class SearchVewModel @Inject constructor(
         getProductsByName(query)
     }
 
-    @OptIn(FlowPreview::class)
     private fun getProductsByName(query: String) {
-        _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            repository
-                .getProducts()
-                .debounce(500L)
+            getProductByQuery(query)
                 .collect { resource ->
                     when (resource) {
                         Resource.Loading -> _uiState.update { it.copy(isLoading = true) }
                         is Resource.Success -> {
-                            checkIfQueryEquuleusProductTitle(query, resource.data)
+                            _uiState.update {
+                                it.copy(
+                                    products = resource.data,
+                                    isLoading = false,
+                                )
+                            }
                         }
 
-                        is Resource.Error -> _uiState.update {
-                            it.copy(
-                                isLoading = false,
-                                error = resource.errorMessage.toString()
-                            )
+                        is Resource.Error -> {
+                            _uiState.update {
+                                it.copy(
+                                    isLoading = false,
+                                    error = resource.errorMessage.toString()
+                                )
+                            }
                         }
                     }
                 }
-        }
-
-    }
-
-    private fun checkIfQueryEquuleusProductTitle(query: String, data: List<Product>?) {
-        data?.filter { product ->
-            product.title.contains(query, ignoreCase = true)
-        }?.let { products ->
-            _uiState.update { state ->
-                state.copy(
-                    products = products,
-                    isLoading = false
-                )
-            }
         }
     }
 }

@@ -6,19 +6,19 @@ import com.sajjadio.quickshop.data.remote.model.products.ProductDto
 import retrofit2.Response
 
 interface ShopRemoteDataSource {
-    suspend fun getProducts(): Response<List<ProductDto>>
+    suspend fun getAllProducts(): Response<List<ProductDto>>
 
     fun getProductById(productId: Int): Response<ProductDto>
 
-    fun sortProducts(sort: String): Response<List<ProductDto>>
+    fun sortAllProducts(sort: String): Response<List<ProductDto>>
 
-    suspend fun getCategories(): Response<List<String>>
+    suspend fun getAllCategories(): Response<List<String>>
 
     fun getProductByCategory(category: String): Response<List<ProductDto>>
 
-    fun getCarts(): Response<Carts>
+    fun getAllCarts(): Response<Carts>
 
     fun getCartById(cartId: Int): Response<Cart>
 
-    fun sortCarts(sort: String): Response<Carts>
+    fun sortAllCarts(sort: String): Response<Carts>
 }

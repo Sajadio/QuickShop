@@ -119,9 +119,9 @@ private fun ButtonCart(
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
             .clickable { onClickAddToCart(state.id) }
-            .size(48.dp)
-            .background(AccentColor)
-            .padding(12.dp)
+            .size(40.dp)
+            .background(AccentColor),
+        contentAlignment = Alignment.Center
     ) {
         StaticIcon(
             painter = painterResource(id = R.drawable.ic_unselected_cart),

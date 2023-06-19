@@ -16,8 +16,8 @@ import javax.inject.Inject
 class ShopShopRepositoryImpl @Inject constructor(
     private val shopRemoteDataSource: ShopRemoteDataSource,
 ) : ShopRepository {
-    override fun getProducts(): Flow<Resource<List<Product>>> {
-        return wrapper({ shopRemoteDataSource.getProducts() }) { products ->
+    override fun getAllProducts(): Flow<Resource<List<Product>>> {
+        return wrapper({ shopRemoteDataSource.getAllProducts() }) { products ->
             products.map { it.toProductDomain() }
         }
     }
@@ -26,28 +26,28 @@ class ShopShopRepositoryImpl @Inject constructor(
         return wrapWithFlow { shopRemoteDataSource.getProductById(productId) }
     }
 
-    override fun sortProducts(sort: String): Flow<Resource<List<ProductDto>>> {
-        return wrapWithFlow { shopRemoteDataSource.sortProducts(sort) }
+    override fun sortAllProducts(sort: String): Flow<Resource<List<ProductDto>>> {
+        return wrapWithFlow { shopRemoteDataSource.sortAllProducts(sort) }
     }
 
-    override fun getCategories(): Flow<Resource<List<String>>> {
-        return wrapWithFlow{shopRemoteDataSource.getCategories()}
+    override fun getAllCategories(): Flow<Resource<List<String>>> {
+        return wrapWithFlow{shopRemoteDataSource.getAllCategories()}
     }
 
     override fun getProductByCategory(category: String): Flow<Resource<List<ProductDto>>> {
         return wrapWithFlow { shopRemoteDataSource.getProductByCategory(category) }
     }
 
-    override fun getCarts(): Flow<Resource<Carts>> {
-        return wrapWithFlow { shopRemoteDataSource.getCarts() }
+    override fun getAllCarts(): Flow<Resource<Carts>> {
+        return wrapWithFlow { shopRemoteDataSource.getAllCarts() }
     }
 
     override fun getCartById(cartId: Int): Flow<Resource<Cart>> {
         return wrapWithFlow { shopRemoteDataSource.getCartById(cartId) }
     }
 
-    override fun sortCarts(sort: String): Flow<Resource<Carts>> {
-        return wrapWithFlow { shopRemoteDataSource.sortCarts(sort) }
+    override fun sortAllCarts(sort: String): Flow<Resource<Carts>> {
+        return wrapWithFlow { shopRemoteDataSource.sortAllCarts(sort) }
     }
 
     private fun <I, O> wrapper(

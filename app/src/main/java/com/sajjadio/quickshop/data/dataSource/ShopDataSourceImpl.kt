@@ -10,35 +10,35 @@ import javax.inject.Inject
 class ShopDataSourceImpl @Inject constructor(
     private val api: ShopApiService
 ) : ShopRemoteDataSource {
-    override suspend fun getProducts(): Response<List<ProductDto>>{
-        return api.getProducts()
+    override suspend fun getAllProducts(): Response<List<ProductDto>>{
+        return api.getAllProducts()
     }
 
     override fun getProductById(productId: Int): Response<ProductDto> {
         return api.getProductById(productId)
     }
 
-    override fun sortProducts(sort: String): Response<List<ProductDto>> {
-        return api.sortProducts(sort)
+    override fun sortAllProducts(sort: String): Response<List<ProductDto>> {
+        return api.sortAllProducts(sort)
     }
 
-    override suspend fun getCategories(): Response<List<String>>{
-        return api.getCategories()
+    override suspend fun getAllCategories(): Response<List<String>>{
+        return api.getAllCategories()
     }
 
     override fun getProductByCategory(category: String): Response<List<ProductDto>> {
         return api.getProductByCategory(category)
     }
 
-    override fun getCarts(): Response<Carts> {
-        return api.getCarts()
+    override fun getAllCarts(): Response<Carts> {
+        return api.getAllCarts()
     }
 
     override fun getCartById(cartId: Int): Response<Cart> {
         return api.getCartById(cartId)
     }
 
-    override fun sortCarts(sort: String): Response<Carts> {
-        return api.sortCarts(sort)
+    override fun sortAllCarts(sort: String): Response<Carts> {
+        return api.sortAllCarts(sort)
     }
 }

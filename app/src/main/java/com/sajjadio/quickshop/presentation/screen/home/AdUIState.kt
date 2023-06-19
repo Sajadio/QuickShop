@@ -3,7 +3,7 @@ package com.sajjadio.quickshop.presentation.screen.home
 import kotlin.random.Random
 
 data class AdUIState(
-    val ads: List<Ad> = listOf(),
+    val ads: List<Ad>? = emptyList(),
     val isLoading: Boolean = false,
     val error: String = ""
 )

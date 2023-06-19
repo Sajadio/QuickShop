@@ -11,26 +11,26 @@ import retrofit2.http.Query
 interface ShopApiService {
 
     @GET("products")
-    suspend fun getProducts(): Response<List<ProductDto>>
+    suspend fun getAllProducts(): Response<List<ProductDto>>
 
     @GET("products/{id}")
     fun getProductById(@Path("id") productId: Int): Response<ProductDto>
 
     @GET("products")
-    fun sortProducts(@Query("sort") sort: String): Response<List<ProductDto>>
+    fun sortAllProducts(@Query("sort") sort: String): Response<List<ProductDto>>
 
     @GET("products/categories")
-    suspend fun getCategories(): Response<List<String>>
+    suspend fun getAllCategories(): Response<List<String>>
 
     @GET("products/category/{category}")
     fun getProductByCategory(@Path("category") category: String): Response<List<ProductDto>>
 
     @GET("carts")
-    fun getCarts(): Response<Carts>
+    fun getAllCarts(): Response<Carts>
 
     @GET("carts/{id}")
     fun getCartById(@Path("id") cartId: Int): Response<Cart>
 
     @GET("carts")
-    fun sortCarts(@Query("sort") sort: String): Response<Carts>
+    fun sortAllCarts(@Query("sort") sort: String): Response<Carts>
 }

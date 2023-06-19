@@ -148,7 +148,7 @@ fun HomeContent(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item { ContainerSearchBox(onClickSearchBox = onClickSearchBox) }
-            item { SliderImage(adsUiState.ads) }
+            item { adsUiState.ads?.let { SliderImage(it) } }
             item {
                 CheckUiState(
                     isLoading = categoriesUiState.isLoading,

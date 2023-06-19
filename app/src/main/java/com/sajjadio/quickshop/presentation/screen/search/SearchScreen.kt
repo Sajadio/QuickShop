@@ -1,6 +1,7 @@
 package com.sajjadio.quickshop.presentation.screen.search
 
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,6 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.sajjadio.quickshop.R
 import com.sajjadio.quickshop.presentation.components.Body
+import com.sajjadio.quickshop.presentation.components.CheckUiState
 import com.sajjadio.quickshop.presentation.components.CircularProgressBar
 import com.sajjadio.quickshop.presentation.components.ErrorBox
 import com.sajjadio.quickshop.presentation.components.ProductContainer
@@ -64,19 +66,15 @@ private fun SearchContent(
     Column(modifier = Modifier.fillMaxSize()) {
         SearchBox(query = query, onTextChange = onTextChange)
 
-        if (state.error.isNotEmpty()) {
-            ErrorBox(text = state.error)
-        }
-        if (state.isLoading) {
-            CircularProgressBar()
-        }
-        if (state.products != null) {
-            ProductContainer(
-                state,
-                onClickAddToCart = onClickAddToCart,
-                onClickProductItem = onClickProductItem,
-                paddingValues = 0.dp
-            )
+        CheckUiState(isLoading = state.isLoading, error = state.error) {
+            if (it) {
+                ProductContainer(
+                    state,
+                    onClickAddToCart = onClickAddToCart,
+                    onClickProductItem = onClickProductItem,
+                    paddingValues = 0.dp
+                )
+            }
         }
     }
 }
