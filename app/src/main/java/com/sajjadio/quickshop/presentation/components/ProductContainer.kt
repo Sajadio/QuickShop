@@ -13,13 +13,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.sajjadio.quickshop.presentation.screen.common.ProductUiState
+import com.sajjadio.quickshop.domain.model.products.Product
 import com.sajjadio.quickshop.presentation.ui.theme.BaseColor
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ProductContainer(
-    state: ProductUiState,
+    products: List<Product>,
     paddingValues: Dp,
     onClickAddToCart: (Int) -> Unit,
     onClickProductItem: (Int) -> Unit,
@@ -39,20 +39,18 @@ fun ProductContainer(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        state.products?.let { products ->
-            items(
-                items = products,
-                key = { product ->
-                    product.title
-                }
-            ) { product ->
-                ProductItem(
-                    state = product,
-                    onClickItem = onClickProductItem,
-                    onClickAddToCart = onClickAddToCart,
-                    modifier = Modifier.animateItemPlacement()
-                )
+        items(
+            items = products,
+            key = { product ->
+                product.title
             }
+        ) { product ->
+            ProductItem(
+                state = product,
+                onClickItem = onClickProductItem,
+                onClickAddToCart = onClickAddToCart,
+                modifier = Modifier.animateItemPlacement()
+            )
         }
     }
 }

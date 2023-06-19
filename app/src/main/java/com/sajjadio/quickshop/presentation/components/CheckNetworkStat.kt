@@ -7,10 +7,11 @@ import kotlin.properties.Delegates
 private var isSuccess by Delegates.notNull<Boolean>()
 
 @Composable
-fun CheckUiState(
+fun <T> CheckUiState(
     isLoading: Boolean,
     error: String,
-    onSuccess: @Composable (Boolean) -> Unit
+    data: T?,
+    onSuccess: @Composable (T) -> Unit
 ) {
 
     isSuccess = if (error.isNotEmpty()) {
@@ -25,5 +26,9 @@ fun CheckUiState(
     } else {
         true
     }
-    onSuccess(isSuccess)
+    if (isSuccess) {
+        data?.let {
+            onSuccess(data)
+        }
+    }
 }

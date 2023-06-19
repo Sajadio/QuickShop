@@ -59,17 +59,19 @@ private fun ProductsContent(
                 )
             }
         }
-    ) {paddingValues ->
+    ) { paddingValues ->
         Column(modifier = Modifier.fillMaxSize()) {
-            CheckUiState(isLoading = state.isLoading, error = state.error) {
-                if (it){
-                    ProductContainer(
-                        state,
-                        onClickAddToCart = onClickAddToCart,
-                        onClickProductItem = onClickProductItem,
-                        paddingValues = paddingValues.calculateTopPadding()
-                    )
-                }
+            CheckUiState(
+                isLoading = state.isLoading,
+                error = state.error,
+                state.products
+            ) { products ->
+                ProductContainer(
+                    products,
+                    onClickAddToCart = onClickAddToCart,
+                    onClickProductItem = onClickProductItem,
+                    paddingValues = paddingValues.calculateTopPadding()
+                )
             }
         }
     }

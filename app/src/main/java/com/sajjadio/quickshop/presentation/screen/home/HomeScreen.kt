@@ -101,12 +101,13 @@ fun HomeScreen(
         categoriesUiState,
         productsUiState,
         calculateBottomPadding,
-        onClickProducts = { navController.navigateToProducts() },
-        onClickProductItem = { navController.navigateToProductDetails(it) },
-        onClickCategories = { navController.navigateToCategories() },
-        onClickCategoryItem = { navController.navigateToProductsByCategory(it) },
-        onClickAddToCart = {}
-    ) { navController.navigateToSearchScreen() }
+        onClickProducts = navController::navigateToProducts,
+        onClickProductItem = navController::navigateToProductDetails,
+        onClickCategories = navController::navigateToCategories,
+        onClickCategoryItem = navController::navigateToProductsByCategory,
+        onClickAddToCart = {},
+        onClickSearchBox = navController::navigateToSearchScreen
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -152,27 +153,28 @@ fun HomeContent(
             item {
                 CheckUiState(
                     isLoading = categoriesUiState.isLoading,
-                    error = categoriesUiState.error
+                    error = categoriesUiState.error,
+                    data = categoriesUiState.categories
                 ) {
-                    if (it) {
-                        Categories(
-                            categoryUiState = categoriesUiState.categories,
-                            onClickCategories = onClickCategories,
-                            onClickCategoryItem = onClickCategoryItem
-                        )
-                    }
+                    Categories(
+                        categoryUiState = categoriesUiState.categories,
+                        onClickCategories = onClickCategories,
+                        onClickCategoryItem = onClickCategoryItem
+                    )
                 }
             }
             item {
-                CheckUiState(isLoading = productsUiState.isLoading, error = productsUiState.error) {
-                    if (it) {
-                        Products(
-                            productsUiState.products,
-                            onClickProducts,
-                            onClickItem = onClickProductItem,
-                            onClickAddToCart = onClickAddToCart
-                        )
-                    }
+                CheckUiState(
+                    isLoading = productsUiState.isLoading,
+                    error = productsUiState.error,
+                    productsUiState.products
+                ) {
+                    Products(
+                        productsUiState.products,
+                        onClickProducts,
+                        onClickItem = onClickProductItem,
+                        onClickAddToCart = onClickAddToCart
+                    )
                 }
             }
         }
