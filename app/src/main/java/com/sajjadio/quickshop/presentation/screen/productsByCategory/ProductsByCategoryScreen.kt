@@ -12,6 +12,8 @@ import androidx.compose.material.Surface
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -19,7 +21,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.sajjadio.quickshop.R
 import com.sajjadio.quickshop.presentation.components.AppBar
+import com.sajjadio.quickshop.presentation.components.CheckUiState
+import com.sajjadio.quickshop.presentation.components.ProductContainer
 import com.sajjadio.quickshop.presentation.components.ProductItem
+import com.sajjadio.quickshop.presentation.screen.common.ProductUiState
 import com.sajjadio.quickshop.presentation.screen.product_details.navigateToProductDetails
 import com.sajjadio.quickshop.presentation.ui.theme.BaseColor
 
@@ -28,10 +33,15 @@ fun ProductsScreen(
     viewModel: ProductsByCategoryViewModel = hiltViewModel(),
     navController: NavController
 ) {
+
+    val state by viewModel.uiState.collectAsState()
+
     ProductsContent(
-        viewModel,
-        onClickBack = { navController.popBackStack() },
-        onClickItem = { navController.navigateToProductDetails(it) }
+        state = state,
+        title = viewModel.title,
+        onClickBack = navController::popBackStack,
+        onClickAddToCart = {},
+        onClickProductItem = navController::navigateToProductDetails
     )
 }
 
@@ -39,9 +49,11 @@ fun ProductsScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ProductsContent(
-    viewModel: ProductsByCategoryViewModel,
+    state: ProductUiState,
+    title: String,
     onClickBack: () -> Unit,
-    onClickItem: (Int) -> Unit
+    onClickAddToCart: (Int) -> Unit,
+    onClickProductItem: (Int) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -49,38 +61,20 @@ private fun ProductsContent(
                 elevation = 1.dp,
             ) {
                 AppBar(
-                    title = viewModel.args.categoryName.toString(),
-                    painter = painterResource(id = R.drawable.ic_left),
-                    onClickBack = { onClickBack() }
+                    title = title,
+                    painter = painterResource(id = R.drawable.ic_left_back),
+                    onClickBack = onClickBack
                 )
             }
         }
-    ) {
-        LazyVerticalGrid(
-            modifier = Modifier
-                .background(BaseColor)
-                .fillMaxSize()
-                .padding(top = 8.dp),
-            columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(
-                top = it.calculateTopPadding(),
-                start = 8.dp,
-                end = 8.dp,
-                bottom = 8.dp
-            ),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            viewModel.state.value.products?.size?.let { it1 ->
-                items(
-                    count = it1,
-                ) {
-                    ProductItem(
-                        onClickItem = { onClickItem(it) },
-                        onClickAddToCart = {}
-                    )
-                }
-            }
+    ) { paddingValues ->
+        CheckUiState(isLoading = state.isLoading, error = state.error, state.products) { products ->
+            ProductContainer(
+                products,
+                onClickAddToCart = onClickAddToCart,
+                onClickProductItem = onClickProductItem,
+                paddingValues = paddingValues.calculateTopPadding()
+            )
         }
     }
 

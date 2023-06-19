@@ -11,6 +11,7 @@ fun <T> CheckUiState(
     isLoading: Boolean,
     error: String,
     data: T?,
+    sizeOfProgress: Int = 0,
     onSuccess: @Composable (T) -> Unit
 ) {
 
@@ -21,7 +22,7 @@ fun <T> CheckUiState(
         true
     }
     isSuccess = if (isLoading) {
-        CircularProgressBar()
+        CircularProgressBarContainer(sizeOfProgress)
         false
     } else {
         true

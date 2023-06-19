@@ -13,6 +13,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import com.sajjadio.quickshop.presentation.ui.theme.AppTypography
+import com.sajjadio.quickshop.presentation.ui.theme.Tajawal
+import com.sajjadio.quickshop.presentation.ui.theme.TitleAppBar
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -25,7 +28,8 @@ fun AppBar(
     TopAppBar(
         modifier = Modifier.background(Color.Blue),
         title = {
-            Text(text = title, style = AppTypography.titleLarge)
+            Title(title = title.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() },
+                style = TitleAppBar.titleMedium)
         },
         navigationIcon = {
             IconButton(

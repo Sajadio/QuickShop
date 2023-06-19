@@ -121,7 +121,7 @@ private fun BackButton(onClickBack: () -> Unit) {
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.ic_left),
+                painter = painterResource(id = R.drawable.ic_left_back),
                 contentDescription = "Previous screen"
             )
         }

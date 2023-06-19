@@ -14,23 +14,23 @@ interface ShopApiService {
     suspend fun getAllProducts(): Response<List<ProductDto>>
 
     @GET("products/{id}")
-    fun getProductById(@Path("id") productId: Int): Response<ProductDto>
+    suspend fun getProductById(@Path("id") productId: Int): Response<ProductDto>
 
     @GET("products")
-    fun sortAllProducts(@Query("sort") sort: String): Response<List<ProductDto>>
+    suspend fun sortAllProducts(@Query("sort") sort: String): Response<List<ProductDto>>
 
     @GET("products/categories")
     suspend fun getAllCategories(): Response<List<String>>
 
     @GET("products/category/{category}")
-    fun getProductByCategory(@Path("category") category: String): Response<List<ProductDto>>
+    suspend fun getAllProductsByCategory(@Path("category") category: String): Response<List<ProductDto>>
 
     @GET("carts")
     fun getAllCarts(): Response<Carts>
 
     @GET("carts/{id}")
-    fun getCartById(@Path("id") cartId: Int): Response<Cart>
+    suspend fun getCartById(@Path("id") cartId: Int): Response<Cart>
 
     @GET("carts")
-    fun sortAllCarts(@Query("sort") sort: String): Response<Carts>
+    suspend fun sortAllCarts(@Query("sort") sort: String): Response<Carts>
 }

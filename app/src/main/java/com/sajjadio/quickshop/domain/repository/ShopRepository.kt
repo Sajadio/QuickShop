@@ -17,7 +17,7 @@ interface ShopRepository {
 
     fun getAllCategories(): Flow<Resource<List<String>>>
 
-    fun getProductByCategory(category: String): Flow<Resource<List<ProductDto>>>
+    fun getAllProductsByCategory(category: String): Flow<Resource<List<Product>>>
 
     fun getAllCarts(): Flow<Resource<Carts>>
 

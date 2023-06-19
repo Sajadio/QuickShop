@@ -27,7 +27,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -37,15 +36,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
@@ -76,8 +72,6 @@ import com.sajjadio.quickshop.presentation.screen.products.navigateToProducts
 import com.sajjadio.quickshop.presentation.screen.productsByCategory.navigateToProductsByCategory
 import com.sajjadio.quickshop.presentation.screen.search.navigateToSearchScreen
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
-import com.sajjadio.quickshop.presentation.ui.theme.Tajawal
-import com.sajjadio.quickshop.presentation.ui.theme.PrimaryTextAndIconColor
 import com.sajjadio.quickshop.presentation.ui.theme.SecondaryColor
 import com.sajjadio.quickshop.presentation.ui.theme.SecondaryTextColor
 import com.sajjadio.quickshop.presentation.ui.theme.AppTypography
@@ -149,15 +143,25 @@ fun HomeContent(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item { ContainerSearchBox(onClickSearchBox = onClickSearchBox) }
-            item { adsUiState.ads?.let { SliderImage(it) } }
+            item {
+                CheckUiState(
+                    isLoading = adsUiState.isLoading,
+                    error = adsUiState.error,
+                    data = adsUiState.ads,
+                    sizeOfProgress = 30
+                ) { ads ->
+                    SliderImage(ads)
+                }
+            }
             item {
                 CheckUiState(
                     isLoading = categoriesUiState.isLoading,
                     error = categoriesUiState.error,
-                    data = categoriesUiState.categories
-                ) {
+                    data = categoriesUiState.categories,
+                    sizeOfProgress = 30
+                ) { categories ->
                     Categories(
-                        categoryUiState = categoriesUiState.categories,
+                        categoryUiState = categories,
                         onClickCategories = onClickCategories,
                         onClickCategoryItem = onClickCategoryItem
                     )
@@ -167,10 +171,11 @@ fun HomeContent(
                 CheckUiState(
                     isLoading = productsUiState.isLoading,
                     error = productsUiState.error,
-                    productsUiState.products
-                ) {
+                    productsUiState.products,
+                    sizeOfProgress = 30
+                ) { products ->
                     Products(
-                        productsUiState.products,
+                        products,
                         onClickProducts,
                         onClickItem = onClickProductItem,
                         onClickAddToCart = onClickAddToCart

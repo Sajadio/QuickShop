@@ -55,7 +55,7 @@ private fun CategoriesContent(
             ) {
                 AppBar(
                     title = "Categories",
-                    painter = painterResource(id = R.drawable.ic_left),
+                    painter = painterResource(id = R.drawable.ic_left_back),
                     onClickBack = { onClickBack() }
                 )
             }
@@ -64,7 +64,7 @@ private fun CategoriesContent(
         CheckUiState(
             isLoading = state.isLoading,
             error = state.error,
-            state.categories
+            data = state.categories
         ) { categories ->
             Categories(paddingValues, categories, onClickCategoryItem)
         }

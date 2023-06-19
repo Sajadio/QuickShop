@@ -54,7 +54,7 @@ private fun ProductsContent(
             ) {
                 AppBar(
                     title = "Products",
-                    painter = painterResource(id = R.drawable.ic_left),
+                    painter = painterResource(id = R.drawable.ic_left_back),
                     onClickBack = { onClickBack() }
                 )
             }

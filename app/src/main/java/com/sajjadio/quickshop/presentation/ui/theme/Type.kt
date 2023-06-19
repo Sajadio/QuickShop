@@ -8,7 +8,7 @@ import androidx.compose.ui.unit.sp
 val TitleAppBar = Typography(
     titleMedium = TextStyle(
         fontFamily = Tajawal,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.SemiBold,
         fontSize = 18.sp
     ),
 )

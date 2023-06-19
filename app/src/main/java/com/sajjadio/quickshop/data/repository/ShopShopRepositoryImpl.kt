@@ -1,5 +1,6 @@
 package com.sajjadio.quickshop.data.repository
 
+import android.util.Log
 import com.sajjadio.quickshop.data.dataSource.ShopRemoteDataSource
 import com.sajjadio.quickshop.data.remote.mapper.toProductDomain
 import com.sajjadio.quickshop.data.remote.model.cart.Cart
@@ -17,8 +18,8 @@ class ShopShopRepositoryImpl @Inject constructor(
     private val shopRemoteDataSource: ShopRemoteDataSource,
 ) : ShopRepository {
     override fun getAllProducts(): Flow<Resource<List<Product>>> {
-        return wrapper({ shopRemoteDataSource.getAllProducts() }) { products ->
-            products.map { it.toProductDomain() }
+        return wrapper({ shopRemoteDataSource.getAllProducts() }) { productsDto ->
+            productsDto.map { it.toProductDomain() }
         }
     }
 
@@ -31,11 +32,13 @@ class ShopShopRepositoryImpl @Inject constructor(
     }
 
     override fun getAllCategories(): Flow<Resource<List<String>>> {
-        return wrapWithFlow{shopRemoteDataSource.getAllCategories()}
+        return wrapWithFlow { shopRemoteDataSource.getAllCategories() }
     }
 
-    override fun getProductByCategory(category: String): Flow<Resource<List<ProductDto>>> {
-        return wrapWithFlow { shopRemoteDataSource.getProductByCategory(category) }
+    override fun getAllProductsByCategory(category: String): Flow<Resource<List<Product>>> {
+        return wrapper({ shopRemoteDataSource.getAllProductsByCategory(category) }) { productsDto ->
+            productsDto.map { it.toProductDomain() }
+        }
     }
 
     override fun getAllCarts(): Flow<Resource<Carts>> {

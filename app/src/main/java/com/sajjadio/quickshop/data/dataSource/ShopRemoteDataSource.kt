@@ -8,17 +8,17 @@ import retrofit2.Response
 interface ShopRemoteDataSource {
     suspend fun getAllProducts(): Response<List<ProductDto>>
 
-    fun getProductById(productId: Int): Response<ProductDto>
+    suspend fun getProductById(productId: Int): Response<ProductDto>
 
-    fun sortAllProducts(sort: String): Response<List<ProductDto>>
+    suspend fun sortAllProducts(sort: String): Response<List<ProductDto>>
 
     suspend fun getAllCategories(): Response<List<String>>
 
-    fun getProductByCategory(category: String): Response<List<ProductDto>>
+    suspend fun getAllProductsByCategory(category: String): Response<List<ProductDto>>
 
-    fun getAllCarts(): Response<Carts>
+    suspend fun getAllCarts(): Response<Carts>
 
-    fun getCartById(cartId: Int): Response<Cart>
+    suspend fun getCartById(cartId: Int): Response<Cart>
 
-    fun sortAllCarts(sort: String): Response<Carts>
+    suspend fun sortAllCarts(sort: String): Response<Carts>
 }
