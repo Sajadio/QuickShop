@@ -1,6 +1,7 @@
 package com.sajjadio.quickshop.presentation.screen.product_details
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
@@ -16,17 +17,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
@@ -53,7 +51,7 @@ import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
 import com.sajjadio.quickshop.presentation.ui.theme.LightWhiteColor
 import com.sajjadio.quickshop.presentation.ui.theme.PrimaryTextAndIconColor
 import com.sajjadio.quickshop.presentation.ui.theme.AppTypography
-import kotlinx.coroutines.processNextEventInCurrentThread
+import com.sajjadio.quickshop.presentation.ui.theme.LightAccentColor
 
 @Composable
 fun ProductDetailsScreen(
@@ -70,7 +68,7 @@ fun ProductDetailsScreen(
     )
 }
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnusedMaterialScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 private fun ProductDetailsContent(
     itemCount: MutableState<Int>,
@@ -93,6 +91,7 @@ private fun ProductDetailsContent(
 
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ProductContainer(
     scrollState: ScrollState,
@@ -100,54 +99,85 @@ private fun ProductContainer(
     itemCount: MutableState<Int>,
     product: Product
 ) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {},
-                navigationIcon = {
-                    BackButton(onClickBack)
-                },
-                backgroundColor = Color.Transparent,
-                elevation = 0.dp
-            )
-        },
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = paddingValues.calculateTopPadding()),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .verticalScroll(scrollState)
-            ) {
-                Box(modifier = Modifier.height(400.dp)) {
-                    ProductImage(product.image)
-                }
-                ProductDetails(product)
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        LazyColumn(modifier = Modifier.weight(1f)) {
+            stickyHeader {
+                BackButton(onClickBack)
             }
-            Surface(
-                elevation = 8.dp,
-            ) {
-                Card(
+
+            item {
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(88.dp),
-                    backgroundColor = Color.White,
+                        .height(400.dp)
                 ) {
-                    Row(
-                        modifier = Modifier.fillMaxHeight(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        AddItemToCart(itemCount)
-                        ContainerClickableButtons(itemCount)
-                    }
+                    ProductImage(product.image)
+                }
+            }
+
+            item {
+                ProductDetails(product)
+            }
+        }
+        Surface(
+            elevation = 8.dp,
+        ) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(88.dp),
+                backgroundColor = Color.White,
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxHeight(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    AddItemToCart(itemCount)
+                    ContainerClickableButtons(itemCount)
                 }
             }
         }
     }
+
+//    Column(
+//        modifier = Modifier
+//            .fillMaxSize(),
+//        verticalArrangement = Arrangement.SpaceBetween
+//    ) {
+//        Column(
+//            modifier = Modifier
+//                .weight(1f)
+//                .verticalScroll(scrollState)
+//        ) {
+//            Box(modifier = Modifier.height(400.dp)) {
+//                ProductImage(product.image)
+//                BackButton(onClickBack)
+//            }
+//            ProductDetails(product)
+//        }
+//        Surface(
+//            elevation = 8.dp,
+//        ) {
+//            Card(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .height(88.dp),
+//                backgroundColor = Color.White,
+//            ) {
+//                Row(
+//                    modifier = Modifier.fillMaxHeight(),
+//                    horizontalArrangement = Arrangement.SpaceBetween
+//                ) {
+//                    AddItemToCart(itemCount)
+//                    ContainerClickableButtons(itemCount)
+//                }
+//            }
+//        }
+//    }
 }
 
 @Composable
@@ -157,7 +187,7 @@ private fun ProductImage(image: String) {
             .fillMaxSize(),
         painter = rememberAsyncImagePainter(model = image),
         contentDescription = "product image",
-        contentScale = ContentScale.FillWidth,
+        contentScale = ContentScale.FillBounds,
         alignment = Alignment.TopCenter,
     )
 }
@@ -167,9 +197,9 @@ private fun BackButton(onClickBack: () -> Unit) {
     Box(modifier = Modifier.padding(16.dp)) {
         Box(
             modifier = Modifier
-                .size(40.dp)
+                .size(48.dp)
                 .clip(CircleShape)
-                .background(LightWhiteColor)
+                .background(LightAccentColor)
                 .clickable { onClickBack() },
             contentAlignment = Alignment.Center
         ) {

@@ -154,6 +154,8 @@ fun HomeContent(
                 }
             }
             item {
+                CategoryHeader(onClickCategories = onClickCategories)
+                SpacerVertical(height = 8)
                 CheckUiState(
                     isLoading = categoriesUiState.isLoading,
                     error = categoriesUiState.error,
@@ -162,12 +164,16 @@ fun HomeContent(
                 ) { categories ->
                     Categories(
                         categoryUiState = categories,
-                        onClickCategories = onClickCategories,
                         onClickCategoryItem = onClickCategoryItem
                     )
                 }
             }
             item {
+                SpacerVertical(height = 16)
+                ProductHeader {
+                    onClickProducts()
+                }
+                SpacerVertical(height = 8)
                 CheckUiState(
                     isLoading = productsUiState.isLoading,
                     error = productsUiState.error,
@@ -176,7 +182,6 @@ fun HomeContent(
                 ) { products ->
                     Products(
                         products,
-                        onClickProducts,
                         onClickItem = onClickProductItem,
                         onClickAddToCart = onClickAddToCart
                     )
@@ -347,11 +352,8 @@ private fun IndicatorOfSliderImage(
 @Composable
 fun Categories(
     categoryUiState: List<String>?,
-    onClickCategories: () -> Unit,
     onClickCategoryItem: (String) -> Unit
 ) {
-    CategoryHeader(onClickCategories = onClickCategories)
-    SpacerVertical(height = 8)
     LazyRow(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(horizontal = 16.dp),
@@ -400,15 +402,9 @@ fun ProductHeader(
 @Composable
 fun Products(
     productUiState: List<Product>?,
-    onClickProducts: () -> Unit,
     onClickItem: (Int) -> Unit,
     onClickAddToCart: (Int) -> Unit,
 ) {
-    SpacerVertical(height = 16)
-    ProductHeader {
-        onClickProducts()
-    }
-    SpacerVertical(height = 8)
     LazyRow(
         modifier = Modifier
             .fillMaxSize()
