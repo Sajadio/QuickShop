@@ -1,6 +1,5 @@
 package com.sajjadio.quickshop.data.repository
 
-import android.util.Log
 import com.sajjadio.quickshop.data.dataSource.ShopRemoteDataSource
 import com.sajjadio.quickshop.data.remote.mapper.toProductDomain
 import com.sajjadio.quickshop.data.remote.model.cart.Cart
@@ -23,8 +22,10 @@ class ShopShopRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getProduct(productId: Int): Flow<Resource<ProductDto>> {
-        return wrapWithFlow { shopRemoteDataSource.getProductById(productId) }
+    override fun getProductById(productId: Int): Flow<Resource<Product>> {
+        return wrapper({ shopRemoteDataSource.getProductById(productId) }) { productsDto ->
+            productsDto.toProductDomain()
+        }
     }
 
     override fun sortAllProducts(sort: String): Flow<Resource<List<ProductDto>>> {

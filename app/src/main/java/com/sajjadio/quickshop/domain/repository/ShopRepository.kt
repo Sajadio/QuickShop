@@ -11,7 +11,7 @@ interface ShopRepository {
 
     fun getAllProducts(): Flow<Resource<List<Product>>>
 
-    fun getProduct(productId: Int): Flow<Resource<ProductDto>>
+    fun getProductById(productId: Int): Flow<Resource<Product>>
 
     fun sortAllProducts(sort: String): Flow<Resource<List<ProductDto>>>
 

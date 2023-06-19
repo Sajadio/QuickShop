@@ -2,6 +2,7 @@ package com.sajjadio.quickshop.presentation.screen.product_details
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -21,9 +22,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,8 +41,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import com.sajjadio.quickshop.R
+import com.sajjadio.quickshop.domain.model.products.Product
 import com.sajjadio.quickshop.presentation.components.Body
+import com.sajjadio.quickshop.presentation.components.CheckUiState
 import com.sajjadio.quickshop.presentation.components.ContainerRating
 import com.sajjadio.quickshop.presentation.components.SpacerVertical
 import com.sajjadio.quickshop.presentation.components.Title
@@ -43,54 +53,97 @@ import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
 import com.sajjadio.quickshop.presentation.ui.theme.LightWhiteColor
 import com.sajjadio.quickshop.presentation.ui.theme.PrimaryTextAndIconColor
 import com.sajjadio.quickshop.presentation.ui.theme.AppTypography
+import kotlinx.coroutines.processNextEventInCurrentThread
 
 @Composable
 fun ProductDetailsScreen(
     viewModel: ProductDetailsViewModel = hiltViewModel(),
     navController: NavController,
 ) {
+
+    val state by viewModel.uiState.collectAsState()
+
     ProductDetailsContent(
-        itemCount = viewModel.itemCount
-    ) { navController.popBackStack() }
+        itemCount = viewModel.itemCount,
+        onClickBack = navController::popBackStack,
+        state = state
+    )
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnusedMaterialScaffoldPaddingParameter")
 @Composable
 private fun ProductDetailsContent(
     itemCount: MutableState<Int>,
-    onClickBack: () -> Unit
+    onClickBack: () -> Unit,
+    state: ProductDetailsUiState
 ) {
     val scrollState = rememberScrollState()
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.SpaceBetween
-    ) {
+    CheckUiState(
+        isLoading = state.isLoading,
+        error = state.error,
+        data = state.product
+    ) { product ->
+        ProductContainer(
+            scrollState,
+            onClickBack,
+            itemCount,
+            product
+        )
+    }
+
+}
+
+@Composable
+private fun ProductContainer(
+    scrollState: ScrollState,
+    onClickBack: () -> Unit,
+    itemCount: MutableState<Int>,
+    product: Product
+) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {},
+                navigationIcon = {
+                    BackButton(onClickBack)
+                },
+                backgroundColor = Color.Transparent,
+                elevation = 0.dp
+            )
+        },
+    ) { paddingValues ->
         Column(
             modifier = Modifier
-                .weight(1f)
-                .verticalScroll(scrollState)
+                .fillMaxSize()
+                .padding(top = paddingValues.calculateTopPadding()),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Box(modifier = Modifier.height(400.dp)) {
-                ProductImage()
-                BackButton(onClickBack)
-            }
-            ProductDetails()
-        }
-        Surface(
-            elevation = 8.dp,
-        ) {
-            Card(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(88.dp),
-                backgroundColor = Color.White,
+                    .weight(1f)
+                    .verticalScroll(scrollState)
             ) {
-                Row(
-                    modifier = Modifier.fillMaxHeight(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                Box(modifier = Modifier.height(400.dp)) {
+                    ProductImage(product.image)
+                }
+                ProductDetails(product)
+            }
+            Surface(
+                elevation = 8.dp,
+            ) {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(88.dp),
+                    backgroundColor = Color.White,
                 ) {
-                    AddItemToCart(itemCount)
-                    ContainerClickableButtons(itemCount)
+                    Row(
+                        modifier = Modifier.fillMaxHeight(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        AddItemToCart(itemCount)
+                        ContainerClickableButtons(itemCount)
+                    }
                 }
             }
         }
@@ -98,11 +151,11 @@ private fun ProductDetailsContent(
 }
 
 @Composable
-private fun ProductImage() {
+private fun ProductImage(image: String) {
     Image(
         modifier = Modifier
             .fillMaxSize(),
-        painter = painterResource(id = R.drawable.details_image),
+        painter = rememberAsyncImagePainter(model = image),
         contentDescription = "product image",
         contentScale = ContentScale.FillWidth,
         alignment = Alignment.TopCenter,
@@ -129,26 +182,26 @@ private fun BackButton(onClickBack: () -> Unit) {
 }
 
 @Composable
-private fun ProductDetails() {
+private fun ProductDetails(product: Product) {
     Column(modifier = Modifier.padding(16.dp)) {
         Title(
-            title = "Fjallraven  Foldsack No. 1 Backpack, Fits 15 Laptops",
+            title = product.title,
             style = AppTypography.titleLarge,
             maxLine = 2
         )
         Body(
-            title = "women's clothing",
+            title = product.category,
             style = AppTypography.bodySmall,
             maxLine = 2
         )
-        ContainerRating(4.7)
+        ContainerRating(product.rating.rate)
         Body(
-            title = "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
+            title = product.description,
             style = AppTypography.bodySmall,
             maxLine = 20
         )
         SpacerVertical(height = 16)
-        Title(title = "$109.95", style = AppTypography.titleLarge)
+        Title(title = "$${product.price}", style = AppTypography.titleLarge)
     }
 }
 
