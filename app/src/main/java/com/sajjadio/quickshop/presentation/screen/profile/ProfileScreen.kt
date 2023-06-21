@@ -7,12 +7,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -21,9 +24,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.sajjadio.quickshop.R
+import com.sajjadio.quickshop.presentation.components.Body
 import com.sajjadio.quickshop.presentation.components.CheckUiState
 import com.sajjadio.quickshop.presentation.components.ProfileImage
 import com.sajjadio.quickshop.presentation.components.SpacerVertical
+import com.sajjadio.quickshop.presentation.components.Title
 import com.sajjadio.quickshop.presentation.components.UserName
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
 import com.sajjadio.quickshop.presentation.ui.theme.Tajawal
@@ -37,7 +42,6 @@ fun ProfileScreen(
     navController: NavController
 ) {
     val state by viewModel.uiState.collectAsState()
-
     ProfileContent(state)
 }
 
@@ -52,10 +56,14 @@ fun ProfileContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        CheckUiState(isLoading = state.isLoading, error = state.error, data = state.user) { user ->
+        CheckUiState(
+            isLoading = state.isLoading,
+            error = state.error,
+            data = state.user
+        ) { user ->
             SpacerVertical(height = 32)
             ProfileImage(
-                painter = rememberAsyncImagePainter(model = user.username),
+                painter = painterResource(id = R.drawable.details_image),
                 size = 100,
                 borderColor = AccentColor
             )
@@ -88,38 +96,16 @@ fun Container(
 ) {
     Box(
         modifier = Modifier
+            .clip(RoundedCornerShape(8.dp))
             .background(TextInputFiledColor)
             .fillMaxWidth()
             .height(75.dp)
             .padding(16.dp)
     ) {
         Column() {
-            Title(
-                title = title,
-                fontSize = 14,
-                fontWeight = FontWeight.SemiBold
-            )
+            Title(title = title, style = AppTypography.bodyLarge)
             SpacerVertical(height = 4)
-            Title(
-                title = description,
-                fontSize = 12,
-                fontWeight = FontWeight.Normal
-            )
+            Body(title = description, style = AppTypography.labelSmall)
         }
     }
-}
-
-@Composable
-private fun Title(
-    title: String,
-    fontSize: Int,
-    fontWeight: FontWeight
-) {
-    Text(
-        text = title,
-        fontSize = fontSize.sp,
-        color = PrimaryTextAndIconColor,
-        fontWeight = fontWeight,
-        fontFamily = Tajawal
-    )
 }
