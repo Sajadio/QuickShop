@@ -29,6 +29,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
+import com.sajjadio.quickshop.presentation.ui.theme.BaseColor
+import com.sajjadio.quickshop.presentation.ui.theme.IndicatorColor
 import com.sajjadio.quickshop.presentation.ui.theme.Tajawal
 import com.sajjadio.quickshop.presentation.ui.theme.SecondaryTextColor
 
@@ -48,7 +50,8 @@ fun NavScreen() {
             )
             BottomBar(navController = navController, visibility = visibility)
         },
-        contentWindowInsets = WindowInsets.safeContent
+        contentWindowInsets = WindowInsets.safeContent,
+        containerColor = BaseColor
     ) {
         QuickShopNavGraph(navController = navController, it.calculateBottomPadding())
     }
@@ -77,7 +80,7 @@ fun BottomBar(navController: NavHostController, visibility: Boolean) {
         ) {
             NavigationBar(
                 containerColor = Color.White,
-                contentColor = Color.Blue,
+                contentColor = AccentColor,
             ) {
                 screens.forEach {
                     BottomItem(
@@ -103,9 +106,9 @@ fun RowScope.BottomItem(
         colors = NavigationBarItemDefaults.colors(
             selectedTextColor = Color.Black,
             unselectedTextColor = SecondaryTextColor,
-            indicatorColor = Color(0xFFFFFFFF),
+            indicatorColor = IndicatorColor,
             unselectedIconColor = SecondaryTextColor,
-            selectedIconColor = AccentColor
+            selectedIconColor = AccentColor,
         ),
         alwaysShowLabel = true,
         label = {

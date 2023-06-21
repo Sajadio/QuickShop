@@ -1,11 +1,13 @@
 package com.sajjadio.quickshop.data.repository
 
 import com.sajjadio.quickshop.data.dataSource.ShopRemoteDataSource
-import com.sajjadio.quickshop.data.remote.mapper.toProductDomain
+import com.sajjadio.quickshop.data.remote.mapper.mapToProduct
+import com.sajjadio.quickshop.data.remote.mapper.mapToUser
 import com.sajjadio.quickshop.data.remote.model.cart.Cart
 import com.sajjadio.quickshop.data.remote.model.cart.Carts
 import com.sajjadio.quickshop.data.remote.model.products.ProductDto
 import com.sajjadio.quickshop.domain.model.products.Product
+import com.sajjadio.quickshop.domain.model.user.User
 import com.sajjadio.quickshop.domain.repository.ShopRepository
 import com.sajjadio.quickshop.domain.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -18,13 +20,13 @@ class ShopShopRepositoryImpl @Inject constructor(
 ) : ShopRepository {
     override fun getAllProducts(): Flow<Resource<List<Product>>> {
         return wrapper({ shopRemoteDataSource.getAllProducts() }) { productsDto ->
-            productsDto.map { it.toProductDomain() }
+            productsDto.map { it.mapToProduct() }
         }
     }
 
     override fun getProductById(productId: Int): Flow<Resource<Product>> {
         return wrapper({ shopRemoteDataSource.getProductById(productId) }) { productsDto ->
-            productsDto.toProductDomain()
+            productsDto.mapToProduct()
         }
     }
 
@@ -38,7 +40,7 @@ class ShopShopRepositoryImpl @Inject constructor(
 
     override fun getAllProductsByCategory(category: String): Flow<Resource<List<Product>>> {
         return wrapper({ shopRemoteDataSource.getAllProductsByCategory(category) }) { productsDto ->
-            productsDto.map { it.toProductDomain() }
+            productsDto.map { it.mapToProduct() }
         }
     }
 
@@ -52,6 +54,12 @@ class ShopShopRepositoryImpl @Inject constructor(
 
     override fun sortAllCarts(sort: String): Flow<Resource<Carts>> {
         return wrapWithFlow { shopRemoteDataSource.sortAllCarts(sort) }
+    }
+
+    override fun getUser(userId: Int): Flow<Resource<List<User>>> {
+        return wrapper({ shopRemoteDataSource.getUser(userId) }) { userDto ->
+            userDto.map { it.mapToUser() }
+        }
     }
 
     private fun <I, O> wrapper(

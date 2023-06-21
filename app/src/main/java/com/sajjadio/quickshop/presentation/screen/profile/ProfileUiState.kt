@@ -1,13 +1,10 @@
 package com.sajjadio.quickshop.presentation.screen.profile
 
-data class ProfileUiState(
-    val userName: String = "",
-    val userImage: String = "",
-    val information: CartInformation = CartInformation()
-)
+import com.sajjadio.quickshop.domain.model.user.User
 
-data class CartInformation(
-        val orderNumber: Int = 0,
-        val shippingAddressNumber: Int = 0,
-        val reviews: Int = 0
+
+data class ProfileUiState(
+    val user: User? = User(),
+    val isLoading: Boolean = false,
+    val error: String = ""
 )

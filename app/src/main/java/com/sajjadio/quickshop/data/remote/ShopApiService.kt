@@ -3,6 +3,7 @@ package com.sajjadio.quickshop.data.remote
 import com.sajjadio.quickshop.data.remote.model.cart.Cart
 import com.sajjadio.quickshop.data.remote.model.cart.Carts
 import com.sajjadio.quickshop.data.remote.model.products.ProductDto
+import com.sajjadio.quickshop.data.remote.model.user.UserDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -33,4 +34,7 @@ interface ShopApiService {
 
     @GET("carts")
     suspend fun sortAllCarts(@Query("sort") sort: String): Response<Carts>
+
+    @GET("users/")
+    suspend fun getUser(@Query("id") userId: Int): Response<List<UserDto>>
 }

@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -19,6 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.sajjadio.quickshop.R
+import com.sajjadio.quickshop.presentation.components.CheckUiState
 import com.sajjadio.quickshop.presentation.components.ProfileImage
 import com.sajjadio.quickshop.presentation.components.SpacerVertical
 import com.sajjadio.quickshop.presentation.components.UserName
@@ -33,9 +36,9 @@ fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel(),
     navController: NavController
 ) {
-    ProfileContent(
-        state = viewModel.state.value
-    )
+    val state by viewModel.uiState.collectAsState()
+
+    ProfileContent(state)
 }
 
 @Composable
@@ -48,30 +51,33 @@ fun ProfileContent(
             .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        SpacerVertical(height = 32)
-        ProfileImage(
-            painter = rememberAsyncImagePainter(model = state.userImage),
-            size = 100,
-            borderColor = AccentColor
-        )
-        SpacerVertical(height = 8)
-        UserName(text = state.userName, style = AppTypography.titleLarge)
-        SpacerVertical(height = 32)
-        Container(
-            title = stringResource(id = R.string.order),
-            description = "You have ${state.information.orderNumber} completed orders"
-        )
-        SpacerVertical(height = 8)
-        Container(
-            title = stringResource(id = R.string.shipping_address),
-            description = "${state.information.shippingAddressNumber} addresses have been set"
-        )
-        SpacerVertical(height = 8)
-        Container(
-            title = stringResource(id = R.string.my_reviews),
-            description = "Reviewed ${state.information.orderNumber} items"
-        )
-        SpacerVertical(height = 8)
+
+        CheckUiState(isLoading = state.isLoading, error = state.error, data = state.user) { user ->
+            SpacerVertical(height = 32)
+            ProfileImage(
+                painter = rememberAsyncImagePainter(model = user.username),
+                size = 100,
+                borderColor = AccentColor
+            )
+            SpacerVertical(height = 8)
+            UserName(text = user.username, style = AppTypography.titleLarge)
+            SpacerVertical(height = 32)
+            Container(
+                title = stringResource(id = R.string.order),
+                description = "You have ${3} completed orders"
+            )
+            SpacerVertical(height = 8)
+            Container(
+                title = stringResource(id = R.string.shipping_address),
+                description = "${1} addresses have been set"
+            )
+            SpacerVertical(height = 8)
+            Container(
+                title = stringResource(id = R.string.my_reviews),
+                description = "Reviewed ${4} items"
+            )
+            SpacerVertical(height = 8)
+        }
     }
 }
 

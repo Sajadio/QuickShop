@@ -4,6 +4,7 @@ import com.sajjadio.quickshop.data.remote.model.cart.Cart
 import com.sajjadio.quickshop.data.remote.model.cart.Carts
 import com.sajjadio.quickshop.data.remote.model.products.ProductDto
 import com.sajjadio.quickshop.data.remote.ShopApiService
+import com.sajjadio.quickshop.data.remote.model.user.UserDto
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -40,5 +41,9 @@ class ShopDataSourceImpl @Inject constructor(
 
     override suspend fun sortAllCarts(sort: String): Response<Carts> {
         return api.sortAllCarts(sort)
+    }
+
+    override suspend fun getUser(userId: Int): Response<List<UserDto>> {
+        return api.getUser(userId)
     }
 }

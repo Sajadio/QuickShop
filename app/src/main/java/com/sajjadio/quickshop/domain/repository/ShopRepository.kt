@@ -4,6 +4,7 @@ import com.sajjadio.quickshop.data.remote.model.cart.Cart
 import com.sajjadio.quickshop.data.remote.model.cart.Carts
 import com.sajjadio.quickshop.data.remote.model.products.ProductDto
 import com.sajjadio.quickshop.domain.model.products.Product
+import com.sajjadio.quickshop.domain.model.user.User
 import com.sajjadio.quickshop.domain.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
@@ -24,5 +25,7 @@ interface ShopRepository {
     fun getCartById(cartId: Int): Flow<Resource<Cart>>
 
     fun sortAllCarts(sort: String): Flow<Resource<Carts>>
+
+    fun getUser(userId: Int): Flow<Resource<List<User>>>
 
 }

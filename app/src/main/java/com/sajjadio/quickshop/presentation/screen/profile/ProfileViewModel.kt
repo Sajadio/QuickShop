@@ -1,30 +1,55 @@
 package com.sajjadio.quickshop.presentation.screen.profile
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.sajjadio.quickshop.domain.useCase.GetUserInformationUseCase
+import com.sajjadio.quickshop.domain.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor() : ViewModel() {
+class ProfileViewModel @Inject constructor(
+    private val getUserInformationUseCase: GetUserInformationUseCase
+) : ViewModel() {
 
-    private val _state = mutableStateOf(ProfileUiState())
-    val state: State<ProfileUiState> = _state
+    private val _uiState = MutableStateFlow(ProfileUiState())
+    val uiState = _uiState.asStateFlow()
 
     init {
         loadProfileData()
     }
 
     private fun loadProfileData() {
-        _state.value = ProfileUiState(
-            userName = "John Doe",
-            userImage = "https://th.bing.com/th/id/OIP.WlUDXSME4D1KBxKlZEtVuwHaKA?w=202&h=272&c=7&r=0&o=5&dpr=1.3&pid=1.7",
-            information = CartInformation(
-                orderNumber = 10,
-                shippingAddressNumber = 2,
-                reviews = 3,
-            )
-        )
+        viewModelScope.launch {
+            getUserInformationUseCase(USER_ID).collect { resource ->
+                when (resource) {
+                    Resource.Loading -> _uiState.update { it.copy(isLoading = true) }
+                    is Resource.Success -> {
+                        _uiState.update { state ->
+                            state.copy(
+                                user = resource.data?.first(),
+                                isLoading = false
+                            )
+                        }
+                    }
+
+                    is Resource.Error -> _uiState.update { state ->
+                        state.copy(
+                            isLoading = false,
+                            error = resource.errorMessage.toString()
+                        )
+                    }
+                }
+            }
+        }
+
+    }
+
+    private companion object {
+        const val USER_ID = 1
     }
 }
