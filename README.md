@@ -9,7 +9,6 @@ QuickShop app built with Jetpack Compose by using [Fake Store Api](https://fakes
 ## [Video](https://streamable.com/wpjaik)
 
 
-
 ## Images
 
 <img src="images/one.png" width="250"/> <img src="images/two.png" width="250"/>
