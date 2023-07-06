@@ -1,5 +1,4 @@
 # 📱 QUICK SHOP
-
 <div style="display: flex; justify-content: center;">
   <img src="images/logo.png" width="250" />
 </div>
