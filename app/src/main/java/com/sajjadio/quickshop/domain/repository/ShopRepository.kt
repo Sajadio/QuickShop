@@ -1,8 +1,8 @@
 package com.sajjadio.quickshop.domain.repository
 
-import com.sajjadio.quickshop.data.remote.model.cart.Cart
-import com.sajjadio.quickshop.data.remote.model.cart.Carts
-import com.sajjadio.quickshop.data.remote.model.products.ProductDto
+import com.sajjadio.quickshop.data.dataSource.remote.model.cart.CartDto
+import com.sajjadio.quickshop.data.dataSource.remote.model.products.ProductDto
+import com.sajjadio.quickshop.domain.model.cart.Cart
 import com.sajjadio.quickshop.domain.model.products.Product
 import com.sajjadio.quickshop.domain.model.user.User
 import com.sajjadio.quickshop.domain.utils.Resource
@@ -20,12 +20,12 @@ interface ShopRepository {
 
     fun getAllProductsByCategory(category: String): Flow<Resource<List<Product>>>
 
-    fun getAllCarts(): Flow<Resource<Carts>>
+   suspend fun getAllCartsByUserId(userId: Int): Flow<Resource<MutableList<Cart>>>
 
-    fun getCartById(cartId: Int): Flow<Resource<Cart>>
+    fun getCartById(cartId: Int): Flow<Resource<CartDto>>
 
-    fun sortAllCarts(sort: String): Flow<Resource<Carts>>
+    fun sortAllCarts(sort: String): Flow<Resource<CartDto>>
 
-    fun getUser(userId: Int): Flow<Resource<List<User>>>
+    fun getUserById(userId: Int): Flow<Resource<List<User>>>
 
 }

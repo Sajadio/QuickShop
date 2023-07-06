@@ -1,7 +1,7 @@
-package com.sajjadio.quickshop.data.remote.mapper
+package com.sajjadio.quickshop.data.dataSource.remote.mapper
 
-import com.sajjadio.quickshop.data.remote.model.products.ProductDto
-import com.sajjadio.quickshop.data.remote.model.products.RatingDto
+import com.sajjadio.quickshop.data.dataSource.remote.model.products.ProductDto
+import com.sajjadio.quickshop.data.dataSource.remote.model.products.RatingDto
 import com.sajjadio.quickshop.domain.model.products.Product
 import com.sajjadio.quickshop.domain.model.products.Rating
 

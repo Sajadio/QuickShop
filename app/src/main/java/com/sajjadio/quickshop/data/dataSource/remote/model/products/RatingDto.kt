@@ -1,4 +1,4 @@
-package com.sajjadio.quickshop.data.remote.model.products
+package com.sajjadio.quickshop.data.dataSource.remote.model.products
 
 
 import com.google.gson.annotations.SerializedName

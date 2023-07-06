@@ -1,74 +1,55 @@
 package com.sajjadio.quickshop.presentation.screen.cart
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.sajjadio.quickshop.domain.useCase.GetAllCartsByUserIdUseCase
+import com.sajjadio.quickshop.domain.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CartViewModel @Inject constructor() : ViewModel() {
+class CartViewModel @Inject constructor(
+    private val getAllCartsByUserIdUseCase: GetAllCartsByUserIdUseCase
+) : ViewModel() {
 
-    private val _state = mutableStateOf(CartUiState())
-    val state: State<CartUiState> = _state
+    private val _uiState = MutableStateFlow(CartsUiState())
+    val uiState = _uiState.asStateFlow()
 
     init {
-        loadCartData()
+        loadProductsOfCartData()
     }
 
-    private fun loadCartData() {
-        _state.value = CartUiState(
-            count = 6,
-            shippingFee = 60.00,
-            total = 2248.04,
-            carts = listOf(
-                Cart(
-                    productImage = "https://th.bing.com/th/id/OIP.oei55yyhppyd6XOvBBIm2wHaHa?pid=ImgDet&rs=1",
-                    order = 6235,
-                    count = 2,
-                    productCategory = "women cloths",
-                    productPrice = 109.95,
-                    date = "3/5/2023",
-                    productState = "Processing"
-                ),
-                Cart(
-                    productImage = "https://th.bing.com/th/id/OIP.vL1YYVdKnKnGvwz2WWYIcQHaF5?pid=ImgDet&w=199&h=158&c=7&dpr=1.3",
-                    order = 4235,
-                    count = 1,
-                    productCategory = "electronic",
-                    productPrice = 999.9,
-                    date = "3/5/2023",
-                    isShipping = true,
-                    productState = "Shipped"
-                ),
-                Cart(
-                    productImage = "https://th.bing.com/th/id/R.070ff861251f51b3075897d4f458f1cb?rik=Lwz7zGpkDUfOgQ&pid=ImgRaw&r=0",
-                    order = 4435,
-                    count = 5,
-                    productCategory = "electronic",
-                    productPrice = 1200.9,
-                    date = "3/5/2023",
-                    productState = "Shipped"
-                ),
-                Cart(
-                    productImage = "https://www.extoggery.com/wp-content/uploads/2017/03/Mens-Clothing2.jpg",
-                    order = 4435,
-                    count = 3,
-                    productCategory = "men cloths",
-                    productPrice = 1200.9,
-                    date = "3/5/2023",
-                    productState = "Shipped"
-                ),
-                Cart(
-                    productImage = "https://th.bing.com/th/id/OIP.fMYrj0OZRQnpif4dwciRnwHaGz?pid=ImgDet&rs=1",
-                    order = 4435,
-                    count = 3,
-                    productCategory = "jewelery",
-                    productPrice = 1200.9,
-                    date = "3/5/2023",
-                    productState = "Shipped"
-                ),
-            )
-        )
+    private fun loadProductsOfCartData() {
+        viewModelScope.launch {
+            getAllCartsByUserIdUseCase.invoke(USER_ID).collect{resource ->
+                when(resource){
+                    Resource.Loading -> _uiState.update { it.copy(isLoading = true) }
+                    is Resource.Success -> {
+                        _uiState.update { state ->
+                            state.copy(
+                                carts = resource.data,
+                                isLoading = false
+                            )
+                        }
+                    }
+
+                    is Resource.Error -> _uiState.update { state ->
+                        state.copy(
+                            isLoading = false,
+                            error = resource.errorMessage.toString()
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    private companion object{
+        const val USER_ID = 3
     }
 }

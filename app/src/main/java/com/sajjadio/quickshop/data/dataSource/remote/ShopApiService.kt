@@ -1,9 +1,8 @@
-package com.sajjadio.quickshop.data.remote
+package com.sajjadio.quickshop.data.dataSource.remote
 
-import com.sajjadio.quickshop.data.remote.model.cart.Cart
-import com.sajjadio.quickshop.data.remote.model.cart.Carts
-import com.sajjadio.quickshop.data.remote.model.products.ProductDto
-import com.sajjadio.quickshop.data.remote.model.user.UserDto
+import com.sajjadio.quickshop.data.dataSource.remote.model.cart.CartDto
+import com.sajjadio.quickshop.data.dataSource.remote.model.products.ProductDto
+import com.sajjadio.quickshop.data.dataSource.remote.model.user.UserDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -26,15 +25,15 @@ interface ShopApiService {
     @GET("products/category/{category}")
     suspend fun getAllProductsByCategory(@Path("category") category: String): Response<List<ProductDto>>
 
-    @GET("carts")
-    fun getAllCarts(): Response<Carts>
+    @GET("carts/user/{id}")
+    suspend fun getAllCartsByUserId(@Path("id") userId:Int): Response<List<CartDto>>
 
     @GET("carts/{id}")
-    suspend fun getCartById(@Path("id") cartId: Int): Response<Cart>
+    suspend fun getCartById(@Path("id") cartId: Int): Response<CartDto>
 
     @GET("carts")
-    suspend fun sortAllCarts(@Query("sort") sort: String): Response<Carts>
+    suspend fun sortAllCarts(@Query("sort") sort: String): Response<CartDto>
 
     @GET("users/")
-    suspend fun getUser(@Query("id") userId: Int): Response<List<UserDto>>
+    suspend fun getUserById(@Query("id") userId: Int): Response<List<UserDto>>
 }

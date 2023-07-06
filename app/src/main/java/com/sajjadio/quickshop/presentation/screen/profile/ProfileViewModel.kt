@@ -46,10 +46,9 @@ class ProfileViewModel @Inject constructor(
                 }
             }
         }
-
     }
 
     private companion object {
-        const val USER_ID = 1
+        const val USER_ID = 3
     }
 }

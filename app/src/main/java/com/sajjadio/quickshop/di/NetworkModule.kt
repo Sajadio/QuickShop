@@ -1,7 +1,7 @@
 package com.sajjadio.quickshop.di
 
-import com.sajjadio.quickshop.data.remote.ShopApiService
-import com.sajjadio.quickshop.data.remote.interceptor.AuthInterceptor
+import com.sajjadio.quickshop.data.dataSource.remote.ShopApiService
+import com.sajjadio.quickshop.data.dataSource.remote.interceptor.AuthInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

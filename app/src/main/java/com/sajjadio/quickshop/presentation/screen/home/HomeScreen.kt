@@ -6,6 +6,7 @@
 package com.sajjadio.quickshop.presentation.screen.home
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -33,6 +34,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -58,6 +62,7 @@ import com.sajjadio.quickshop.presentation.components.CheckUiState
 import com.sajjadio.quickshop.presentation.components.ClickableIcon
 import com.sajjadio.quickshop.presentation.components.ProductItem
 import com.sajjadio.quickshop.presentation.components.ProfileImage
+import com.sajjadio.quickshop.presentation.components.SortButton
 import com.sajjadio.quickshop.presentation.screen.home.components.SearchBox
 import com.sajjadio.quickshop.presentation.components.SpacerHorizontal
 import com.sajjadio.quickshop.presentation.components.SpacerVertical
@@ -67,6 +72,7 @@ import com.sajjadio.quickshop.presentation.components.UserName
 import com.sajjadio.quickshop.presentation.screen.categories.navigateToCategories
 import com.sajjadio.quickshop.presentation.screen.common.CategoryUiState
 import com.sajjadio.quickshop.presentation.screen.common.ProductUiState
+import com.sajjadio.quickshop.presentation.screen.home.utils.SortOption
 import com.sajjadio.quickshop.presentation.screen.product_details.navigateToProductDetails
 import com.sajjadio.quickshop.presentation.screen.products.navigateToProducts
 import com.sajjadio.quickshop.presentation.screen.productsByCategory.navigateToProductsByCategory
@@ -240,19 +246,11 @@ private fun ContainerSearchBox(onClickSearchBox: () -> Unit) {
 fun FilterButton(
     modifier: Modifier = Modifier
 ) {
-    Box(
-        modifier = modifier
-            .clip(RoundedCornerShape(8.dp))
-            .background(TextInputFiledColor)
-            .height(56.dp)
-            .fillMaxWidth()
-            .clickable { },
-        contentAlignment = Alignment.Center
-    ) {
-        StaticIcon(
-            painter = painterResource(id = R.drawable.ic_filter),
-            contentDescription = stringResource(id = R.string.filter),
-        )
+    var currentSortOption by remember { mutableStateOf(SortOption.All) }
+
+    SortButton(modifier = modifier) {sortOption ->
+        currentSortOption = sortOption
+        Log.d("", "FilterButton: ${sortOption.name}")
     }
 }
 

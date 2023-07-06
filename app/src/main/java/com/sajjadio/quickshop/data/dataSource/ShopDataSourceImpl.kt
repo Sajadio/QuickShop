@@ -1,10 +1,9 @@
 package com.sajjadio.quickshop.data.dataSource
 
-import com.sajjadio.quickshop.data.remote.model.cart.Cart
-import com.sajjadio.quickshop.data.remote.model.cart.Carts
-import com.sajjadio.quickshop.data.remote.model.products.ProductDto
-import com.sajjadio.quickshop.data.remote.ShopApiService
-import com.sajjadio.quickshop.data.remote.model.user.UserDto
+import com.sajjadio.quickshop.data.dataSource.remote.model.cart.CartDto
+import com.sajjadio.quickshop.data.dataSource.remote.model.products.ProductDto
+import com.sajjadio.quickshop.data.dataSource.remote.ShopApiService
+import com.sajjadio.quickshop.data.dataSource.remote.model.user.UserDto
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -31,19 +30,19 @@ class ShopDataSourceImpl @Inject constructor(
         return api.getAllProductsByCategory(category)
     }
 
-    override suspend fun getAllCarts(): Response<Carts> {
-        return api.getAllCarts()
+    override suspend fun getAllCartsByUserId(userId: Int): Response<List<CartDto>> {
+        return api.getAllCartsByUserId(userId)
     }
 
-    override suspend fun getCartById(cartId: Int): Response<Cart> {
+    override suspend fun getCartById(cartId: Int): Response<CartDto> {
         return api.getCartById(cartId)
     }
 
-    override suspend fun sortAllCarts(sort: String): Response<Carts> {
+    override suspend fun sortAllCarts(sort: String): Response<CartDto> {
         return api.sortAllCarts(sort)
     }
 
-    override suspend fun getUser(userId: Int): Response<List<UserDto>> {
-        return api.getUser(userId)
+    override suspend fun getUserById(userId: Int): Response<List<UserDto>> {
+        return api.getUserById(userId)
     }
 }

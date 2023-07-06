@@ -1,6 +1,7 @@
 package com.sajjadio.quickshop.presentation.screen.cart
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,8 +20,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,23 +31,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.sajjadio.quickshop.R
+import com.sajjadio.quickshop.domain.model.cart.Cart
+import com.sajjadio.quickshop.presentation.components.Body
+import com.sajjadio.quickshop.presentation.components.CheckUiState
 import com.sajjadio.quickshop.presentation.components.SpacerVertical
 import com.sajjadio.quickshop.presentation.screen.product_details.navigateToProductDetails
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
+import com.sajjadio.quickshop.presentation.ui.theme.AppTypography
 import com.sajjadio.quickshop.presentation.ui.theme.BaseColor
-import com.sajjadio.quickshop.presentation.ui.theme.Tajawal
 import com.sajjadio.quickshop.presentation.ui.theme.PrimaryTextAndIconColor
 import com.sajjadio.quickshop.presentation.ui.theme.SecondaryTextColor
 import com.sajjadio.quickshop.presentation.ui.theme.TextInputFiledColor
+import com.sajjadio.quickshop.utils.formattedDate
+import java.text.DateFormat
+import java.util.Date
 
 @Composable
 fun CartScreen(
@@ -52,8 +60,11 @@ fun CartScreen(
     viewModel: CartViewModel = hiltViewModel(),
     navController: NavController
 ) {
+
+    val state by viewModel.uiState.collectAsState()
+
     CartContent(
-        state = viewModel.state.value,
+        state = state,
         calculateBottomPadding = calculateBottomPadding,
         onClickItem = { navController.navigateToProductDetails(it) }
     )
@@ -61,7 +72,7 @@ fun CartScreen(
 
 @Composable
 fun CartContent(
-    state: CartUiState,
+    state: CartsUiState,
     calculateBottomPadding: Dp,
     onClickItem: (Int) -> Unit
 ) {
@@ -71,25 +82,31 @@ fun CartContent(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        LazyColumn(
-            modifier = Modifier.weight(1.5f),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(8.dp)
-        ) {
-            items(state.carts) { cart ->
-                CartItem(cart, onClickItem = onClickItem)
+        CheckUiState(
+            isLoading = state.isLoading,
+            error = state.error,
+            data = state.carts
+        ) { carts ->
+            LazyColumn(
+                modifier = Modifier.weight(1.5f),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                contentPadding = PaddingValues(8.dp)
+            ) {
+                items(carts) { cart ->
+                    CartItem(cart, onClickItem = onClickItem)
+                }
             }
+            CheckOutCart(
+                cart = state,
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(
+                        bottom = calculateBottomPadding,
+                        start = 8.dp,
+                        end = 8.dp,
+                    )
+            )
         }
-        CheckOutCart(
-            cart = state,
-            modifier = Modifier
-                .weight(1f)
-                .padding(
-                    bottom = calculateBottomPadding,
-                    start = 8.dp,
-                    end = 8.dp,
-                )
-        )
     }
 }
 
@@ -112,7 +129,7 @@ private fun CartItem(
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ProductImage(painter = rememberAsyncImagePainter(model = cart.productImage))
+            ProductImage(painter = rememberAsyncImagePainter(model = cart.cartProduct.image))
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -120,8 +137,8 @@ private fun CartItem(
                 horizontalAlignment = Alignment.Start
             ) {
                 OrderAndDateRow(cart)
-                CartText(text = cart.productCategory)
-                CartText(text = if (cart.count > 1) "${cart.count} Items" else "${cart.count} Item")
+                CartText(title = cart.cartProduct.category)
+                CartText(title = if (cart.cartProduct.quantity > 1) "${cart.cartProduct.quantity} Items" else "${cart.cartProduct.quantity} Item")
                 PriceAndStateOfProductRow(cart)
             }
         }
@@ -135,16 +152,15 @@ private fun OrderAndDateRow(cart: Cart) {
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         CartText(
-            text = "${stringResource(id = R.string.order)} #${cart.order}",
-            fontSize = 12,
-            fontWeight = FontWeight.Medium
+            title = "${stringResource(id = R.string.order)} #${1212}",
+            style = AppTypography.labelLarge
         )
-        CartText(
-            text = cart.date,
-            fontSize = 10,
-            fontWeight = FontWeight.SemiBold,
-            color = SecondaryTextColor
-        )
+        cart.date.formattedDate()?.let {
+            CartText(
+                title = it,
+                color = SecondaryTextColor
+            )
+        }
     }
 }
 
@@ -155,9 +171,8 @@ private fun PriceAndStateOfProductRow(cart: Cart) {
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         CartText(
-            text = "$${cart.productPrice}",
-            fontSize = 14,
-            fontWeight = FontWeight.SemiBold
+            title = "$${cart.cartProduct.price}",
+            style = AppTypography.labelLarge
         )
         CheckStatsOfProduct(cart)
     }
@@ -166,25 +181,27 @@ private fun PriceAndStateOfProductRow(cart: Cart) {
 @Composable
 private fun CheckStatsOfProduct(cart: Cart) {
     if (cart.isShipping) {
-        StateOfProduct(cart, color = AccentColor, fontWeight = FontWeight.SemiBold)
+        StateOfProduct(
+            cart, color = AccentColor, style = AppTypography.labelLarge
+        )
     } else {
-        StateOfProduct(cart, color = SecondaryTextColor, fontWeight = FontWeight.Normal)
+        StateOfProduct(cart, color = SecondaryTextColor, style = AppTypography.labelSmall)
     }
 }
 
 @Composable
-private fun StateOfProduct(cart: Cart, color: Color, fontWeight: FontWeight) {
+private fun StateOfProduct(cart: Cart, color: Color, style: TextStyle) {
     CartText(
-        text = cart.productState,
-        fontWeight = fontWeight,
-        color = color
+        title = cart.productState,
+        color = color,
+        style = style
     )
 }
 
 
 @Composable
 fun CheckOutCart(
-    cart: CartUiState,
+    cart: CartsUiState,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -200,19 +217,16 @@ fun CheckOutCart(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CheckOutRow(
-                title = if (cart.count > 1) "Items" else "Item",
-                value = cart.count.toString(),
-                fontWeight = FontWeight.SemiBold
+                title = if (cart.carts?.size!! > 1) "Items" else "Item",
+                value = cart.carts.size.toString(),
             )
             CheckOutRow(
                 title = stringResource(id = R.string.shipping_fee),
-                value = "$${cart.shippingFee}",
-                fontWeight = FontWeight.SemiBold
+                value = "$60.00",
             )
             CheckOutRow(
                 title = stringResource(id = R.string.total),
-                value = "$${cart.total}",
-                fontWeight = FontWeight.SemiBold
+                value = "$2248.04",
             )
             CheckOutButton() {}
         }
@@ -223,14 +237,13 @@ fun CheckOutCart(
 private fun CheckOutRow(
     title: String,
     value: String,
-    fontWeight: FontWeight,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        CartText(text = title)
-        CartText(text = value, fontWeight = fontWeight)
+        CartText(title = title)
+        CartText(title = value, style = AppTypography.labelLarge)
     }
 }
 
@@ -240,16 +253,16 @@ private fun CheckOutButton(
 ) {
     Button(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(top = 16.dp),
         colors = ButtonDefaults.buttonColors(AccentColor),
         shape = RoundedCornerShape(8.dp),
         onClick = { onClick() }
     ) {
         CartText(
-            text = stringResource(id = R.string.check_out),
-            fontSize = 14,
-            fontWeight = FontWeight.SemiBold,
+            title = stringResource(id = R.string.check_out),
             color = BaseColor,
+            style = AppTypography.bodyMedium,
             modifier = Modifier.padding(vertical = 4.dp)
         )
     }
@@ -266,26 +279,23 @@ private fun ProductImage(painter: Painter) {
     ) {
         Image(
             painter = painter, contentDescription = "",
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.FillHeight,
+            modifier = Modifier.fillMaxSize().background(BaseColor),
+            contentScale = ContentScale.None,
         )
     }
 }
 
 @Composable
 private fun CartText(
-    text: String,
-    fontSize: Int = 12,
-    fontWeight: FontWeight = FontWeight.Normal,
+    title: String,
     color: Color = PrimaryTextAndIconColor,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    style: TextStyle = AppTypography.labelSmall,
 ) {
-    Text(
-        text = text,
-        fontWeight = fontWeight,
-        fontFamily = Tajawal,
-        fontSize = fontSize.sp,
+    Body(
+        title = title,
+        style = style,
         color = color,
-        modifier = modifier
+        modifier = modifier,
     )
 }

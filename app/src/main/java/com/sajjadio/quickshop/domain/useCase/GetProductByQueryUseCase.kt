@@ -3,22 +3,18 @@ package com.sajjadio.quickshop.domain.useCase
 import com.sajjadio.quickshop.domain.model.products.Product
 import com.sajjadio.quickshop.domain.repository.ShopRepository
 import com.sajjadio.quickshop.domain.utils.Resource
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class GetProductByQuery @Inject constructor(
+class GetProductByQueryUseCase @Inject constructor(
     private val repository: ShopRepository
 ) {
 
-    @OptIn(FlowPreview::class)
     operator fun invoke(query: String): Flow<Resource<List<Product>>> {
         return flow {
             repository
                 .getAllProducts()
-                .debounce(500L)
                 .collect { resource ->
                     when (resource) {
                         Resource.Loading -> emit(Resource.Loading)

@@ -1,6 +1,10 @@
 package com.sajjadio.quickshop.presentation.screen.search
 
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,12 +17,18 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -44,11 +54,22 @@ fun SearchScreen(
 ) {
     val state by viewModel.uiState.collectAsState()
     val query by viewModel.searchQuery
+
+    val focusRequester = remember { FocusRequester() }
+    val context = LocalContext.current
+    val view = LocalView.current
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+        showKeyboard(context, view)
+    }
+
     SearchContent(
         state = state,
         query = query,
+        focusRequester = focusRequester,
         onTextChange = viewModel::setSearchQuery,
-        onClickAddToCart = {}
+        onClickAddToCart = {},
     ) { navController.navigateToProductDetails(it) }
 }
 
@@ -56,11 +77,12 @@ fun SearchScreen(
 private fun SearchContent(
     state: ProductUiState,
     query: String,
+    focusRequester: FocusRequester,
     onTextChange: (String) -> Unit,
     onClickAddToCart: (Int) -> Unit,
     onClickProductItem: (Int) -> Unit
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize().focusRequester(focusRequester)) {
         SearchBox(query = query, onTextChange = onTextChange)
 
         CheckUiState(isLoading = state.isLoading, error = state.error, state.products) { products ->
@@ -116,4 +138,11 @@ private fun SearchBox(
             )
         }
     }
+}
+
+@SuppressLint("ServiceCast")
+private fun showKeyboard(context: Context, view: View?) {
+    val inputMethodManager =
+        context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
 }

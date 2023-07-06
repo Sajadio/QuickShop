@@ -142,42 +142,6 @@ private fun ProductContainer(
             }
         }
     }
-
-//    Column(
-//        modifier = Modifier
-//            .fillMaxSize(),
-//        verticalArrangement = Arrangement.SpaceBetween
-//    ) {
-//        Column(
-//            modifier = Modifier
-//                .weight(1f)
-//                .verticalScroll(scrollState)
-//        ) {
-//            Box(modifier = Modifier.height(400.dp)) {
-//                ProductImage(product.image)
-//                BackButton(onClickBack)
-//            }
-//            ProductDetails(product)
-//        }
-//        Surface(
-//            elevation = 8.dp,
-//        ) {
-//            Card(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .height(88.dp),
-//                backgroundColor = Color.White,
-//            ) {
-//                Row(
-//                    modifier = Modifier.fillMaxHeight(),
-//                    horizontalArrangement = Arrangement.SpaceBetween
-//                ) {
-//                    AddItemToCart(itemCount)
-//                    ContainerClickableButtons(itemCount)
-//                }
-//            }
-//        }
-//    }
 }
 
 @Composable
@@ -187,7 +151,7 @@ private fun ProductImage(image: String) {
             .fillMaxSize(),
         painter = rememberAsyncImagePainter(model = image),
         contentDescription = "product image",
-        contentScale = ContentScale.FillBounds,
+        contentScale = ContentScale.None,
         alignment = Alignment.TopCenter,
     )
 }

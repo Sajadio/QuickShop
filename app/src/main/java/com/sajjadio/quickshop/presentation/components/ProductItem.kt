@@ -30,6 +30,7 @@ import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
 import com.sajjadio.quickshop.presentation.ui.theme.BaseColor
 import com.sajjadio.quickshop.presentation.ui.theme.TextInputFiledColor
 import com.sajjadio.quickshop.presentation.ui.theme.AppTypography
+import com.sajjadio.quickshop.presentation.ui.theme.CardBackgroundColor
 
 @Composable
 fun ProductItem(
@@ -42,7 +43,7 @@ fun ProductItem(
         modifier = modifier
             .width(200.dp)
             .clickable { onClickItem(state.id) },
-        colors = CardDefaults.cardColors(TextInputFiledColor),
+        colors = CardDefaults.cardColors(CardBackgroundColor),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 0.dp
         ),
@@ -87,8 +88,10 @@ private fun ProductImage(
         contentDescription = state.title,
         modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp),
-        contentScale = ContentScale.FillBounds
+            .height(200.dp)
+            .fillMaxWidth()
+            .background(BaseColor),
+        contentScale = ContentScale.None
     )
 }
 

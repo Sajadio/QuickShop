@@ -1,7 +1,7 @@
-package com.sajjadio.quickshop.data.remote.mapper
+package com.sajjadio.quickshop.data.dataSource.remote.mapper
 
-import com.sajjadio.quickshop.data.remote.model.user.NameDto
-import com.sajjadio.quickshop.data.remote.model.user.UserDto
+import com.sajjadio.quickshop.data.dataSource.remote.model.user.NameDto
+import com.sajjadio.quickshop.data.dataSource.remote.model.user.UserDto
 import com.sajjadio.quickshop.domain.model.user.Name
 import com.sajjadio.quickshop.domain.model.user.User
 

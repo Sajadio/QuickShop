@@ -3,7 +3,7 @@ package com.sajjadio.quickshop.presentation.screen.search
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sajjadio.quickshop.domain.useCase.GetProductByQuery
+import com.sajjadio.quickshop.domain.useCase.GetProductByQueryUseCase
 import com.sajjadio.quickshop.domain.utils.Resource
 import com.sajjadio.quickshop.presentation.screen.common.ProductUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchVewModel @Inject constructor(
-    private val getProductByQuery: GetProductByQuery
+    private val getProductByQueryUseCase: GetProductByQueryUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ProductUiState())
@@ -29,7 +29,7 @@ class SearchVewModel @Inject constructor(
 
     private fun getProductsByName(query: String) {
         viewModelScope.launch {
-            getProductByQuery(query)
+            getProductByQueryUseCase(query)
                 .collect { resource ->
                     when (resource) {
                         Resource.Loading -> _uiState.update { it.copy(isLoading = true) }

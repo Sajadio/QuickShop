@@ -1,13 +1,13 @@
-package com.sajjadio.quickshop.data.remote.model.user
+package com.sajjadio.quickshop.data.dataSource.remote.model.user
 
 
 import com.google.gson.annotations.SerializedName
 
-data class Address(
+data class AddressDto(
     @SerializedName("city")
     val city: String?,
     @SerializedName("geolocation")
-    val geolocation: Geolocation?,
+    val geolocationDto: GeolocationDto?,
     @SerializedName("number")
     val number: Int?,
     @SerializedName("street")

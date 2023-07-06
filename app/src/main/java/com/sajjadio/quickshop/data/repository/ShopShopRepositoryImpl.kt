@@ -1,11 +1,12 @@
 package com.sajjadio.quickshop.data.repository
 
 import com.sajjadio.quickshop.data.dataSource.ShopRemoteDataSource
-import com.sajjadio.quickshop.data.remote.mapper.mapToProduct
-import com.sajjadio.quickshop.data.remote.mapper.mapToUser
-import com.sajjadio.quickshop.data.remote.model.cart.Cart
-import com.sajjadio.quickshop.data.remote.model.cart.Carts
-import com.sajjadio.quickshop.data.remote.model.products.ProductDto
+import com.sajjadio.quickshop.data.dataSource.remote.mapper.mapToProduct
+import com.sajjadio.quickshop.data.dataSource.remote.mapper.mapToUser
+import com.sajjadio.quickshop.data.dataSource.remote.model.cart.CartDto
+import com.sajjadio.quickshop.data.dataSource.remote.model.products.ProductDto
+import com.sajjadio.quickshop.domain.model.cart.Cart
+import com.sajjadio.quickshop.domain.model.cart.CartProduct
 import com.sajjadio.quickshop.domain.model.products.Product
 import com.sajjadio.quickshop.domain.model.user.User
 import com.sajjadio.quickshop.domain.repository.ShopRepository
@@ -44,20 +45,55 @@ class ShopShopRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getAllCarts(): Flow<Resource<Carts>> {
-        return wrapWithFlow { shopRemoteDataSource.getAllCarts() }
+    override suspend fun getAllCartsByUserId(userId: Int): Flow<Resource<MutableList<Cart>>> {
+        return flow {
+            try {
+                emit(Resource.Loading)
+                val cartItem = mutableListOf<Cart>()
+                val response = shopRemoteDataSource.getAllCartsByUserId(userId)
+                if (response.isSuccessful) {
+                    response.body()?.forEach { cartDto ->
+                        cartDto.products.forEach { cartProductDto ->
+                            val products =
+                                shopRemoteDataSource
+                                    .getProductById(cartProductDto.productId)
+                                    .body()
+                            cartItem.add(
+                                Cart(
+                                    date = cartDto.date,
+                                    id = cartDto.id,
+                                    cartProduct = CartProduct(
+                                        category = products?.category.toString(),
+                                        id = cartProductDto.productId,
+                                        image = products?.image.toString(),
+                                        price = products?.price!!,
+                                        quantity = cartProductDto.quantity,
+                                    ),
+                                    userId = cartDto.userId,
+                                )
+                            )
+                        }
+                    }
+                    emit(Resource.Success(cartItem))
+                } else {
+                    emit(Resource.Error(response.message().toString()))
+                }
+            } catch (e: Exception) {
+                emit(Resource.Error(e.message.toString()))
+            }
+        }
     }
 
-    override fun getCartById(cartId: Int): Flow<Resource<Cart>> {
+    override fun getCartById(cartId: Int): Flow<Resource<CartDto>> {
         return wrapWithFlow { shopRemoteDataSource.getCartById(cartId) }
     }
 
-    override fun sortAllCarts(sort: String): Flow<Resource<Carts>> {
+    override fun sortAllCarts(sort: String): Flow<Resource<CartDto>> {
         return wrapWithFlow { shopRemoteDataSource.sortAllCarts(sort) }
     }
 
-    override fun getUser(userId: Int): Flow<Resource<List<User>>> {
-        return wrapper({ shopRemoteDataSource.getUser(userId) }) { userDto ->
+    override fun getUserById(userId: Int): Flow<Resource<List<User>>> {
+        return wrapper({ shopRemoteDataSource.getUserById(userId) }) { userDto ->
             userDto.map { it.mapToUser() }
         }
     }

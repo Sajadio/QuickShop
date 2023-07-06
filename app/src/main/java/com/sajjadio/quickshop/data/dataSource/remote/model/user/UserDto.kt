@@ -1,11 +1,11 @@
-package com.sajjadio.quickshop.data.remote.model.user
+package com.sajjadio.quickshop.data.dataSource.remote.model.user
 
 
 import com.google.gson.annotations.SerializedName
 
 data class UserDto(
     @SerializedName("address")
-    val address: Address,
+    val addressDto: AddressDto,
     @SerializedName("email")
     val email: String,
     @SerializedName("id")

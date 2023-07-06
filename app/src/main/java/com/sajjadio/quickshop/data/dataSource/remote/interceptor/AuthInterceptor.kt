@@ -1,4 +1,4 @@
-package com.sajjadio.quickshop.data.remote.interceptor
+package com.sajjadio.quickshop.data.dataSource.remote.interceptor
 
 import okhttp3.Interceptor
 import okhttp3.Response
