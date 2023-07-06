@@ -5,7 +5,10 @@ QuickShop app built with Jetpack Compose by using [Fake Store Api](https://fakes
 2. Get all categories.
 3. Get all categories and more.
 
-## images
+## [Video](https://streamable.com/wpjaik)
+
+
+## Images
 
 <img src="images/one.png" width="250"/> <img src="images/two.png" width="250"/>
 
@@ -32,7 +35,7 @@ this API has some endpoints does not anything like login, signup, or add product
 
 1. [Kotlin](https://developer.android.com/kotlin)
 2. [Jetpack components](https://developer.android.com/jetpack/compose)
-3. [The Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
+3. [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
 4. [Retrofit](https://square.github.io/retrofit/)
 5. [Dagger Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
 6. [Logging Interceptor](https://github.com/square/okhttp/blob/master/okhttp-logging-interceptor/README.md)
