@@ -44,8 +44,8 @@ import com.sajjadio.quickshop.presentation.screen.product_details.navigateToProd
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
 import com.sajjadio.quickshop.presentation.ui.theme.PrimaryTextAndIconColor
 import com.sajjadio.quickshop.presentation.ui.theme.SecondaryTextColor
-import com.sajjadio.quickshop.presentation.ui.theme.TextInputFiledColor
 import com.sajjadio.quickshop.presentation.ui.theme.AppTypography
+import com.sajjadio.quickshop.presentation.ui.theme.CardBackgroundColor
 
 @Composable
 fun SearchScreen(
@@ -126,7 +126,7 @@ private fun SearchBox(
                 textStyle = AppTypography.bodyMedium,
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = PrimaryTextAndIconColor,
-                    containerColor = TextInputFiledColor,
+                    containerColor = CardBackgroundColor,
                     cursorColor = AccentColor,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,

@@ -28,7 +28,6 @@ import com.sajjadio.quickshop.R
 import com.sajjadio.quickshop.domain.model.products.Product
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
 import com.sajjadio.quickshop.presentation.ui.theme.BaseColor
-import com.sajjadio.quickshop.presentation.ui.theme.TextInputFiledColor
 import com.sajjadio.quickshop.presentation.ui.theme.AppTypography
 import com.sajjadio.quickshop.presentation.ui.theme.CardBackgroundColor
 

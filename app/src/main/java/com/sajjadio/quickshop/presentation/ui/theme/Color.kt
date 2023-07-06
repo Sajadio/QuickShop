@@ -19,5 +19,4 @@ val PrimaryTextAndIconColor = Color(0xFF1F222B)
 val SecondaryTextColor = Color(0xFFBBBBBB)
 val TextInputFiledColor = Color(0xFFF0F0F0)
 val BaseColor = Color(0xFFFFFFFF)
-val LightWhiteColor = Color(0x80FFFFFF)
 val CardBackgroundColor = TextInputFiledColor

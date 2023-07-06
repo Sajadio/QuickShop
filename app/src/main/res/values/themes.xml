@@ -2,4 +2,11 @@
 <resources>
 
     <style name="Theme.QuickShop" parent="android:Theme.Material.Light.NoActionBar"/>
+
+    <style name="Theme.SplashScreen.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+
 </resources>

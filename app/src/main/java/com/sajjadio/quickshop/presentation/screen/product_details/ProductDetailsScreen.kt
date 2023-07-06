@@ -48,7 +48,6 @@ import com.sajjadio.quickshop.presentation.components.ContainerRating
 import com.sajjadio.quickshop.presentation.components.SpacerVertical
 import com.sajjadio.quickshop.presentation.components.Title
 import com.sajjadio.quickshop.presentation.ui.theme.AccentColor
-import com.sajjadio.quickshop.presentation.ui.theme.LightWhiteColor
 import com.sajjadio.quickshop.presentation.ui.theme.PrimaryTextAndIconColor
 import com.sajjadio.quickshop.presentation.ui.theme.AppTypography
 import com.sajjadio.quickshop.presentation.ui.theme.LightAccentColor

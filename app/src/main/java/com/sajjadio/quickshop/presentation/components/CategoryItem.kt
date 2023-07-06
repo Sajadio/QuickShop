@@ -11,7 +11,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.sajjadio.quickshop.presentation.ui.theme.AppTypography
-import com.sajjadio.quickshop.presentation.ui.theme.TextInputFiledColor
+import com.sajjadio.quickshop.presentation.ui.theme.CardBackgroundColor
 import java.util.Locale
 
 @Composable
@@ -21,10 +21,10 @@ fun CategoryItem(
 ) {
     Box(
         modifier = Modifier
-            .background(TextInputFiledColor)
+            .background(CardBackgroundColor)
             .clip(RoundedCornerShape(8.dp))
-            .clickable { onClickCategoryItem(title) }
             .padding(8.dp)
+            .clickable { onClickCategoryItem(title) }
     ) {
         Title(
             title = title.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() },

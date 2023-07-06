@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.sajjadio.quickshop.R
 import com.sajjadio.quickshop.presentation.screen.home.utils.SortOption
-import com.sajjadio.quickshop.presentation.ui.theme.TextInputFiledColor
+import com.sajjadio.quickshop.presentation.ui.theme.CardBackgroundColor
 
 @Composable
 fun SortButton(
@@ -34,7 +34,7 @@ fun SortButton(
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
-            .background(TextInputFiledColor)
+            .background(CardBackgroundColor)
             .height(56.dp)
             .fillMaxWidth()
             .clickable { expanded = true },

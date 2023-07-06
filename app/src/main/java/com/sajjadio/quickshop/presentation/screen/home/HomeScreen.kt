@@ -81,7 +81,7 @@ import com.sajjadio.quickshop.presentation.ui.theme.SecondaryColor
 import com.sajjadio.quickshop.presentation.ui.theme.SecondaryTextColor
 import com.sajjadio.quickshop.presentation.ui.theme.AppTypography
 import com.sajjadio.quickshop.presentation.ui.theme.BaseColor
-import com.sajjadio.quickshop.presentation.ui.theme.TextInputFiledColor
+import com.sajjadio.quickshop.presentation.ui.theme.CardBackgroundColor
 import com.sajjadio.quickshop.utils.showToast
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.yield
@@ -255,7 +255,7 @@ fun SearchBox(
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
-            .background(TextInputFiledColor)
+            .background(CardBackgroundColor)
             .height(56.dp)
             .fillMaxWidth()
             .clickable { onClickSearchBox() },

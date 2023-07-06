@@ -13,13 +13,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:name=".QuickShopApp"
-        android:theme="@style/Theme.QuickShop"
+        android:theme="@style/Theme.App.Starting"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.QuickShopActivity"
+            android:name=".presentation.activity.QuickShopActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.QuickShop"
+            android:theme="@style/Theme.App.Starting"
             tools:ignore="RedundantLabel">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
