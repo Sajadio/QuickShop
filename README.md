@@ -5,6 +5,17 @@ QuickShop app built with Jetpack Compose by using [Fake Store Api](https://fakes
 2. Get all categories.
 3. Get all categories and more.
 
+## Images
+
+<img src="Images/one.png" width="250"/> <img src="Images/two.png" width="250"/>
+
+<img src="Images/three.png" width="250"/> <img src="Images/foure.png" width="250"/>
+
+<img src="Images/five.png" width="250"/> <img src="Images/six.png" width="250"/> <img src="Images/seven.png" width="250"/>
+
+<img src="Images/eight.png" width="250"/>
+
+
 ## Reminder
 this API has some endpoints does not anything like login, signup, or add products to a cart it's just a simple simulation of shipping API and this will help you to practice and build a simple app.
 
