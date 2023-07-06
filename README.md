@@ -5,15 +5,15 @@ QuickShop app built with Jetpack Compose by using [Fake Store Api](https://fakes
 2. Get all categories.
 3. Get all categories and more.
 
-## Images
+## images
 
-<img src="Images/one.png" width="250"/> <img src="Images/two.png" width="250"/>
+<img src="images/one.png" width="250"/> <img src="images/two.png" width="250"/>
 
-<img src="Images/three.png" width="250"/> <img src="Images/foure.png" width="250"/>
+<img src="images/three.png" width="250"/> <img src="images/foure.png" width="250"/>
 
-<img src="Images/five.png" width="250"/> <img src="Images/six.png" width="250"/> <img src="Images/seven.png" width="250"/>
+<img src="images/five.png" width="250"/> <img src="images/six.png" width="250"/> <img src="images/seven.png" width="250"/>
 
-<img src="Images/eight.png" width="250"/>
+<img src="images/eight.png" width="250"/>
 
 
 ## Reminder
