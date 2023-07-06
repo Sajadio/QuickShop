@@ -31,8 +31,6 @@ fun SortButton(
     onMenuItemClick: (SortOption) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
-    var selectedOption by remember { mutableStateOf(SortOption.All) }
-
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
@@ -63,7 +61,7 @@ fun SortButton(
         }
         DropdownMenuItem(
             onClick = {
-                selectedOption = SortOption.Asc
+                onMenuItemClick(SortOption.Asc)
                 expanded = false
             }
         ) {
@@ -71,7 +69,7 @@ fun SortButton(
         }
         DropdownMenuItem(
             onClick = {
-                selectedOption = SortOption.Desc
+                onMenuItemClick(SortOption.Desc)
                 expanded = false
             }
         ) {

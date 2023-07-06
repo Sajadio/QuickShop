@@ -37,6 +37,10 @@ class HomeViewModel @Inject constructor(
         loadProductsData()
     }
 
+    fun addToCart(id: Int) {
+        // TODO
+    }
+
     private fun loadAdsData() {
         viewModelScope.launch {
             getAllAdsUseCase().collect { resource ->

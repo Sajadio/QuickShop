@@ -38,7 +38,7 @@ import com.sajjadio.quickshop.presentation.ui.theme.SecondaryTextColor
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun NavScreen() {
+fun BottomNavScreen() {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = {

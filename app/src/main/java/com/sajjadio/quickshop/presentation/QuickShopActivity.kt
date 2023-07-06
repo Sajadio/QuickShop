@@ -22,7 +22,7 @@ class QuickShopActivity : ComponentActivity() {
         setContent {
             QuickShopTheme {
                 ChangeStatusBarColor()
-                NavScreen()
+                BottomNavScreen()
             }
         }
     }

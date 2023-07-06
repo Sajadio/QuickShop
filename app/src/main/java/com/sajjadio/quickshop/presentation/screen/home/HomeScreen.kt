@@ -6,13 +6,11 @@
 package com.sajjadio.quickshop.presentation.screen.home
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -42,8 +40,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -63,7 +63,6 @@ import com.sajjadio.quickshop.presentation.components.ClickableIcon
 import com.sajjadio.quickshop.presentation.components.ProductItem
 import com.sajjadio.quickshop.presentation.components.ProfileImage
 import com.sajjadio.quickshop.presentation.components.SortButton
-import com.sajjadio.quickshop.presentation.screen.home.components.SearchBox
 import com.sajjadio.quickshop.presentation.components.SpacerHorizontal
 import com.sajjadio.quickshop.presentation.components.SpacerVertical
 import com.sajjadio.quickshop.presentation.components.StaticIcon
@@ -83,6 +82,7 @@ import com.sajjadio.quickshop.presentation.ui.theme.SecondaryTextColor
 import com.sajjadio.quickshop.presentation.ui.theme.AppTypography
 import com.sajjadio.quickshop.presentation.ui.theme.BaseColor
 import com.sajjadio.quickshop.presentation.ui.theme.TextInputFiledColor
+import com.sajjadio.quickshop.utils.showToast
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.yield
 
@@ -96,6 +96,8 @@ fun HomeScreen(
     val adsUiState by viewModel.adUiState.collectAsState()
     val categoriesUiState by viewModel.categoryUiState.collectAsState()
     val productsUiState by viewModel.productUiState.collectAsState()
+    val context = LocalContext.current
+
     HomeContent(
         adsUiState,
         categoriesUiState,
@@ -105,7 +107,10 @@ fun HomeScreen(
         onClickProductItem = navController::navigateToProductDetails,
         onClickCategories = navController::navigateToCategories,
         onClickCategoryItem = navController::navigateToProductsByCategory,
-        onClickAddToCart = {},
+        onClickAddToCart = {
+            context.showToast(message = "Add $it to card")
+            viewModel.addToCart(it)
+        },
         onClickSearchBox = navController::navigateToSearchScreen
     )
 }
@@ -243,14 +248,44 @@ private fun ContainerSearchBox(onClickSearchBox: () -> Unit) {
 }
 
 @Composable
+fun SearchBox(
+    modifier: Modifier = Modifier,
+    onClickSearchBox: () -> Unit
+) {
+    Row(
+        modifier = modifier
+            .clip(RoundedCornerShape(8.dp))
+            .background(TextInputFiledColor)
+            .height(56.dp)
+            .fillMaxWidth()
+            .clickable { onClickSearchBox() },
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        SpacerHorizontal(width = 16)
+        StaticIcon(
+            painter = painterResource(id = R.drawable.ic_search),
+            contentDescription = stringResource(id = R.string.search),
+            tint = SecondaryTextColor
+        )
+        SpacerHorizontal(width = 8)
+        Body(
+            title = stringResource(id = R.string.search),
+            style = AppTypography.bodySmall,
+            color = SecondaryTextColor,
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Composable
 fun FilterButton(
     modifier: Modifier = Modifier
 ) {
     var currentSortOption by remember { mutableStateOf(SortOption.All) }
-
-    SortButton(modifier = modifier) {sortOption ->
+    val context = LocalContext.current
+    SortButton(modifier = modifier) { sortOption ->
         currentSortOption = sortOption
-        Log.d("", "FilterButton: ${sortOption.name}")
+        context.showToast(message = "Sorted by $currentSortOption")
     }
 }
 
