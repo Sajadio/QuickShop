@@ -1,7 +1,5 @@
 # 📱 QUICK SHOP
-<div style="display: flex; justify-content: center;">
-  <img src="images/logo.png" width="250" />
-</div>
+
 
 QuickShop app built with Jetpack Compose by using [Fake Store Api](https://fakestoreapi.com/) and this repository has some endpoints like:
 1. Get all products.
