@@ -1,4 +1,7 @@
 # 📱 QuickShop
 
-This repository contains the source code for <a><p>fakestoreapi</p></a>
-TMDA Android app, which allows users to browse and search for movies using the TMDB API. The app provides information such as movie details, ratings, reviews, and trailers.
+QuickShop app built with jetpack and <p>FakeStoreApi<a>https://fakestoreapi.com/</a></p>
+and this repository has some endpoints like:
+1. Get all products.
+2. Get all categories.
+3. Get all categories and more.
