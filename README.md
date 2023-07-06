@@ -17,6 +17,17 @@ this API has some endpoints does not anything like login, signup, or add product
 - And several good things
 
 
+## Tech Stack
+
+1. [Kotlin](https://developer.android.com/kotlin)
+2. [Jetpack components](https://developer.android.com/jetpack/compose)
+3. [Retrofit](https://square.github.io/retrofit/)
+4. [Dagger Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
+5. [Logging Interceptor](https://github.com/square/okhttp/blob/master/okhttp-logging-interceptor/README.md)
+6. [Coil](https://coil-kt.github.io/coil/compose/)
+7. [Splash Screen](https://www.bing.com/search?pglt=673&q=androidx.core%3Acore-splashscreen%3A1.0.1&cvid=17963b48013b4e2fa56b8807ad373991&aqs=edge.0.69i59.368j0j1&FORM=ANNTA1&PC=SCOOBE)
+
+
 ## Prerequisites
 
 Before running the app, ensure that you have the following:
