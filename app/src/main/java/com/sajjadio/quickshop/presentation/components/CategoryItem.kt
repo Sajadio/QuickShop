@@ -21,8 +21,8 @@ fun CategoryItem(
 ) {
     Box(
         modifier = Modifier
-            .background(CardBackgroundColor)
             .clip(RoundedCornerShape(8.dp))
+            .background(CardBackgroundColor)
             .padding(8.dp)
             .clickable { onClickCategoryItem(title) }
     ) {

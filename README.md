@@ -6,7 +6,7 @@ QuickShop app built with Jetpack Compose by using [Fake Store Api](https://fakes
 2. Get all categories.
 3. Get all categories and more.
 
-## [Video](https://streamable.com/wpjaik)
+## [Video](https://streamable.com/rts2z7)
 
 
 ## Images

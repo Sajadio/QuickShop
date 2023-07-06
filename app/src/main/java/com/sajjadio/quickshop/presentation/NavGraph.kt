@@ -1,6 +1,5 @@
 package com.sajjadio.quickshop.presentation
 
-import android.view.Window
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.Dp
 import androidx.navigation.NavHostController
