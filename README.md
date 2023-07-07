@@ -11,13 +11,13 @@ QuickShop app built with Jetpack Compose by using [Fake Store Api](https://fakes
 
 ## Images
 
-<img src="images/one.png" width="250"/> <img src="images/two.png" width="250"/>
+<img src="images/splash.png" width="250"/> <img src="images/home.png" width="250"/>
 
-<img src="images/three.png" width="250"/> <img src="images/foure.png" width="250"/>
+<img src="images/search.png" width="250"/> <img src="images/details.png" width="250"/>
 
-<img src="images/five.png" width="250"/> <img src="images/six.png" width="250"/> <img src="images/seven.png" width="250"/>
+<img src="images/cart.png" width="250"/> <img src="images/category.png" width="250"/> <img src="images/seven.png" width="250"/>
 
-<img src="images/eight.png" width="250"/>
+<img src="images/profile.png" width="250"/>
 
 
 ## Reminder
