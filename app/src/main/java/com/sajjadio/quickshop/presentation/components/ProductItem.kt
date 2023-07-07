@@ -20,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
@@ -40,7 +39,7 @@ fun ProductItem(
 ) {
     Card(
         modifier = modifier
-            .width(200.dp)
+            .width(150.dp)
             .clickable { onClickItem(state.id) },
         colors = CardDefaults.cardColors(CardBackgroundColor),
         elevation = CardDefaults.cardElevation(
@@ -68,10 +67,10 @@ private fun CardContent(
         horizontalAlignment = Alignment.Start
     ) {
         SpacerVertical(height = 8)
-        Title(title = state.title, style = AppTypography.titleLarge)
-        Body(title = state.category, style = AppTypography.bodyMedium)
+        Title(title = state.title, style = AppTypography.bodyLarge)
+        Body(title = state.category)
         SpacerVertical(height = 4)
-        state.rating?.rate?.let { ContainerRating(it) }
+        state.rating.rate.let { ContainerRating(it) }
         SpacerVertical(height = 8)
         ContainerPriceAndButtonCart(state, onClickAddToCart)
     }
@@ -87,10 +86,9 @@ private fun ProductImage(
         contentDescription = state.title,
         modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp)
+            .height(150.dp)
             .fillMaxWidth()
             .background(BaseColor),
-        contentScale = ContentScale.None
     )
 }
 
@@ -107,7 +105,7 @@ private fun ContainerPriceAndButtonCart(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Title(title = "$${state.price}", style = AppTypography.titleLarge)
+        Title(title = "$${state.price}", style = AppTypography.bodyLarge)
         ButtonCart(onClickAddToCart, state)
     }
 }

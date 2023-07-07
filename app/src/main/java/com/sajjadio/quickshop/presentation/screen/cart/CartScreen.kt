@@ -84,7 +84,7 @@ fun CartContent(
             data = state.carts
         ) { carts ->
             LazyColumn(
-                modifier = Modifier.weight(1.5f),
+                modifier = Modifier.weight(1.7f),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 contentPadding = PaddingValues(8.dp)
             ) {
@@ -276,7 +276,6 @@ private fun ProductImage(painter: Painter) {
         Image(
             painter = painter, contentDescription = "",
             modifier = Modifier.fillMaxSize().background(BaseColor),
-            contentScale = ContentScale.None,
         )
     }
 }

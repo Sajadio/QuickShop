@@ -218,7 +218,7 @@ private fun AppBar() {
         ) {
             ProfileImage(painter = painterResource(id = R.drawable.details_image))
             SpacerHorizontal(width = 8)
-            UserName(text = "Hi, John", style = AppTypography.titleLarge)
+            UserName(text = "Hi, John", style = AppTypography.titleMedium)
         }
         ClickableIcon(
             painter = painterResource(id = R.drawable.ic_notification),
@@ -270,7 +270,7 @@ fun SearchBox(
         SpacerHorizontal(width = 8)
         Body(
             title = stringResource(id = R.string.search),
-            style = AppTypography.bodySmall,
+            style = AppTypography.labelMedium,
             color = SecondaryTextColor,
             textAlign = TextAlign.Center
         )
@@ -459,7 +459,7 @@ fun Products(
 
 @Composable
 private fun Header(text: String) {
-    Title(title = text, style = AppTypography.titleLarge)
+    Title(title = text, style = AppTypography.bodyLarge)
 }
 
 @Composable
@@ -470,7 +470,7 @@ private fun ClickableHeader(
 ) {
     Body(
         title = text,
-        style = AppTypography.bodyLarge,
+        style = AppTypography.labelLarge,
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
             .clickable { onClick() },

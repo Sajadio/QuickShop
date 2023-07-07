@@ -3,7 +3,6 @@ package com.sajjadio.quickshop.presentation.screen.product_details
 import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,10 +17,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.Surface
@@ -33,7 +30,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -74,14 +70,12 @@ private fun ProductDetailsContent(
     onClickBack: () -> Unit,
     state: ProductDetailsUiState
 ) {
-    val scrollState = rememberScrollState()
     CheckUiState(
         isLoading = state.isLoading,
         error = state.error,
         data = state.product
     ) { product ->
         ProductContainer(
-            scrollState,
             onClickBack,
             itemCount,
             product
@@ -93,7 +87,6 @@ private fun ProductDetailsContent(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ProductContainer(
-    scrollState: ScrollState,
     onClickBack: () -> Unit,
     itemCount: MutableState<Int>,
     product: Product
@@ -112,7 +105,7 @@ private fun ProductContainer(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(400.dp)
+                        .height(250.dp)
                 ) {
                     ProductImage(product.image)
                 }
@@ -150,7 +143,6 @@ private fun ProductImage(image: String) {
             .fillMaxSize(),
         painter = rememberAsyncImagePainter(model = image),
         contentDescription = "product image",
-        contentScale = ContentScale.None,
         alignment = Alignment.TopCenter,
     )
 }
@@ -179,22 +171,21 @@ private fun ProductDetails(product: Product) {
     Column(modifier = Modifier.padding(16.dp)) {
         Title(
             title = product.title,
-            style = AppTypography.titleLarge,
+            style = AppTypography.bodyLarge,
             maxLine = 2
         )
         Body(
             title = product.category,
-            style = AppTypography.bodySmall,
             maxLine = 2
         )
         ContainerRating(product.rating.rate)
         Body(
             title = product.description,
-            style = AppTypography.bodySmall,
-            maxLine = 20
+            maxLine = 20,
+            style = AppTypography.labelSmall,
         )
         SpacerVertical(height = 16)
-        Title(title = "$${product.price}", style = AppTypography.titleLarge)
+        Title(title = "$${product.price}", style = AppTypography.bodyLarge)
     }
 }
 
@@ -224,7 +215,7 @@ private fun AddItemToCart(itemCount: MutableState<Int>) {
             Title(
                 title = stringResource(id = R.string.add),
                 color = Color.White,
-                style = AppTypography.titleLarge
+                style = AppTypography.bodyLarge
             )
         }
     }
@@ -235,7 +226,7 @@ private fun ContainerClickableButtons(itemCount: MutableState<Int>) {
     Row(
         modifier = Modifier
             .fillMaxHeight()
-            .width(180.dp),
+            .width(164.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {

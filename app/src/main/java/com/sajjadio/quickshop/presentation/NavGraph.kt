@@ -23,7 +23,7 @@ fun QuickShopNavGraph(
     navController: NavHostController,
     calculateBottomPadding: Dp,
 ) {
-    NavHost(navController = navController, startDestination = Screen.Home.route) {
+    NavHost(navController = navController, startDestination = Screen.Cart.route) {
         homeRoute(
             calculateBottomPadding = calculateBottomPadding,
             navController = navController
