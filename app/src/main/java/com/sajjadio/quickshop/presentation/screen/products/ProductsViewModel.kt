@@ -3,7 +3,6 @@ package com.sajjadio.quickshop.presentation.screen.products
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sajjadio.quickshop.domain.repository.ShopRepository
 import com.sajjadio.quickshop.domain.useCase.GetAllProductsUseCase
 import com.sajjadio.quickshop.domain.utils.Resource
 import com.sajjadio.quickshop.presentation.screen.common.ProductUiState
@@ -28,26 +27,27 @@ class ProductsViewModel @Inject constructor(
 
     private fun loadProductData() {
         viewModelScope.launch {
-            getAllProductsUseCase().collect { resource ->
-                when (resource) {
-                    Resource.Loading -> _uiState.update { it.copy(isLoading = true) }
-                    is Resource.Success -> {
-                        _uiState.update { state ->
-                            state.copy(
-                                products = resource.data,
-                                isLoading = false
-                            )
-                        }
+            _uiState.update { it.copy(isLoading = true) }
+            when (val resource = getAllProductsUseCase()) {
+                is Resource.Success -> {
+                    _uiState.update {
+                        it.copy(
+                            products = resource.data,
+                            isLoading = false,
+                        )
                     }
+                }
 
-                    is Resource.Error -> _uiState.update { state ->
-                        state.copy(
+                is Resource.Error -> {
+                    _uiState.update {
+                        it.copy(
                             isLoading = false,
                             error = resource.errorMessage.toString()
                         )
                     }
                 }
             }
+
         }
     }
 }

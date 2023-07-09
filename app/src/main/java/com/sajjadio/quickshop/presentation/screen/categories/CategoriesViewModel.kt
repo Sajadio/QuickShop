@@ -27,26 +27,24 @@ class CategoriesViewModel @Inject constructor(
 
     private fun loadCategoriesData() {
         viewModelScope.launch {
-            getAllCategoriesUseCase().collect { resource ->
-                when (resource) {
-                    Resource.Loading -> _uiStats.update { it.copy(isLoading = true) }
-                    is Resource.Success -> {
-                        _uiStats.update {
-                            CategoryUiState(
-                                categories = resource.data,
-                                isLoading = false
-                            )
-                        }
-
+            _uiStats.update { it.copy(isLoading = true) }
+            when (val resource = getAllCategoriesUseCase()) {
+                is Resource.Success -> {
+                    _uiStats.update {
+                        CategoryUiState(
+                            categories = resource.data,
+                            isLoading = false
+                        )
                     }
 
-                    is Resource.Error -> {
-                        _uiStats.update { state ->
-                            state.copy(
-                                isLoading = false,
-                                error = resource.errorMessage.toString()
-                            )
-                        }
+                }
+
+                is Resource.Error -> {
+                    _uiStats.update { state ->
+                        state.copy(
+                            isLoading = false,
+                            error = resource.errorMessage.toString()
+                        )
                     }
                 }
             }

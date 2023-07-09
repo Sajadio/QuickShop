@@ -3,23 +3,23 @@ package com.sajjadio.quickshop.data.dataSource
 import com.sajjadio.quickshop.data.dataSource.remote.model.cart.CartDto
 import com.sajjadio.quickshop.data.dataSource.remote.model.products.ProductDto
 import com.sajjadio.quickshop.data.dataSource.remote.model.user.UserDto
-import retrofit2.Response
 
 interface ShopRemoteDataSource {
-    suspend fun getAllProducts(): Response<List<ProductDto>>
 
-    suspend fun getProductById(productId: Int): Response<ProductDto>
+    suspend fun getAllProducts(): List<ProductDto>
 
-    suspend fun sortAllProducts(sort: String): Response<List<ProductDto>>
+    suspend fun getProductById(productId: Int): ProductDto
 
-    suspend fun getAllCategories(): Response<List<String>>
+    suspend fun sortAllProducts(sort: String): List<ProductDto>
 
-    suspend fun getAllProductsByCategory(category: String): Response<List<ProductDto>>
+    suspend fun getAllCategories(): List<String>
 
-    suspend fun getAllCartsByUserId(userId: Int): Response<List<CartDto>>
+    suspend fun getAllProductsByCategory(category: String): List<ProductDto>
 
-    suspend fun getCartById(cartId: Int): Response<CartDto>
+    suspend fun getAllCartsByUserId(userId: Int): List<CartDto>
 
-    suspend fun sortAllCarts(sort: String): Response<CartDto>
-    suspend fun getUserById(userId: Int): Response<List<UserDto>>
+    suspend fun getCartById(cartId: Int): CartDto
+
+    suspend fun sortAllCarts(sort: String): CartDto
+    suspend fun getUserById(userId: Int): List<UserDto>
 }

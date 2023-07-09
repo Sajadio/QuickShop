@@ -29,29 +29,28 @@ class SearchVewModel @Inject constructor(
 
     private fun getProductsByName(query: String) {
         viewModelScope.launch {
-            getProductByQueryUseCase(query)
-                .collect { resource ->
-                    when (resource) {
-                        Resource.Loading -> _uiState.update { it.copy(isLoading = true) }
-                        is Resource.Success -> {
-                            _uiState.update {
-                                it.copy(
-                                    products = resource.data,
-                                    isLoading = false,
-                                )
-                            }
-                        }
+            _uiState.update { it.copy(isLoading = true) }
 
-                        is Resource.Error -> {
-                            _uiState.update {
-                                it.copy(
-                                    isLoading = false,
-                                    error = resource.errorMessage.toString()
-                                )
-                            }
-                        }
+            when (val result = getProductByQueryUseCase(query)) {
+                is Resource.Success -> {
+                    _uiState.update {
+                        it.copy(
+                            products = result.data,
+                            isLoading = false,
+                        )
                     }
                 }
+
+                is Resource.Error -> {
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            error = result.errorMessage.toString()
+                        )
+                    }
+                }
+            }
+
         }
     }
 }

@@ -25,24 +25,21 @@ class ProfileViewModel @Inject constructor(
 
     private fun loadProfileData() {
         viewModelScope.launch {
-            getUserInformationUseCase(USER_ID).collect { resource ->
-                when (resource) {
-                    Resource.Loading -> _uiState.update { it.copy(isLoading = true) }
-                    is Resource.Success -> {
-                        _uiState.update { state ->
-                            state.copy(
-                                user = resource.data?.first(),
-                                isLoading = false
-                            )
-                        }
-                    }
-
-                    is Resource.Error -> _uiState.update { state ->
+            when (val resource = getUserInformationUseCase(USER_ID)) {
+                is Resource.Success -> {
+                    _uiState.update { state ->
                         state.copy(
-                            isLoading = false,
-                            error = resource.errorMessage.toString()
+                            user = resource.data?.first(),
+                            isLoading = false
                         )
                     }
+                }
+
+                is Resource.Error -> _uiState.update { state ->
+                    state.copy(
+                        isLoading = false,
+                        error = resource.errorMessage.toString()
+                    )
                 }
             }
         }

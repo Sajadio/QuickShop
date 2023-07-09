@@ -6,26 +6,25 @@ import com.sajjadio.quickshop.domain.model.cart.Cart
 import com.sajjadio.quickshop.domain.model.products.Product
 import com.sajjadio.quickshop.domain.model.user.User
 import com.sajjadio.quickshop.domain.utils.Resource
-import kotlinx.coroutines.flow.Flow
 
 interface ShopRepository {
 
-    fun getAllProducts(): Flow<Resource<List<Product>>>
+    suspend fun getAllProducts(): Resource<List<Product>>
 
-    fun getProductById(productId: Int): Flow<Resource<Product>>
+    suspend fun getProductById(productId: Int): Resource<Product>
 
-    fun sortAllProducts(sort: String): Flow<Resource<List<ProductDto>>>
+    suspend fun sortAllProducts(sort: String): Resource<List<ProductDto>>
 
-    fun getAllCategories(): Flow<Resource<List<String>>>
+    suspend fun getAllCategories(): Resource<List<String>>
 
-    fun getAllProductsByCategory(category: String): Flow<Resource<List<Product>>>
+    suspend fun getAllProductsByCategory(category: String): Resource<List<Product>>
 
-   suspend fun getAllCartsByUserId(userId: Int): Flow<Resource<MutableList<Cart>>>
+    suspend fun getAllCartsByUserId(userId: Int): Resource<MutableList<Cart>>
 
-    fun getCartById(cartId: Int): Flow<Resource<CartDto>>
+    suspend fun getCartById(cartId: Int): Resource<CartDto>
 
-    fun sortAllCarts(sort: String): Flow<Resource<CartDto>>
+    suspend fun sortAllCarts(sort: String): Resource<CartDto>
 
-    fun getUserById(userId: Int): Flow<Resource<List<User>>>
+    suspend fun getUserById(userId: Int): Resource<List<User>>
 
 }

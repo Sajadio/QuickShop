@@ -3,20 +3,15 @@ package com.sajjadio.quickshop.domain.useCase
 import com.sajjadio.quickshop.domain.utils.Resource
 import com.sajjadio.quickshop.presentation.screen.home.Ad
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class GetAllAdsUseCase @Inject constructor() {
-    operator fun invoke(): Flow<Resource<List<Ad>>> {
-        return flow {
-            try {
-                emit(Resource.Loading)
-                delay(500L)
-                emit(Resource.Success(setAds()))
-            } catch (e: Exception) {
-                emit(Resource.Error(e.message.toString()))
-            }
+    suspend operator fun invoke(): Resource<List<Ad>> {
+        return try {
+            delay(500L)
+            Resource.Success(setAds())
+        } catch (e: Exception) {
+            Resource.Error(e.message.toString())
         }
     }
 

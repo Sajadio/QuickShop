@@ -1,6 +1,5 @@
 package com.sajjadio.quickshop.presentation.screen.productsByCategory
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -24,7 +23,7 @@ class ProductsByCategoryViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     private val args: ProductsByCategory = ProductsByCategory(savedStateHandle = savedStateHandle)
-    val title:String = args.categoryName.toString()
+    val title: String = args.categoryName.toString()
 
     init {
         loadProductData(args.categoryName.toString())
@@ -32,24 +31,22 @@ class ProductsByCategoryViewModel @Inject constructor(
 
     private fun loadProductData(category: String) {
         viewModelScope.launch {
-            getAllProductsByCategoryUseCase(category).collect { resource ->
-                when (resource) {
-                    Resource.Loading -> _uiState.update { it.copy(isLoading = true) }
-                    is Resource.Success -> {
-                        _uiState.update { state ->
-                            state.copy(
-                                products = resource.data,
-                                isLoading = false
-                            )
-                        }
-                    }
-
-                    is Resource.Error -> _uiState.update { state ->
+            _uiState.update { it.copy(isLoading = true) }
+            when (val resource = getAllProductsByCategoryUseCase(category)) {
+                is Resource.Success -> {
+                    _uiState.update { state ->
                         state.copy(
-                            isLoading = false,
-                            error = resource.errorMessage.toString()
+                            products = resource.data,
+                            isLoading = false
                         )
                     }
+                }
+
+                is Resource.Error -> _uiState.update { state ->
+                    state.copy(
+                        isLoading = false,
+                        error = resource.errorMessage.toString()
+                    )
                 }
             }
         }

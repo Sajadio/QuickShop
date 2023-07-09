@@ -1,6 +1,5 @@
 package com.sajjadio.quickshop.presentation.screen.cart
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sajjadio.quickshop.domain.useCase.GetAllCartsByUserIdUseCase
@@ -26,30 +25,28 @@ class CartViewModel @Inject constructor(
 
     private fun loadProductsOfCartData() {
         viewModelScope.launch {
-            getAllCartsByUserIdUseCase.invoke(USER_ID).collect{resource ->
-                when(resource){
-                    Resource.Loading -> _uiState.update { it.copy(isLoading = true) }
-                    is Resource.Success -> {
-                        _uiState.update { state ->
-                            state.copy(
-                                carts = resource.data,
-                                isLoading = false
-                            )
-                        }
-                    }
-
-                    is Resource.Error -> _uiState.update { state ->
+            _uiState.update { it.copy(isLoading = true) }
+            when (val resource = getAllCartsByUserIdUseCase(USER_ID)) {
+                is Resource.Success -> {
+                    _uiState.update { state ->
                         state.copy(
-                            isLoading = false,
-                            error = resource.errorMessage.toString()
+                            carts = resource.data,
+                            isLoading = false
                         )
                     }
+                }
+
+                is Resource.Error -> _uiState.update { state ->
+                    state.copy(
+                        isLoading = false,
+                        error = resource.errorMessage.toString()
+                    )
                 }
             }
         }
     }
 
-    private companion object{
+    private companion object {
         const val USER_ID = 3
     }
 }

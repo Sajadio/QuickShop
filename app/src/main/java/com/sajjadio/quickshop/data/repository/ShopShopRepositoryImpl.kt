@@ -11,127 +11,111 @@ import com.sajjadio.quickshop.domain.model.products.Product
 import com.sajjadio.quickshop.domain.model.user.User
 import com.sajjadio.quickshop.domain.repository.ShopRepository
 import com.sajjadio.quickshop.domain.utils.Resource
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import retrofit2.Response
 import javax.inject.Inject
 
 class ShopShopRepositoryImpl @Inject constructor(
     private val shopRemoteDataSource: ShopRemoteDataSource,
 ) : ShopRepository {
-    override fun getAllProducts(): Flow<Resource<List<Product>>> {
-        return wrapper({ shopRemoteDataSource.getAllProducts() }) { productsDto ->
-            productsDto.map { it.mapToProduct() }
+    override suspend fun getAllProducts(): Resource<List<Product>> {
+        return mapWithResource({ shopRemoteDataSource.getAllProducts() }) {
+            it.map { productsDto ->
+                productsDto.mapToProduct()
+            }
         }
     }
 
-    override fun getProductById(productId: Int): Flow<Resource<Product>> {
-        return wrapper({ shopRemoteDataSource.getProductById(productId) }) { productsDto ->
+    override suspend fun getProductById(productId: Int): Resource<Product> {
+        return mapWithResource({ shopRemoteDataSource.getProductById(productId) }) { productsDto ->
             productsDto.mapToProduct()
         }
     }
 
-    override fun sortAllProducts(sort: String): Flow<Resource<List<ProductDto>>> {
-        return wrapWithFlow { shopRemoteDataSource.sortAllProducts(sort) }
+    override suspend fun sortAllProducts(sort: String): Resource<List<ProductDto>> {
+        return executeWithResource { shopRemoteDataSource.sortAllProducts(sort) }
     }
 
-    override fun getAllCategories(): Flow<Resource<List<String>>> {
-        return wrapWithFlow { shopRemoteDataSource.getAllCategories() }
+    override suspend fun getAllCategories(): Resource<List<String>> {
+        return executeWithResource { shopRemoteDataSource.getAllCategories() }
     }
 
-    override fun getAllProductsByCategory(category: String): Flow<Resource<List<Product>>> {
-        return wrapper({ shopRemoteDataSource.getAllProductsByCategory(category) }) { productsDto ->
+    override suspend fun getAllProductsByCategory(category: String): Resource<List<Product>> {
+        return mapWithResource({ shopRemoteDataSource.getAllProductsByCategory(category) }) { productsDto ->
             productsDto.map { it.mapToProduct() }
         }
     }
 
-    override suspend fun getAllCartsByUserId(userId: Int): Flow<Resource<MutableList<Cart>>> {
-        return flow {
-            try {
-                emit(Resource.Loading)
-                val cartItem = mutableListOf<Cart>()
-                val response = shopRemoteDataSource.getAllCartsByUserId(userId)
-                if (response.isSuccessful) {
-                    response.body()?.forEach { cartDto ->
-                        cartDto.products.forEach { cartProductDto ->
-                            val products =
-                                shopRemoteDataSource
-                                    .getProductById(cartProductDto.productId)
-                                    .body()
-                            cartItem.add(
-                                Cart(
-                                    date = cartDto.date,
-                                    id = cartDto.id,
-                                    cartProduct = CartProduct(
-                                        category = products?.category.toString(),
-                                        id = cartProductDto.productId,
-                                        image = products?.image.toString(),
-                                        price = products?.price!!,
-                                        quantity = cartProductDto.quantity,
-                                    ),
-                                    userId = cartDto.userId,
-                                )
-                            )
-                        }
-                    }
-                    emit(Resource.Success(cartItem))
-                } else {
-                    emit(Resource.Error(response.message().toString()))
+    override suspend fun getAllCartsByUserId(userId: Int): Resource<MutableList<Cart>> {
+        val cartItem = mutableListOf<Cart>()
+        val productsId = mutableListOf<Int>()
+        mapWithResource({ shopRemoteDataSource.getAllCartsByUserId(userId) }) { cartsDto ->
+            cartsDto.map { cartDto ->
+                cartDto.products.forEach { cartProductDto ->
+                    productsId.add(cartProductDto.productId)
+                    cartItem.add(
+                        Cart(
+                            date = cartDto.date,
+                            id = cartDto.id,
+                            cartProduct = CartProduct(
+                                id = cartProductDto.productId,
+                                quantity = cartProductDto.quantity,
+                            ),
+                            userId = cartDto.userId,
+                        )
+                    )
                 }
-            } catch (e: Exception) {
-                emit(Resource.Error(e.message.toString()))
             }
+        }
+        productsId.forEach { productId ->
+            val products = shopRemoteDataSource.getProductById(productId)
+            cartItem.add(
+                Cart(
+                    cartProduct = CartProduct(
+                        category = products.category,
+                        image = products.image,
+                        price = products.price,
+                    ),
+                )
+            )
+        }
+        return try {
+            Resource.Success(cartItem)
+        } catch (e: Throwable) {
+            Resource.Error(e.message.toString())
         }
     }
 
-    override fun getCartById(cartId: Int): Flow<Resource<CartDto>> {
-        return wrapWithFlow { shopRemoteDataSource.getCartById(cartId) }
+
+    override suspend fun getCartById(cartId: Int): Resource<CartDto> {
+        return executeWithResource { shopRemoteDataSource.getCartById(cartId) }
     }
 
-    override fun sortAllCarts(sort: String): Flow<Resource<CartDto>> {
-        return wrapWithFlow { shopRemoteDataSource.sortAllCarts(sort) }
+    override suspend fun sortAllCarts(sort: String): Resource<CartDto> {
+        return executeWithResource { shopRemoteDataSource.sortAllCarts(sort) }
     }
 
-    override fun getUserById(userId: Int): Flow<Resource<List<User>>> {
-        return wrapper({ shopRemoteDataSource.getUserById(userId) }) { userDto ->
+    override suspend fun getUserById(userId: Int): Resource<List<User>> {
+        return mapWithResource({ shopRemoteDataSource.getUserById(userId) }) { userDto ->
             userDto.map { it.mapToUser() }
         }
     }
 
-    private fun <I, O> wrapper(
-        function: suspend () -> Response<I>,
+    private suspend fun <I, O> mapWithResource(
+        function: suspend () -> I,
         mapper: (I) -> O
-    ): Flow<Resource<O>> {
-        return flow {
-            try {
-                emit(Resource.Loading)
-                val response = function()
-                if (response.isSuccessful) {
-                    emit(Resource.Success(response.body()?.let { mapper(it) }))
-                } else {
-                    emit(Resource.Error(response.message()))
-                }
-            } catch (e: Exception) {
-                emit(Resource.Error(e.message.toString()))
-            }
+    ): Resource<O> {
+        return try {
+            Resource.Success(mapper(function()))
+        } catch (e: Throwable) {
+            Resource.Error(e.message)
         }
     }
 
-    private fun <T> wrapWithFlow(function: suspend () -> Response<T>): Flow<Resource<T>> {
-        return flow {
-            try {
-                emit(Resource.Loading)
-                emit(checkIsSuccessfulResponse(function.invoke()))
-            } catch (e: Exception) {
-                emit(Resource.Error(e.message.toString()))
-            }
-        }
-    }
 
-    private fun <T> checkIsSuccessfulResponse(response: Response<T>): Resource<T> {
-        return if (response.isSuccessful)
-            Resource.Success(response.body())
-        else
-            Resource.Error(response.message())
+    private suspend fun <T> executeWithResource(function: suspend () -> T): Resource<T> {
+       return try {
+           Resource.Success(function())
+        } catch (e: Throwable) {
+            Resource.Error(e.message)
+        }
     }
 }

@@ -1,7 +1,7 @@
 package com.sajjadio.quickshop.di
 
 import com.sajjadio.quickshop.data.dataSource.ShopRemoteDataSource
-import com.sajjadio.quickshop.data.dataSource.ShopDataSourceImpl
+import com.sajjadio.quickshop.data.dataSource.remote.ShopApiService
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -13,6 +13,6 @@ abstract class DataSourceModule {
 
     @Binds
     abstract fun bindsShopRemoteDataSource(
-        shopDataSourceImpl: ShopDataSourceImpl
+        shopApiService: ShopApiService
     ): ShopRemoteDataSource
 }

@@ -1,39 +1,40 @@
 package com.sajjadio.quickshop.data.dataSource.remote
 
+import com.sajjadio.quickshop.data.dataSource.ShopRemoteDataSource
 import com.sajjadio.quickshop.data.dataSource.remote.model.cart.CartDto
 import com.sajjadio.quickshop.data.dataSource.remote.model.products.ProductDto
 import com.sajjadio.quickshop.data.dataSource.remote.model.user.UserDto
-import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface ShopApiService {
+interface ShopApiService : ShopRemoteDataSource {
 
     @GET("products")
-    suspend fun getAllProducts(): Response<List<ProductDto>>
+    override suspend fun getAllProducts(): List<ProductDto>
+
 
     @GET("products/{id}")
-    suspend fun getProductById(@Path("id") productId: Int): Response<ProductDto>
+    override suspend fun getProductById(@Path("id") productId: Int): ProductDto
 
     @GET("products")
-    suspend fun sortAllProducts(@Query("sort") sort: String): Response<List<ProductDto>>
+    override suspend fun sortAllProducts(@Query("sort") sort: String): List<ProductDto>
 
     @GET("products/categories")
-    suspend fun getAllCategories(): Response<List<String>>
+    override suspend fun getAllCategories(): List<String>
 
     @GET("products/category/{category}")
-    suspend fun getAllProductsByCategory(@Path("category") category: String): Response<List<ProductDto>>
+    override suspend fun getAllProductsByCategory(@Path("category") category: String): List<ProductDto>
 
     @GET("carts/user/{id}")
-    suspend fun getAllCartsByUserId(@Path("id") userId:Int): Response<List<CartDto>>
+    override suspend fun getAllCartsByUserId(@Path("id") userId: Int): List<CartDto>
 
     @GET("carts/{id}")
-    suspend fun getCartById(@Path("id") cartId: Int): Response<CartDto>
+    override suspend fun getCartById(@Path("id") cartId: Int): CartDto
 
     @GET("carts")
-    suspend fun sortAllCarts(@Query("sort") sort: String): Response<CartDto>
+    override suspend fun sortAllCarts(@Query("sort") sort: String): CartDto
 
     @GET("users/")
-    suspend fun getUserById(@Query("id") userId: Int): Response<List<UserDto>>
+    override suspend fun getUserById(@Query("id") userId: Int): List<UserDto>
 }
