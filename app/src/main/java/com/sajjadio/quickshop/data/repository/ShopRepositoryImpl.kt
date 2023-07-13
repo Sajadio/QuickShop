@@ -13,7 +13,7 @@ import com.sajjadio.quickshop.domain.repository.ShopRepository
 import com.sajjadio.quickshop.domain.utils.Resource
 import javax.inject.Inject
 
-class ShopShopRepositoryImpl @Inject constructor(
+class ShopRepositoryImpl @Inject constructor(
     private val shopRemoteDataSource: ShopRemoteDataSource,
 ) : ShopRepository {
     override suspend fun getAllProducts(): Resource<List<Product>> {

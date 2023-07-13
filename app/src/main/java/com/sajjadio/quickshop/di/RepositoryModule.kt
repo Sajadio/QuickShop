@@ -1,6 +1,6 @@
 package com.sajjadio.quickshop.di
 
-import com.sajjadio.quickshop.data.repository.ShopShopRepositoryImpl
+import com.sajjadio.quickshop.data.repository.ShopRepositoryImpl
 import com.sajjadio.quickshop.domain.repository.ShopRepository
 import dagger.Binds
 import dagger.Module
@@ -12,5 +12,5 @@ import dagger.hilt.components.SingletonComponent
 abstract class RepositoryModule {
 
     @Binds
-    abstract fun bindShopRepository(shopRepositoryImpl: ShopShopRepositoryImpl): ShopRepository
+    abstract fun bindShopRepository(shopRepositoryImpl: ShopRepositoryImpl): ShopRepository
 }
